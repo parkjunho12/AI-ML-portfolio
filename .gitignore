@@ -1,0 +1,93 @@
+# =============================
+# OS / Editor / System files
+# =============================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# =============================
+# Node / JS tooling (if used for build later)
+# =============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+
+# =============================
+# Python virtual envs (if using scripts locally)
+# =============================
+venv/
+.env/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# =============================
+# Build / Cache / Temp
+# =============================
+dist/
+build/
+.cache/
+*.tmp
+*.bak
+*.swp
+*.swo
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# =============================
+# Web Server (nginx / system)
+# =============================
+# nginx site configs (keep your local conf private)
+nginx.conf
+sites-available/
+sites-enabled/
+conf.d/
+logs/
+tmp/
+# Let's Encrypt ACME challenge cache (auto-generated)
+.well-known/acme-challenge/
+
+# =============================
+# IDE / Editor
+# =============================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# =============================
+# OS Environment
+# =============================
+.envrc
+.env.local
+.env.production.local
+.env.development.local
+
+# =============================
+# Deployment / Server
+# =============================
+# Ignore uploaded runtime files, if any
+uploads/
+runtime/
+# Backup or deployment manifests
+*.bak
+*.orig
+*.old
+
+# =============================
+# Project-specific
+# =============================
+# Your compiled CVs or private PDFs (you can track public copy manually)
+Junho_PARK_CV*.pdf
+
+# GitHub Pages / build artifacts (optional)
+docs/
+
