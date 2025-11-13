@@ -20,8 +20,8 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@YOUR_SERVER_IP "
-            cd /var/www/junho.uk/html &&
+          ssh -o StrictHostKeyChecking=no ec2-user@junho.uk "
+            cd /home/ec2-user/www/junho.uk/html &&
             git pull origin main &&
             sudo systemctl reload nginx
           "
