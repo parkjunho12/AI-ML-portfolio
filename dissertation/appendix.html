@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMG Neuroprosthetics — Appendix: Spiking Activity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f8fb; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0;
+      --accent:#2563eb; --accent-weak:#dbeafe;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      font-size:16px; line-height:1.6; color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(1000px 800px at 120% 10%, rgba(34,211,238,.18), transparent 60%),
+        var(--bg);
+      display:grid; place-items:center; padding:24px;
+    }
+    .wrap{max-width:1200px; margin:0 auto; padding:48px 24px 96px; position:relative}
+    header{display:flex; align-items:flex-start; gap:12px; margin-bottom:28px}
+    .logo{
+      width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,var(--accent),#60a5fa);
+      display:grid; place-items:center; color:#fff; font-weight:700; box-shadow:0 8px 20px rgba(37,99,235,.25)
+    }
+    .h1{font-size:clamp(20px,2.6vw,28px); font-weight:700; letter-spacing:-.01em}
+    .sub{color:var(--muted); font-size:14px}
+    .banner{background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe; padding:12px 14px; border-radius:12px; font-size:14px}
+
+    .section-title{font-weight:800; margin:18px 0 10px; letter-spacing:-.01em}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px;
+      box-shadow:0 10px 30px rgba(2,6,23,.06); margin-bottom:28px
+    }
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    @media (max-width: 900px){ .grid2{grid-template-columns:1fr} }
+
+    figure{margin:0; border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#fff}
+    .fig-head{padding:10px 14px; font-weight:700; background:#f8fafc; border-bottom:1px solid var(--border)}
+    .fig-img{display:block; width:100%; height:auto}
+    figcaption{padding:10px 14px; font-size:13px; color:var(--muted)}
+    .note{margin-top:12px; font-size:14px; color:var(--muted); background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:12px 14px}
+
+    /* Floating nav */
+    .prev, .next{
+      position:fixed; bottom:24px; display:flex; align-items:center; gap:10px; text-decoration:none;
+      background:var(--accent); color:#fff; border-radius:999px; padding:12px 16px; font-weight:700;
+      box-shadow:0 10px 24px rgba(37,99,235,.35); border:1px solid rgba(255,255,255,.25);
+      transition:transform .15s ease, box-shadow .15s ease
+    }
+    .prev:hover, .next:hover{ transform:translateY(-2px); box-shadow:0 16px 28px rgba(37,99,235,.42) }
+    .prev{left:24px} .next{right:24px}
+    .prev svg, .next svg{width:18px; height:18px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">A</div>
+      <div>
+        <div class="h1">Appendix</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="banner">
+        Raster plots (left) show which neurons fired at each timestep(Ts=20) (first 100 neurons). Histograms (right) show the distribution of per-neuron firing rates (spikes / timestep).  
+        All figures are per-sample summaries captured during inference.
+      </div>
+    </div>
+
+    <!-- RATE -->
+    <section class="card" aria-labelledby="rate">
+      <div id="rate" class="section-title">SpikingTCN — Rate Encoding</div>
+      <div class="grid2">
+        <figure>
+          <div class="fig-head">Raster — first 100 neurons</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(rate)_raster.png" alt="SpikingTCN rate raster (first 100 neurons)">
+          <figcaption>Temporal spiking pattern under rate encoding.</figcaption>
+        </figure>
+        <figure>
+          <div class="fig-head">Neuron firing rate distribution</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(rate)_rate_hist.png" alt="SpikingTCN rate histogram of firing rates">
+          <figcaption>Many neurons remain near-silent, with an active subset carrying most events.</figcaption>
+        </figure>
+      </div>
+      <p class="note">Observation: rate encoding tends to spread activity over timesteps; sparsity is driven by threshold and β.</p>
+    </section>
+
+    <!-- LATENCY -->
+    <section class="card" aria-labelledby="latency">
+      <div id="latency" class="section-title">SpikingTCN — Latency Encoding</div>
+      <div class="grid2">
+        <figure>
+          <div class="fig-head">Raster — first 100 neurons</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(latency)_raster.png" alt="SpikingTCN latency raster (first 100 neurons)">
+          <figcaption>Spike timing concentrates early/late depending on stimulus intensity.</figcaption>
+        </figure>
+        <figure>
+          <div class="fig-head">Neuron firing rate distribution</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(latency)_latency_hist.png" alt="SpikingTCN latency histogram of firing rates">
+          <figcaption>Latency encoding often yields one-spike-per-neuron behaviour, broadening the rate distribution.</figcaption>
+        </figure>
+      </div>
+      <p class="note">Observation: latency uses timing to encode magnitude; useful for strict temporal cues.</p>
+    </section>
+
+    <!-- DELTA -->
+    <section class="card" aria-labelledby="delta">
+      <div id="delta" class="section-title">SpikingTCN — Delta (On/Off) Encoding</div>
+      <div class="grid2">
+        <figure>
+          <div class="fig-head">Raster — first 100 neurons</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(delta)_raster.png" alt="SpikingTCN delta raster (first 100 neurons)">
+          <figcaption>Spikes occur on signal changes (on/off), highlighting transitions.</figcaption>
+        </figure>
+        <figure>
+          <div class="fig-head">Neuron firing rate distribution</div>
+          <img class="fig-img" loading="lazy" src="images/SpikingTCN(delta)_rate_hist.png" alt="SpikingTCN delta histogram of firing rates">
+          <figcaption>Highly sparse for flat segments; bursts when the signal changes rapidly.</figcaption>
+        </figure>
+      </div>
+      <p class="note">Observation: delta encoding is naturally event-driven; ideal when changes carry most information.</p>
+    </section>
+  </div>
+
+  <!-- Floating nav -->
+  <a class="prev" href="conclusion.html" title="Back to Appendix">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+    </svg>
+    <span>Back: Conclusion</span>
+  </a>
+</body>
+</html>

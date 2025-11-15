@@ -1,440 +1,942 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Junho Park — Cybersecurity & AI · Neuromorphic · Robotics · Applied ML</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Junho Park portfolio — MSc Cybersecurity & AI (Merit). Neuromorphic Robotics (SNN), efficient AI research, Security RAG, and edge/on-device ML." />
-  <meta name="color-scheme" content="light">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Inter for body, Fraunces for titles (serif warmth without heaviness) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Junho Park — Cybersecurity & AI · Neuromorphic · Robotics · Applied ML
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Junho Park portfolio — MSc Cybersecurity & AI (Merit). Neuromorphic Robotics (SNN), efficient AI research, Security RAG, and edge/on-device ML."
+    />
+    <meta name="color-scheme" content="light" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Inter for body, Fraunces for titles (serif warmth without heaviness) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    /* ===== Design tokens (autumn, legible) ===== */
-    :root{
-      --bg: #faf7f1;       /* warm paper */
-      --ink: #2c2a27;      /* walnut */
-      --muted:#6e675f;     /* warm grey */
-      --line:#e8e0d8;      /* linen line */
-      --leaf:#647a62;      /* moss */
-      --rust:#b5653f;      /* rust accent */
-      --amber:#cda264;     /* amber accent */
-      --card:#fffdf8;      /* warm card */
-      --grain: radial-gradient(1200px 600px at 10% -10%, rgba(205,162,100,.08), transparent 60%),
-               radial-gradient(900px 500px at 110% 0%, rgba(182,101,64,.06), transparent 55%);
-      --shadow-1: 0 8px 22px rgba(82,66,50,.08);
-      --shadow-2: 0 18px 40px rgba(82,66,50,.14);
-      --r: 16px;
-      --pad: 28px;
-      --max: 1060px;
-      --focus: 2px solid rgba(181,101,63,.45);
-    }
+    <style>
+      /* ===== Design tokens (autumn, legible) ===== */
+      :root {
+        --bg: #faf7f1; /* warm paper */
+        --ink: #2c2a27; /* walnut */
+        --muted: #6e675f; /* warm grey */
+        --line: #e8e0d8; /* linen line */
+        --leaf: #647a62; /* moss */
+        --rust: #b5653f; /* rust accent */
+        --amber: #cda264; /* amber accent */
+        --card: #fffdf8; /* warm card */
+        --grain: radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(205, 162, 100, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 500px at 110% 0%,
+            rgba(182, 101, 64, 0.06),
+            transparent 55%
+          );
+        --shadow-1: 0 8px 22px rgba(82, 66, 50, 0.08);
+        --shadow-2: 0 18px 40px rgba(82, 66, 50, 0.14);
+        --r: 16px;
+        --pad: 28px;
+        --max: 1060px;
+        --focus: 2px solid rgba(181, 101, 63, 0.45);
+      }
 
-    /* ===== Base ===== */
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    body{background-image: var(--grain);}
-    img{max-width:100%;height:auto;display:block}
-    a{color:var(--rust);text-decoration:none}
-    a:focus-visible{outline:var(--focus);outline-offset:3px;border-radius:8px}
-    code, kbd{font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace; font-size:.95em}
+      /* ===== Base ===== */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      body {
+        background-image: var(--grain);
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      a {
+        color: var(--rust);
+        text-decoration: none;
+      }
+      a:focus-visible {
+        outline: var(--focus);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+      code,
+      kbd {
+        font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
+        font-size: 0.95em;
+      }
 
-    /* ===== Helpers ===== */
-    .wrap{max-width:var(--max);margin:0 auto;padding:var(--pad)}
-    .sr{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+      /* ===== Helpers ===== */
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: var(--pad);
+      }
+      .sr {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
 
-    /* ===== Header/App bar ===== */
-    header{
-      position:sticky; top:0; z-index:10;
-      background: linear-gradient(180deg, rgba(255,253,248,.9), rgba(255,253,248,.65) 60%, transparent);
-      backdrop-filter: blur(4px) saturate(120%);
-      border-bottom: 1px solid var(--line);
-    }
-    .bar{display:flex;align-items:center;justify-content:space-between;gap:14px;height:64px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .mark{
-      width:40px;height:40px;border-radius:12px;
-      display:grid;place-items:center;
-      background: linear-gradient(135deg,#f1e7da,#eadfce);
-      border:1px solid var(--line); color:#6a5b4d; font-weight:800;
-      box-shadow: var(--shadow-1);
-    }
-    nav{display:flex;gap:8px;flex-wrap:wrap}
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 12px;border:1px solid var(--line);border-radius:999px;
-      background:#fffdf9;color:var(--muted);font-weight:700;font-size:14px
-    }
-    .pill:hover{transform:translateY(-1px);box-shadow:var(--shadow-1)}
+      /* ===== Header/App bar ===== */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 253, 248, 0.9),
+          rgba(255, 253, 248, 0.65) 60%,
+          transparent
+        );
+        backdrop-filter: blur(4px) saturate(120%);
+        border-bottom: 1px solid var(--line);
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        height: 64px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #f1e7da, #eadfce);
+        border: 1px solid var(--line);
+        color: #6a5b4d;
+        font-weight: 800;
+        box-shadow: var(--shadow-1);
+      }
+      nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fffdf9;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .pill:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-1);
+      }
 
-    /* ===== Section header ornaments ===== */
-    .section-title{
-      display:flex;align-items:center;gap:10px;margin:0 0 10px;
-      font: 700 22px/1.25 Inter, system-ui;
-      letter-spacing:.01em;
-    }
-    .section-title svg{flex:0 0 auto}
-    .sub{color:var(--muted);margin:-4px 0 14px; font-size:14px}
+      /* ===== Section header ornaments ===== */
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 10px;
+        font: 700 22px/1.25 Inter, system-ui;
+        letter-spacing: 0.01em;
+      }
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* 동그랗게 */
+        object-fit: cover; /* 얼굴 비율 유지 */
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-1);
+        background: #f1e7da; /* 이미지 없을 때 배경 */
+      }
+      .section-title svg {
+        flex: 0 0 auto;
+      }
+      .sub {
+        color: var(--muted);
+        margin: -4px 0 14px;
+        font-size: 14px;
+      }
 
-    /* ===== Hero ===== */
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin:18px 0}
-    .card{
-      background:var(--card); border:1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow-1); padding:18px;
-    }
-    .title{
-      /* Readable title */
-      font-family: "Fraunces", Georgia, serif;
-      font-size: 30px;
-      line-height: 1.28;
-      letter-spacing: -0.005em;
-      margin: 0 0 8px;
-      color: #2c2a27;
-    }
-    .lead{font-size:16px; line-height:1.75; color:var(--muted); margin:6px 0 12px}
-    .cta{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:#fffdf9;color:#2c2a27;font-weight:800}
-    .btn:hover{box-shadow:var(--shadow-2);transform:translateY(-2px)}
-    .btn.primary{background:var(--rust);border-color:transparent;color:#fff}
+      /* ===== Hero ===== */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        margin: 18px 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow-1);
+        padding: 18px;
+      }
+      .title {
+        /* Readable title */
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 30px;
+        line-height: 1.28;
+        letter-spacing: -0.005em;
+        margin: 0 0 8px;
+        color: #2c2a27;
+      }
+      .lead {
+        font-size: 16px;
+        line-height: 1.75;
+        color: var(--muted);
+        margin: 6px 0 12px;
+      }
+      .cta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fffdf9;
+        color: #2c2a27;
+        font-weight: 800;
+      }
+      .btn:hover {
+        box-shadow: var(--shadow-2);
+        transform: translateY(-2px);
+      }
+      .btn.primary {
+        background: var(--rust);
+        border-color: transparent;
+        color: #fff;
+      }
 
-    /* ===== Focus panel (compact grid) ===== */
-    .focus-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .q{display:flex;gap:6px;flex-wrap:wrap}
-    .q a{padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:#fffdf9;color:#3a3835;font-size:12px;font-weight:700}
-    .focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .box{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fffdf9}
-    .box h3{font:700 14px/1.2 Inter; color:var(--leaf); margin:0 0 6px}
-    .box ul{margin:0;padding-left:16px}
-    .box li{margin:4px 0; color:#46413a; font-size:14px}
-    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-    .chip{padding:6px 10px;border-radius:999px;border:1px dashed #ddccb9;background:#f7efe4;font-weight:800;font-size:12px}
-    .note{font-size:13px;color:var(--muted);margin-top:8px}
+      /* ===== Focus panel (compact grid) ===== */
+      .focus-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .q {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .q a {
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fffdf9;
+        color: #3a3835;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .focus-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .box {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        background: #fffdf9;
+      }
+      .box h3 {
+        font: 700 14px/1.2 Inter;
+        color: var(--leaf);
+        margin: 0 0 6px;
+      }
+      .box ul {
+        margin: 0;
+        padding-left: 16px;
+      }
+      .box li {
+        margin: 4px 0;
+        color: #46413a;
+        font-size: 14px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 6px;
+      }
+      .chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px dashed #ddccb9;
+        background: #f7efe4;
+        font-weight: 800;
+        font-size: 12px;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
 
-    /* ===== Projects ===== */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .case{background:#fffdf9;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-1);transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
-    .case:hover{transform:translateY(-2px);box-shadow:var(--shadow-2);border-color:#e1d6c9}
-    .thumb{height:124px;border-bottom:1px solid var(--line);background:
-      linear-gradient(180deg, rgba(145,163,143,.22), transparent 60%),
-      linear-gradient(120deg, rgba(183,101,59,.18), transparent 55%),
-      linear-gradient(0deg,#fffdf9,#fffdf9)}
-    .body{padding:12px}
-    .kicker{font-variant-caps: all-small-caps; letter-spacing:.08em; color:var(--leaf); font-weight:800; font-size:12px}
-    .body h3{margin:6px 0 6px; font:700 17px/1.3 Inter}
-    .desc{color:var(--muted); font-size:14px; line-height:1.6}
-    .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-    .badge{padding:4px 8px;border-radius:999px;border:1px dashed #ddccb9;background:#f7efe4;font-size:12px}
-    .actions{margin-top:8px}
-    .actions a{font-weight:800}
+      /* ===== Projects ===== */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .case {
+        background: #fffdf9;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--shadow-1);
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          border-color 0.18s ease;
+      }
+      .case:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-2);
+        border-color: #e1d6c9;
+      }
+      .thumb {
+        height: 124px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(
+            180deg,
+            rgba(145, 163, 143, 0.22),
+            transparent 60%
+          ),
+          linear-gradient(120deg, rgba(183, 101, 59, 0.18), transparent 55%),
+          linear-gradient(0deg, #fffdf9, #fffdf9);
+      }
+      .body {
+        padding: 12px;
+      }
+      .kicker {
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        color: var(--leaf);
+        font-weight: 800;
+        font-size: 12px;
+      }
+      .body h3 {
+        margin: 6px 0 6px;
+        font: 700 17px/1.3 Inter;
+      }
+      .desc {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .badge {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px dashed #ddccb9;
+        background: #f7efe4;
+        font-size: 12px;
+      }
+      .actions {
+        margin-top: 8px;
+      }
+      .actions a {
+        font-weight: 800;
+      }
 
-    /* ===== Experience & Stats ===== */
-    .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .tile{background:#fffdf9;border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow-1)}
-    .metric{font:800 26px/1 Inter; background:linear-gradient(90deg, var(--leaf), var(--amber), var(--rust)); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:4px}
-    .muted{color:var(--muted)}
+      /* ===== Experience & Stats ===== */
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .tile {
+        background: #fffdf9;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: var(--shadow-1);
+      }
+      .metric {
+        font: 800 26px/1 Inter;
+        background: linear-gradient(
+          90deg,
+          var(--leaf),
+          var(--amber),
+          var(--rust)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 4px;
+      }
+      .muted {
+        color: var(--muted);
+      }
 
-    /* ===== Skills ===== */
-    .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .skill{background:#fffdf9;border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow-1)}
-    .skill strong{display:block;margin-bottom:6px}
-    .stack{display:flex;flex-wrap:wrap;gap:8px}
-    .stack span{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fffdf9;font-size:12px}
+      /* ===== Skills ===== */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .skill {
+        background: #fffdf9;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: var(--shadow-1);
+      }
+      .skill strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .stack span {
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fffdf9;
+        font-size: 12px;
+      }
 
-    /* ===== Contact ===== */
-    .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
-    footer{margin:28px 0 40px;text-align:center;color:var(--muted)}
-    .to-top{
-      position:fixed;right:16px;bottom:16px;padding:10px 12px;border-radius:999px;border:1px solid var(--line);
-      background:#fffdf9;box-shadow:var(--shadow-1);cursor:pointer
-    }
+      /* ===== Contact ===== */
+      .contact {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 12px;
+      }
+      footer {
+        margin: 28px 0 40px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .to-top {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: #fffdf9;
+        box-shadow: var(--shadow-1);
+        cursor: pointer;
+      }
 
-    /* ===== Motion (polite) ===== */
-    @media (prefers-reduced-motion:no-preference){
-      .reveal{opacity:0;transform:translateY(10px);transition:opacity .5s ease, transform .5s ease}
-      .reveal.on{opacity:1;transform:none}
-      .case:hover .thumb{transition:filter .25s ease; filter: saturate(1.05)}
-    }
+      /* ===== Motion (polite) ===== */
+      @media (prefers-reduced-motion: no-preference) {
+        .reveal {
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .reveal.on {
+          opacity: 1;
+          transform: none;
+        }
+        .case:hover .thumb {
+          transition: filter 0.25s ease;
+          filter: saturate(1.05);
+        }
+      }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 1000px){
-      .hero{grid-template-columns:1fr}
-      .grid, .tiles, .skills, .contact{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 640px){
-      .grid, .tiles, .skills, .contact{grid-template-columns:1fr}
-      .title{font-size:26px; line-height:1.35}
-    }
-  </style>
-</head>
-<body>
-  <a class="sr" href="#main">Skip to content</a>
+      /* ===== Responsive ===== */
+      @media (max-width: 1000px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .grid,
+        .tiles,
+        .skills,
+        .contact {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .grid,
+        .tiles,
+        .skills,
+        .contact {
+          grid-template-columns: 1fr;
+        }
+        .title {
+          font-size: 26px;
+          line-height: 1.35;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="sr" href="#main">Skip to content</a>
 
-  <!-- Header -->
-  <header>
-    <div class="wrap bar" role="navigation" aria-label="Top">
-      <div class="brand">
-        <div class="mark" aria-hidden="true">JP</div>
-        <div>
-          <strong>Junho Park</strong><br>
-          <span style="color:var(--muted);font-size:13px">MSc Cybersecurity &amp; AI (Merit) · Sheffield, UK</span>
+    <!-- Header -->
+    <header>
+      <div class="wrap bar" role="navigation" aria-label="Top">
+        <div class="brand">
+          <img
+            src="./files/junho_profile.jpg"
+            alt="Portrait of Junho Park"
+            class="avatar"
+          />
+          <div>
+            <strong>Junho Park</strong><br />
+            <span style="color: var(--muted); font-size: 13px"
+              >MSc Cybersecurity &amp; AI (Merit) · Sheffield, UK</span
+            >
+          </div>
         </div>
+        <nav aria-label="Primary">
+          <a class="pill" href="#focus">Focus</a>
+          <a class="pill" href="#projects">Projects</a>
+          <a class="pill" href="#experience">Experience</a>
+          <a class="pill" href="#skills">Skills</a>
+          <a class="pill" href="#contact">Contact</a>
+        </nav>
       </div>
-      <nav aria-label="Primary">
-        <a class="pill" href="#focus">Focus</a>
-        <a class="pill" href="#projects">Projects</a>
-        <a class="pill" href="#experience">Experience</a>
-        <a class="pill" href="#skills">Skills</a>
-        <a class="pill" href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <main id="main" class="wrap" role="main">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="card reveal" aria-labelledby="hero-title">
-        <h1 id="hero-title" class="title">Designing efficient AI for robotics & security—neuromorphic</h1>
-        <p class="lead">
-          I build <strong>efficiency-first</strong> models around <strong>Spiking Neural Networks (SNNs)</strong> and apply them to
-          <strong>Robotics (ROS2)</strong>, <strong>Security RAG</strong>, and <strong>On-device ML</strong>.
-          The goal: ship AI that meets real-world constraints—<em>latency, cost, spikes/power</em>.
+    <main id="main" class="wrap" role="main">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="card reveal" aria-labelledby="hero-title">
+          <h1 id="hero-title" class="title">
+            Designing efficient AI for robotics & security—neuromorphic
+          </h1>
+          <p class="lead">
+            I build <strong>efficiency-first</strong> models around
+            <strong>Spiking Neural Networks (SNNs)</strong> and apply them to
+            <strong>Robotics (ROS2)</strong>, <strong>Security RAG</strong>, and
+            <strong>On-device ML</strong>. The goal: ship AI that meets
+            real-world constraints—<em>latency, cost, spikes/power</em>.
+          </p>
+          <div class="cta" role="group" aria-label="Primary actions">
+            <a class="btn primary" href="./files/Junho_PARK_CV.pdf" download
+              >Download CV (PDF)</a
+            >
+            <a
+              class="btn"
+              href="./files/Junho_Park_dissertation_final.pdf"
+              download
+              >Dissertation (PDF)</a
+            >
+            <a
+              class="btn"
+              href="./dissertation/background.html"
+              target="_blank"
+              rel="noreferrer"
+              >View dissertation slides</a
+            >
+            <a
+              class="btn"
+              href="https://github.com/parkjunho12"
+              target="_blank"
+              rel="noreferrer"
+              >GitHub</a
+            >
+            <a
+              class="btn"
+              href="https://www.linkedin.com/in/junho-park-881222164/"
+              target="_blank"
+              rel="noreferrer"
+              >LinkedIn</a
+            >
+          </div>
+        </div>
+
+        <!-- Focus (compact and full) -->
+        <aside
+          id="focus"
+          class="card reveal"
+          aria-labelledby="focus-title"
+          style="padding: 14px"
+        >
+          <div class="focus-head">
+            <h2 id="focus-title" class="section-title">
+              <!-- Small ornament -->
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#647a62"
+                  d="M12 2a1 1 0 0 1 .9.55l2.13 4.31 4.76.69a1 1 0 0 1 .55 1.7l-3.45 3.37.81 4.73a1 1 0 0 1-1.45 1.05L12 17.77l-4.25 2.23a1 1 0 0 1-1.45-1.05l.81-4.73L3.66 9.25a1 1 0 0 1 .55-1.7l4.76-.69L11.1 2.55A1 1 0 0 1 12 2Z"
+                />
+              </svg>
+              Focus
+            </h2>
+            <div class="q">
+              <a href="#projects">See projects</a>
+              <a href="#experience">Outcomes</a>
+              <a href="#contact">Get in touch</a>
+            </div>
+          </div>
+
+          <div class="focus-grid">
+            <div class="box">
+              <h3>Objectives</h3>
+              <ul>
+                <li>Design spike-efficient controllers for robots</li>
+                <li>Build RAG with measurable hallucination ↓</li>
+                <li>Optimize edge inference (latency/cost)</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Core Problems</h3>
+              <ul>
+                <li>Sensorimotor loops under tight budgets</li>
+                <li>Stable retrieval with safe generation</li>
+                <li>Energy–accuracy trade-offs at scale</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>What I Bring</h3>
+              <ul>
+                <li>TCN–SNN research & metrics (spikes/MACs)</li>
+                <li>ROS2, Gazebo, <code>/cmd_vel</code> pipelines</li>
+                <li>RAG eval, guardrails, FastAPI services</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="chips" aria-label="Key focus metrics">
+            <span class="chip">−42% spike activity vs baseline</span>
+            <span class="chip">&lt; 2 s edge inference</span>
+            <span class="chip">+6.8 pp accuracy (hybrid)</span>
+          </div>
+          <p class="note">
+            Target roles: Research Engineer (Neuromorphic/Robotics), Applied ML
+            (Security), Robotics + ML.
+          </p>
+        </aside>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="reveal" aria-labelledby="projects-title">
+        <h2 id="projects-title" class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#b5653f" d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z" />
+          </svg>
+          Selected Projects
+        </h2>
+        <p class="sub">
+          Case studies with metrics, evaluation, and deployment notes.
         </p>
-        <div class="cta" role="group" aria-label="Primary actions">
-          <a class="btn primary" href="sandbox:/mnt/data/Junho PARK_CV_2.pdf" download>Download CV (PDF)</a>
-          <a class="btn" href="https://github.com/parkjunho12" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/in/junho-park-881222164/" target="_blank" rel="noreferrer">LinkedIn</a>
-        </div>
-      </div>
 
-      <!-- Focus (compact and full) -->
-      <aside id="focus" class="card reveal" aria-labelledby="focus-title" style="padding:14px">
-        <div class="focus-head">
-          <h2 id="focus-title" class="section-title">
-            <!-- Small ornament -->
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#647a62" d="M12 2a1 1 0 0 1 .9.55l2.13 4.31 4.76.69a1 1 0 0 1 .55 1.7l-3.45 3.37.81 4.73a1 1 0 0 1-1.45 1.05L12 17.77l-4.25 2.23a1 1 0 0 1-1.45-1.05l.81-4.73L3.66 9.25a1 1 0 0 1 .55-1.7l4.76-.69L11.1 2.55A1 1 0 0 1 12 2Z"/></svg>
-            Focus
-          </h2>
-          <div class="q">
-            <a href="#projects">See projects</a>
-            <a href="#experience">Outcomes</a>
-            <a href="#contact">Get in touch</a>
+        <div class="grid" role="list">
+          <article class="case" role="listitem" aria-labelledby="p1">
+            <div
+              class="thumb"
+              role="img"
+              aria-label="Abstract neuromorphic control"
+            ></div>
+            <div class="body">
+              <div class="kicker">Neuromorphic robotics</div>
+              <h3 id="p1">Spike-based TurtleBot Navigation</h3>
+              <p class="desc">
+                SNN maps sensor input to <code>/cmd_vel</code>. Compared to PID
+                on <b>error</b>, <b>latency</b>, and <b>spike count</b>.
+                Includes launch files & plots (membrane, spikes).
+              </p>
+              <div class="badges">
+                <span class="badge">ROS2</span
+                ><span class="badge">snnTorch</span
+                ><span class="badge">Gazebo</span>
+              </div>
+              <div class="actions">
+                <a href="#" aria-disabled="true">Repo (soon)</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="case" role="listitem" aria-labelledby="p2">
+            <div
+              class="thumb"
+              role="img"
+              aria-label="RAG pipeline abstract"
+            ></div>
+            <div class="body">
+              <div class="kicker">Applied ML · security</div>
+              <h3 id="p2">Security RAG Knowledge Base</h3>
+              <p class="desc">
+                Embedding & prompt experiments to reduce hallucination, cost,
+                and latency. Automatic evaluation dashboard with a FastAPI
+                service.
+              </p>
+              <div class="badges">
+                <span class="badge">RAG</span><span class="badge">FastAPI</span
+                ><span class="badge">FAISS/ACS</span>
+              </div>
+              <div class="actions">
+                <a href="#" aria-disabled="true">Repo (soon)</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="case" role="listitem" aria-labelledby="p3">
+            <div
+              class="thumb"
+              role="img"
+              aria-label="Hybrid TCN–SNN abstraction"
+            ></div>
+            <div class="body">
+              <div class="kicker">Efficient AI research</div>
+              <h3 id="p3">TCN–SNN for sEMG Gesture</h3>
+              <p class="desc">
+                Hybrid TCN–SNN for neuroprosthetic control. Composite score over
+                spikes/MACs; ONNX edge latency experiments.
+              </p>
+              <div class="badges">
+                <span class="badge">PyTorch</span
+                ><span class="badge">snnTorch</span
+                ><span class="badge">ONNX</span>
+              </div>
+              <div class="actions">
+                <a href="#" aria-disabled="true">Repo (soon)</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Experience & Outcomes -->
+      <section id="experience" class="reveal" aria-labelledby="exp-title">
+        <h2 id="exp-title" class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="#647a62"
+              d="M17 2H7a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2Z"
+            />
+          </svg>
+          Experience & Outcomes
+        </h2>
+        <div class="tiles" aria-label="Key outcomes">
+          <div class="tile">
+            <div class="metric">−30%</div>
+            <div class="muted">Dispatch wait time (autonomous mobility)</div>
+          </div>
+          <div class="tile">
+            <div class="metric">&lt; 2 s</div>
+            <div class="muted">Realtime mapping latency</div>
+          </div>
+          <div class="tile">
+            <div class="metric">+25%</div>
+            <div class="muted">Release cadence (CI/CD)</div>
           </div>
         </div>
 
-        <div class="focus-grid">
-          <div class="box">
-            <h3>Objectives</h3>
-            <ul>
-              <li>Design spike-efficient controllers for robots</li>
-              <li>Build RAG with measurable hallucination ↓</li>
-              <li>Optimize edge inference (latency/cost)</li>
-            </ul>
+        <div class="grid" style="margin-top: 10px">
+          <div class="case" aria-label="42dot experience">
+            <div class="body">
+              <div class="kicker">42dot (Hyundai Motor Group)</div>
+              <h3>Android Engineer → Edge ML</h3>
+              <ul>
+                <li>Fleet dispatch wait time <b>−30%</b></li>
+                <li>Realtime telemetry <b>&lt; 2 s</b></li>
+                <li>CI/CD rollout, release cadence <b>+25%</b></li>
+              </ul>
+            </div>
           </div>
-          <div class="box">
-            <h3>Core Problems</h3>
-            <ul>
-              <li>Sensorimotor loops under tight budgets</li>
-              <li>Stable retrieval with safe generation</li>
-              <li>Energy–accuracy trade-offs at scale</li>
-            </ul>
+          <div class="case" aria-label="Graduate research">
+            <div class="body">
+              <div class="kicker">Graduate research</div>
+              <h3>MSc Cybersecurity &amp; AI (Merit)</h3>
+              <ul>
+                <li>
+                  Dissertation:
+                  <em
+                    >Designing Spiking Neural Controllers for Neuroprosthetic
+                    Systems</em
+                  >
+                </li>
+                <li>Hybrid TCN–SNN · Energy-aware evaluation</li>
+              </ul>
+            </div>
           </div>
-          <div class="box">
-            <h3>What I Bring</h3>
-            <ul>
-              <li>TCN–SNN research & metrics (spikes/MACs)</li>
-              <li>ROS2, Gazebo, <code>/cmd_vel</code> pipelines</li>
-              <li>RAG eval, guardrails, FastAPI services</li>
-            </ul>
+          <div class="case" aria-label="Hands-on">
+            <div class="body">
+              <div class="kicker">Hands-on</div>
+              <h3>On-device & Robotics</h3>
+              <ul>
+                <li>ROS2 + SNN control loop prototypes</li>
+                <li>Security RAG — cost/latency/hallucination control</li>
+              </ul>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="chips" aria-label="Key focus metrics">
-          <span class="chip">−42% spike activity vs baseline</span>
-          <span class="chip">&lt; 2 s edge inference</span>
-          <span class="chip">+6.8 pp accuracy (hybrid)</span>
+      <!-- Skills -->
+      <section id="skills" class="reveal" aria-labelledby="skills-title">
+        <h2 id="skills-title" class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="#cda264"
+              d="M9.5 7.5L12 2l2.5 5.5L20 10l-5.5 2.5L12 18l-2.5-5.5L4 10l5.5-2.5Z"
+            />
+          </svg>
+          Skills
+        </h2>
+        <div class="skills">
+          <div class="skill">
+            <strong>AI & Research</strong>
+            <div class="stack">
+              <span>PyTorch</span><span>snnTorch</span><span>TensorFlow</span
+              ><span>NumPy</span> <span>scikit-learn</span><span>ONNX</span>
+            </div>
+          </div>
+          <div class="skill">
+            <strong>Robotics</strong>
+            <div class="stack">
+              <span>ROS2</span><span>Gazebo</span><span>RViz2</span
+              ><span>TurtleBot3</span>
+            </div>
+          </div>
+          <div class="skill">
+            <strong>Systems & Apps</strong>
+            <div class="stack">
+              <span>Linux</span><span>Docker</span><span>FastAPI</span
+              ><span>Android</span><span>CI/CD</span>
+            </div>
+          </div>
         </div>
-        <p class="note">Target roles: Research Engineer (Neuromorphic/Robotics), Applied ML (Security), Robotics + ML.</p>
-      </aside>
-    </section>
+      </section>
 
-    <!-- Projects -->
-    <section id="projects" class="reveal" aria-labelledby="projects-title">
-      <h2 id="projects-title" class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#b5653f" d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg>
-        Selected Projects
-      </h2>
-      <p class="sub">Case studies with metrics, evaluation, and deployment notes.</p>
-
-      <div class="grid" role="list">
-        <article class="case" role="listitem" aria-labelledby="p1">
-          <div class="thumb" role="img" aria-label="Abstract neuromorphic control"></div>
-          <div class="body">
-            <div class="kicker">Neuromorphic robotics</div>
-            <h3 id="p1">Spike-based TurtleBot Navigation</h3>
-            <p class="desc">
-              SNN maps sensor input to <code>/cmd_vel</code>. Compared to PID on <b>error</b>, <b>latency</b>, and <b>spike count</b>.
-              Includes launch files & plots (membrane, spikes).
+      <!-- Contact -->
+      <section id="contact" class="reveal" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="#b5653f"
+              d="M21 8V7l-3 2-4-3-4 3-4-3-3 2v1l3-2 4 3 4-3 4 3 3-2zM3 9v8l7-3 4 2 7-3V9l-7 3-4-3-7 3z"
+            />
+          </svg>
+          Contact
+        </h2>
+        <div class="contact">
+          <div class="card">
+            <p class="lead" style="margin-top: 0">
+              Open to Research Engineer (Neuromorphic/Robotics), Applied ML
+              (Security), and Robotics + ML roles.
             </p>
-            <div class="badges"><span class="badge">ROS2</span><span class="badge">snnTorch</span><span class="badge">Gazebo</span></div>
-            <div class="actions"><a href="#" aria-disabled="true">Repo (soon)</a></div>
-          </div>
-        </article>
+            <p>
+              <b>Email</b> —
+              <a href="mailto:ghdlwnsgh25@gmail.com">ghdlwnsgh25@gmail.com</a
+              ><br />
+              <b>GitHub</b> —
+              <a
+                href="https://github.com/parkjunho12"
+                target="_blank"
+                rel="noreferrer"
+                >github.com/parkjunho12</a
+              ><br />
+              <b>LinkedIn</b> —
+              <a
+                href="https://www.linkedin.com/in/park-junho-881222164/"
+                target="_blank"
+                rel="noreferrer"
+                >/in/park-junho-881222164/</a
+              ><br />
+              <b>CV</b> —
+              <a href="./files/Junho_PARK_CV.pdf" download>Download PDF</a
+              ><br />
 
-        <article class="case" role="listitem" aria-labelledby="p2">
-          <div class="thumb" role="img" aria-label="RAG pipeline abstract"></div>
-          <div class="body">
-            <div class="kicker">Applied ML · security</div>
-            <h3 id="p2">Security RAG Knowledge Base</h3>
-            <p class="desc">
-              Embedding & prompt experiments to reduce hallucination, cost, and latency.
-              Automatic evaluation dashboard with a FastAPI service.
+              <b>Dissertation</b> —
+              <a href="./files/Junho_Park_dissertation_final.pdf" download
+                >Download PDF</a
+              ><br />
+              <b>Dissertation slides</b> —
+              <a
+                href="./dissertation/background.html"
+                target="_blank"
+                rel="noreferrer"
+                >Open HTML</a
+              >
             </p>
-            <div class="badges"><span class="badge">RAG</span><span class="badge">FastAPI</span><span class="badge">FAISS/ACS</span></div>
-            <div class="actions"><a href="#" aria-disabled="true">Repo (soon)</a></div>
           </div>
-        </article>
-
-        <article class="case" role="listitem" aria-labelledby="p3">
-          <div class="thumb" role="img" aria-label="Hybrid TCN–SNN abstraction"></div>
-          <div class="body">
-            <div class="kicker">Efficient AI research</div>
-            <h3 id="p3">TCN–SNN for sEMG Gesture</h3>
-            <p class="desc">
-              Hybrid TCN–SNN for neuroprosthetic control. Composite score over spikes/MACs; ONNX edge latency experiments.
-            </p>
-            <div class="badges"><span class="badge">PyTorch</span><span class="badge">snnTorch</span><span class="badge">ONNX</span></div>
-            <div class="actions"><a href="#" aria-disabled="true">Repo (soon)</a></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Experience & Outcomes -->
-    <section id="experience" class="reveal" aria-labelledby="exp-title">
-      <h2 id="exp-title" class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#647a62" d="M17 2H7a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2Z"/></svg>
-        Experience & Outcomes
-      </h2>
-      <div class="tiles" aria-label="Key outcomes">
-        <div class="tile"><div class="metric">−30%</div><div class="muted">Dispatch wait time (autonomous mobility)</div></div>
-        <div class="tile"><div class="metric">&lt; 2 s</div><div class="muted">Realtime mapping latency</div></div>
-        <div class="tile"><div class="metric">+25%</div><div class="muted">Release cadence (CI/CD)</div></div>
-      </div>
-
-      <div class="grid" style="margin-top:10px">
-        <div class="case" aria-label="42dot experience">
-          <div class="body">
-            <div class="kicker">42dot (Hyundai Motor Group)</div>
-            <h3>Android Engineer → Edge ML</h3>
-            <ul>
-              <li>Fleet dispatch wait time <b>−30%</b></li>
-              <li>Realtime telemetry <b>&lt; 2 s</b></li>
-              <li>CI/CD rollout, release cadence <b>+25%</b></li>
+          <div class="card" aria-live="polite">
+            <h3 style="margin: 0 0 6px">What’s next</h3>
+            <ul style="margin: 0 0 0 18px">
+              <li>Publish Spike vs PID control plots</li>
+              <li>Release Security RAG cost/latency dashboard</li>
+              <li>Open-source ROS2 + SNN controller</li>
             </ul>
           </div>
         </div>
-        <div class="case" aria-label="Graduate research">
-          <div class="body">
-            <div class="kicker">Graduate research</div>
-            <h3>MSc Cybersecurity &amp; AI (Merit)</h3>
-            <ul>
-              <li>Dissertation: <em>Designing Spiking Neural Controllers for Neuroprosthetic Systems</em></li>
-              <li>Hybrid TCN–SNN · Energy-aware evaluation</li>
-            </ul>
-          </div>
-        </div>
-        <div class="case" aria-label="Hands-on">
-          <div class="body">
-            <div class="kicker">Hands-on</div>
-            <h3>On-device & Robotics</h3>
-            <ul>
-              <li>ROS2 + SNN control loop prototypes</li>
-              <li>Security RAG — cost/latency/hallucination control</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Skills -->
-    <section id="skills" class="reveal" aria-labelledby="skills-title">
-      <h2 id="skills-title" class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#cda264" d="M9.5 7.5L12 2l2.5 5.5L20 10l-5.5 2.5L12 18l-2.5-5.5L4 10l5.5-2.5Z"/></svg>
-        Skills
-      </h2>
-      <div class="skills">
-        <div class="skill">
-          <strong>AI & Research</strong>
-          <div class="stack">
-            <span>PyTorch</span><span>snnTorch</span><span>TensorFlow</span><span>NumPy</span>
-            <span>scikit-learn</span><span>ONNX</span>
-          </div>
-        </div>
-        <div class="skill">
-          <strong>Robotics</strong>
-          <div class="stack">
-            <span>ROS2</span><span>Gazebo</span><span>RViz2</span><span>TurtleBot3</span>
-          </div>
-        </div>
-        <div class="skill">
-          <strong>Systems & Apps</strong>
-          <div class="stack">
-            <span>Linux</span><span>Docker</span><span>FastAPI</span><span>Android</span><span>CI/CD</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    <button
+      class="to-top"
+      aria-label="Back to top"
+      onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    >
+      ↑
+    </button>
+    <footer>
+      © <span id="y"></span> Junho Park — Typeset with Inter & Fraunces on warm
+      paper.
+    </footer>
 
-    <!-- Contact -->
-    <section id="contact" class="reveal" aria-labelledby="contact-title">
-      <h2 id="contact-title" class="section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#b5653f" d="M21 8V7l-3 2-4-3-4 3-4-3-3 2v1l3-2 4 3 4-3 4 3 3-2zM3 9v8l7-3 4 2 7-3V9l-7 3-4-3-7 3z"/></svg>
-        Contact
-      </h2>
-      <div class="contact">
-        <div class="card">
-          <p class="lead" style="margin-top:0">
-            Open to Research Engineer (Neuromorphic/Robotics), Applied ML (Security), and Robotics + ML roles.
-          </p>
-          <p>
-            <b>Email</b> — <a href="mailto:ghdlwnsgh25@gmail.com">ghdlwnsgh25@gmail.com</a><br/>
-            <b>GitHub</b> — <a href="https://github.com/parkjunho12" target="_blank" rel="noreferrer">github.com/parkjunho12</a><br/>
-            <b>LinkedIn</b> — <a href="https://www.linkedin.com/in/park-junho-881222164/" target="_blank" rel="noreferrer">/in/park-junho-881222164/</a><br/>
-            <b>CV</b> — <a href="sandbox:/mnt/data/Junho PARK_CV_2.pdf" download>Download PDF</a>
-          </p>
-        </div>
-        <div class="card" aria-live="polite">
-          <h3 style="margin:0 0 6px">What’s next</h3>
-          <ul style="margin:0 0 0 18px">
-            <li>Publish Spike vs PID control plots</li>
-            <li>Release Security RAG cost/latency dashboard</li>
-            <li>Open-source ROS2 + SNN controller</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
+    <script>
+      // Year
+      document.getElementById("y").textContent = new Date().getFullYear();
 
-  <button class="to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-  <footer>© <span id="y"></span> Junho Park — Typeset with Inter & Fraunces on warm paper.</footer>
-
-  <script>
-    // Year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Polite reveal on scroll (respects reduced motion)
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduce){
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
-        });
-      }, {threshold:.18});
-      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-    }else{
-      document.querySelectorAll('.reveal').forEach(el=>el.classList.add('on'));
-    }
-  </script>
-</body>
+      // Polite reveal on scroll (respects reduced motion)
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (!reduce) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("on");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.18 }
+        );
+        document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+      } else {
+        document
+          .querySelectorAll(".reveal")
+          .forEach((el) => el.classList.add("on"));
+      }
+    </script>
+  </body>
 </html>
-

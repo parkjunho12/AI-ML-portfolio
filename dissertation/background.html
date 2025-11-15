@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMG Neuroprosthetics — Context</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #0f172a;         /* slate-900 */
+      --muted: #475569;        /* slate-600 */
+      --border: #e2e8f0;       /* slate-200 */
+      --accent: #2563eb;       /* blue-600 */
+      --accent-weak: #dbeafe;  /* blue-100 */
+      --success: #16a34a;      /* green-600 */
+      --warning: #f59e0b;      /* amber-500 */
+    }
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.25), transparent 60%),
+                  radial-gradient(1000px 800px at 120% 10%, rgba(34,211,238,.18), transparent 60%),
+                  var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .wrap{
+
+      max-width: 1200px; margin: 0 auto; padding: 48px 24px 96px; position:relative;
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, var(--accent), #60a5fa);
+      display:grid; place-items:center; color:white; font-weight:700;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+    }
+    .h1{ font-size: clamp(20px, 2.6vw, 28px); font-weight: 700; letter-spacing: -0.01em; }
+    .sub{ color: var(--muted); font-size:14px; }
+
+    .grid{
+      display:grid; grid-template-columns: 1.1fr 1.4fr; gap:28px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.06);
+    }
+
+    /* LEFT: bullets */
+    .section-title{ font-weight:700; margin-bottom:12px; }
+    ul{ margin:0; padding-left:18px; }
+    li{ margin:10px 0; color:var(--muted); }
+    .tag{ display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:6px 10px; border-radius:999px; background:var(--accent-weak); color:var(--accent); font-weight:600; }
+
+    /* RIGHT: flow diagram */
+    .flow{
+      display:grid; grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr; align-items:center; gap:8px;
+    }
+    .node{
+      background:var(--card); border:1px dashed var(--border); border-radius:14px; padding:14px; text-align:center; min-height:86px;
+      display:flex; flex-direction:column; justify-content:center; gap:6px;
+    }
+    .node .title{ font-weight:700; font-size:14px; }
+    .node .desc{ color:var(--muted); font-size:12px; }
+    .arrow{ display:grid; place-items:center; color:var(--muted); }
+    .arrow svg{ width:28px; height:28px; }
+
+    .note{
+      margin-top:16px; font-size:14px; color:var(--muted);
+      background: #f8fafc; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    }
+
+    /* Floating next-page arrow */
+    .next-link{
+      position:fixed; right:24px; bottom:24px; text-decoration:none;
+      background:var(--accent); color:#fff; border-radius:999px; padding:12px 16px; display:flex; align-items:center; gap:10px; font-weight:700;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.35);
+      transition: transform .15s ease, box-shadow .15s ease; border:1px solid rgba(255,255,255,.25);
+    }
+    .next-link:hover{ transform: translateY(-2px); box-shadow: 0 16px 28px rgba(37,99,235,0.42); }
+    .next-link svg{ width:18px; height:18px; }
+    .flow-wrap{
+        min-height: 600px;            /* 화면 한 뷰포트 기준이면 */
+        /* 또는 카드 안에서만 중앙이면: min-height: 320px; 등으로 */
+        display: flex;
+        align-items: center;            /* 수직 중앙 */
+        justify-content: center;        /* 수평 중앙(원하면) */
+    }   
+    /* Info banner to align with Central Box Landing style */
+    .banner{ background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe; padding:12px 14px; border-radius:12px; font-size:14px; }
+  </style>
+</head>
+<body>
+    
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        
+        <div>
+          <div class="h1">Designing Spiking Neural Controllers for Neuroprosthetic Systems</div>
+          <div class="sub">Junho Park</div>
+          <div class="sub2">Supervisor: Dr. Luca Manneschi</div>
+          <div class="sub3">MSc Cybersecurity & AI</div>
+        </div>
+      </div>
+    
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: bullets -->
+      <section class="card">
+        <div class="section-title">Background & Motivation</div>
+        <ul>
+          <li><strong>Neuroprosthetics</strong> → Human–Computer Interaction (HCI)</li>
+        <div class="viz">
+          <img
+          src="./images/neuroprosthetic_system.png"
+          alt="Neuroprosthetic Systems(hand)"
+          class="viz-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <p class="note"><strong>What is a neuroprosthetic system?</strong> It is a tool that allows signal information to translate into prosthetic movements.</p>
+
+          <li><strong>sEMG</strong> → Predictive, non‑invasive muscle activity signal</li>
+          <li><strong>Challenges</strong> → Noisy signals, high‑dimensional features, ↑ energy cost</li>
+        </ul>
+        <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="tag">⚡ Accuracy vs Battery</span>
+          <span class="tag">⌛ Real‑time</span>
+          <span class="tag">🔋 Low‑power</span>
+        </div>
+        <p class="note"><strong>Why this research?</strong> Neuroprosthetic control requires reliable decoding(gesture prediction) under strict power and latency budgets. We study encoding schemes (Rate/Delta/Latency) and model families (LSTM, TCN, SNN, Hybrid, SpikingTCN) to map the accuracy–efficiency trade‑off.</p>
+    </section>
+
+      <!-- RIGHT: flow diagram card -->
+      <section class="card">
+        <div class="section-title">Neuroprosthetic System Flow</div>
+        <div class="flow-wrap">
+        <div class="flow" aria-label="Neuroprosthetic system pipeline">
+          <div class="node" role="group" aria-label="Sensors">
+            <div class="title">Sensors</div>
+            <div class="desc">sEMG electrodes</div>
+          </div>
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+
+          <div class="node" role="group" aria-label="Preprocess & Encode">
+            <div class="title">Preprocess · Encode</div>
+            <div class="desc">Labeling · Rate/Delta/Latency</div>
+          </div>
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+
+          <div class="node" role="group" aria-label="Model">
+            <div class="title">Model</div>
+            <div class="desc">LSTM / TCN / SNN / Hybrid / SpikingTCN</div>
+          </div>
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+
+          <div class="node" role="group" aria-label="Actuators">
+            <div class="title">Actuators</div>
+            <div class="desc">Artificial hand</div>
+          </div>
+        </div>
+        </div>
+      
+      </section>
+    </div>
+  </div>
+
+  <!-- Floating arrow to the Central Box Landing Page -->
+  <!-- Update href to the actual path of your Central Box page, e.g., central.html or /landing/index.html -->
+  <a class="next-link" href="objectives.html" title="Go to: Central Box Landing Page">
+    <span>Objectives</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/>
+      <path d="m12 5 7 7-7 7"/>
+    </svg>
+  </a>
+</body>
+</html>

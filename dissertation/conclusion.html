@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discussion & Conclusion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f8fb; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0;
+      --accent:#2563eb; --accent-weak:#dbeafe; --ok:#16a34a; --amber:#f59e0b; --rose:#f43f5e;
+      --violet:#7c3aed; --slate:#64748b;
+    }
+    *{box-sizing:border-box}
+    body{
+        margin: 0;
+        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.25), transparent 60%),
+                    radial-gradient(1000px 800px at 120% 10%, rgba(34,211,238,.18), transparent 60%),
+                    var(--bg);
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    .wrap{max-width:1100px;margin:0 auto;padding:40px 20px 96px}
+    header{margin-bottom:20px}
+    .h1{font-size:clamp(20px,2.6vw,28px);font-weight:700}
+    .sub{color:var(--muted);font-size:14px}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;margin-bottom:28px;box-shadow:0 10px 28px rgba(2,6,23,.06)}
+    .section-title{font-weight:700;margin-bottom:12px}
+    .note{margin-top:12px;font-size:14px;color:var(--muted);background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+
+    /* Discussion layout */
+    .grid-discuss{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    @media (max-width: 980px){ .grid-discuss{grid-template-columns:1fr} }
+    .bullet{margin:0;padding-left:18px}
+    .bullet li{margin:10px 0;color:var(--muted)}
+    .callout{
+      display:flex;gap:12px;border:1px dashed var(--border);border-radius:14px;padding:14px;background:#fff
+    }
+    .check{
+      flex:0 0 28px;width:28px;height:28px;border-radius:8px;background:#dcfce7;display:grid;place-items:center;color:var(--ok);font-weight:900
+    }
+
+    /* Conclusion keyword boxes */
+    .kgrid{display:grid;grid-template-columns:repeat(3, 1fr);gap:16px}
+    @media (max-width: 980px){ .kgrid{grid-template-columns:1fr} }
+    .kbox{
+      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:12px;align-items:flex-start;
+      box-shadow:0 8px 20px rgba(2,6,23,.05)
+    }
+    .kicon{
+      flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:#e2fbe8;display:grid;place-items:center;color:var(--ok);font-weight:900
+    }
+    .kcontent .ktitle{font-weight:700;margin-bottom:6px}
+    .kcontent .kdesc{color:var(--muted);font-size:14px;line-height:1.4}
+
+    /* Legend badges */
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-weak);color:var(--accent);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+
+    /* Nav */
+    .nav{position:fixed;right:20px;bottom:20px;display:flex;gap:10px;flex-wrap:wrap}
+    .link.secondary:hover{ transform: translateY(-2px); box-shadow: 0 16px 28px rgba(37,99,235,0.42); }
+    .link:hover{ transform: translateY(-2px); box-shadow: 0 16px 28px rgba(37,99,235,0.42); }
+    .link{display:flex;align-items:center;gap:10px;background:var(--accent);color:#fff;text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:700;box-shadow:0 10px 24px rgba(37,99,235,.35)}
+    .link.secondary{background:#0ea5e9}
+    .link svg{width:18px;height:18px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="h1">Discussion & Conclusion</div>
+      <div class="sub">Key insights · Contributions · Next steps</div>
+    </header>
+
+    <!-- Slide 8: Discussion -->
+    <section class="card">
+      <div class="section-title">Discussion</div>
+      <div class="legend">
+        <span class="badge">Hybrid vs TCN vs SNN</span>
+        <span class="badge">Encoding effects</span>
+        <span class="badge">Accuracy–efficiency trade-off</span>
+      </div>
+
+      <div class="grid-discuss">
+        <!-- Left bullets -->
+        <div>
+          <ul class="bullet">
+            <li><b>TCN-only:</b>High accuracy and fast convergence, but it does not exploit event sparsity. On neuroprosthetic hardware, energy validation is required due to the ANN-to-SNN conversion.</li>
+            <li><b>SNN-only is efficient but fragile:</b> Lower firing rates reduce energy, but accuracy is limited (up to 62.84% in our setting), which restricts practical use.</li>
+            <li><b>SpikingTCN as a middle ground:</b> Injects LIF dynamics into convolutional blocks, combining temporal sensitivity with sparsity for neuroprosthetic deployment.</li>
+            <li><b>Hybrid TCN–SNN:</b> top accuracy with sparse spikes; however, the parallel dual-branch design means low firing rate alone does not prove energy savings.</li>
+          </ul>
+        </div>
+
+        <!-- Right callouts -->
+        <div style="display:grid;gap:12px">
+          <div class="callout">
+            <div class="check">✔</div>
+            <div>
+              <b>Encoding matters:</b> latency optimal in SNN-only, rate superior in SpikingTCN — highlights interaction between filters and spike timing.
+            </div>
+          </div>
+          <div class="callout">
+            <div class="check">✔</div>
+            <div>
+              <b>Measured sparsity:</b> average firing rates kept within 1–26%, aligning with neuroprosthetic efficiency assumptions (event-proportional power).
+            </div>
+          </div>
+          <div class="callout">
+            <div class="check">✔</div>
+            <div>
+              <b>Fairness note for Hybrid:</b> report both dense MACs (TCN branch) and spike/synaptic events (SNN branch); verify claims on hardware or faithful simulators.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="note"><b>Takeaway:</b> Hybrid achieves the best accuracy and a promising accuracy–efficiency balance, but <u>energy advantages must be validated on-device</u>. SpikingTCN remains a lightweight, neuroprosthetic-friendly alternative.</p>
+    </section>
+
+    <!-- Slide 9: Conclusion -->
+    <section class="card">
+      <div class="section-title">Conclusion</div>
+      <div class="kgrid">
+        <!-- Box 1 -->
+        <div class="kbox">
+          <div class="kicon">✔</div>
+          <div class="kcontent">
+            <div class="ktitle">Hybrid = balanced; STCN  = neuroprosthetic-balanced</div>
+            <div class="kdesc">
+                <b>Hybrid</b> combines the stability of TCNs with the sparsity of SNNs and achieved the best accuracy in our study. 
+                <b>SpikingTCN</b> shows strong potential as a balanced accuracy–efficiency neuroprosthetic controller.
+            </div>
+          </div>
+        </div>
+        <!-- Box 2 -->
+        <div class="kbox">
+          <div class="kicon">✔</div>
+          <div class="kcontent">
+            <div class="ktitle">Future: Real-time & low-power</div>
+            <div class="kdesc">
+                <b>Hybrid:</b> Confidence gating(invoke the TCN branch only when confidence falls below a threshold) to raise effective-accuracy.
+                <b>SpikingTCN:</b> Apply zero-activity (zero-spike) convolution skipping to avoid unnecessary convolutions and further reduce computation.
+            </div>
+          </div>
+        </div>
+        <!-- Box 3 -->
+        <div class="kbox">
+          <div class="kicon">✔</div>
+          <div class="kcontent">
+            <div class="ktitle">Future: hardware validation</div>
+            <div class="kdesc">
+            Validate on Intel Loihi / SpiNNaker; For fair comparisons, report inference latency, MAC counts for dense branches, and spike/synaptic event counts for spiking branches side by side.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="note"><b>Contribution:</b> A principled comparison across architectures and encodings, with spike statistics linking accuracy to event cost.</p>
+    </section>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <a class="link secondary" href="results.html" title="Prev">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      Prev
+    </a>
+    <a class="link" href="appendix.html">Next</a>
+  </div>
+</body>
+</html>
