@@ -238,10 +238,6 @@
         
         <div class="controls">
             <div class="control-group">
-                <label>Server URL</label>
-                <input type="text" id="serverUrl" value="http://localhost:8000" style="width: 250px;">
-            </div>
-            <div class="control-group">
                 <label>Duration (seconds)</label>
                 <input type="number" id="duration" value="30" min="1" max="3600">
             </div>
@@ -466,7 +462,7 @@
         let streamActive = false;
 
         function startStream() {
-            const serverUrl = "http://localhost:8000"; // Adjust as needed
+            const serverUrl = "https://wed-collectibles-beam-narrative.trycloudflare.com"; // Adjust as needed
             const duration = parseFloat(document.getElementById('duration').value);
             const fps = parseInt(document.getElementById('fps').value);
             const useTensorrt = document.getElementById('backend').value === 'true';
