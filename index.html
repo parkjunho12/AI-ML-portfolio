@@ -520,6 +520,56 @@
           line-height: 1.35;
         }
       }
+      .link-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+        align-items: center;
+    }
+    
+    .btn-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s;
+    }
+    
+    .btn-link.primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-link.secondary {
+        background: #f5f5ff;
+        color: #4a4a8a;
+        border-color: #d0d0ff;
+    }
+    
+    .btn-link:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+    }
+    
+    .btn-link:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+    
+    /* aria-disabled 스타일링 */
+    .btn-link[aria-disabled="true"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    
     </style>
   </head>
   <body>
@@ -728,20 +778,23 @@
                 ><span class="badge">Gazebo</span>
               </div>
               <div class="actions">
-                
-              <a href="https://github.com/parkjunho12/edge-snn-robot-template" 
-                aria-disabled="true" 
-                target="_blank" 
-                rel="noreferrer">
-                Repo
-              </a>
+                <div class="link-buttons">
+                <a href="https://github.com/parkjunho12/edge-snn-robot-template" 
+                  aria-disabled="true" 
+                  target="_blank" 
+                  rel="noreferrer">
+                  Repo
+                </a>
+                </div>
               <br />
-              <a href="https://junho.uk/sEMG/emgstream.html"
-                target="_blank"
-                rel="noreferrer"
-                style="margin-left: 8px;">
-                Live EMG Dashboard
-              </a>
+              <div class="link-buttons">
+                <a href="https://junho.uk/sEMG/emgstream.html"
+                  target="_blank"
+                  rel="noreferrer"
+                  style="margin-left: 8px;">
+                  Live EMG Dashboard
+                </a>
+              </div>
               </div>
             </div>
           </article>
