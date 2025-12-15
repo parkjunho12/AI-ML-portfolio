@@ -323,16 +323,12 @@
         border-color: #e1d6c9;
       }
       .thumb {
-        height: 124px;
+        width: 100%;
+        aspect-ratio: 16 / 9;        /* 핵심 */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         border-bottom: 1px solid var(--line);
-        background-size: cover; 
-        background: linear-gradient(
-            180deg,
-            rgba(145, 163, 143, 0.22),
-            transparent 60%
-          ),
-          linear-gradient(120deg, rgba(183, 101, 59, 0.18), transparent 55%),
-          linear-gradient(0deg, #fffdf9, #fffdf9);
       }
       .body {
         padding: 12px;
