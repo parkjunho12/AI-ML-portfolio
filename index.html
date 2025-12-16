@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Junho Park portfolio — MSc Cybersecurity & AI (Merit). Neuromorphic Robotics (SNN), efficient AI research, Security RAG, and edge/on-device ML."
+      content="Junho Park portfolio — MSc Cybersecurity & AI (Merit). Research Engineer (Neuromorphic/Robotics), Applied ML (Temporal Modelling / Efficient ML), and Robotics + ML roles"
     />
     <meta name="color-scheme" content="light" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -635,14 +635,12 @@
       <section class="hero">
         <div class="card reveal" aria-labelledby="hero-title">
           <h1 id="hero-title" class="title">
-            Designing efficient AI for robotics & security
+            Designing Efficient Temporal AI Systems for the Real World
           </h1>
           <p class="lead">
-            I build <strong>efficiency-first</strong> models around
-            <strong>Spiking Neural Networks (SNNs)</strong> and apply them to
-            <strong>Robotics (ROS2)</strong>, <strong>Security RAG</strong>, and
-            <strong>On-device ML</strong>. The goal: ship AI that meets
-            real-world constraints: <em>latency, cost, spikes/power</em>.
+            I build <strong>efficient temporal AI systems</strong> that operate reliably over time and under real-world constraints.
+            My work focuses on temporal modelling, system stability, and deployment-aware machine learning across neuromorphic AI, robotics, and reliable AI services.
+            The goal: ship AI that meets real-world constraints—<em>latency budgets, feedback loops, distribution shift, and long-horizon operation</em>.
           </p>
           <div class="cta" role="group" aria-label="Primary actions">
             <a class="btn primary" href="https://drive.google.com/file/d/1uI3S-Qb-PFpP4viIBPI5cjgmgU8vy8Ej/view?usp=sharing" download
@@ -712,16 +710,17 @@
             <div class="box">
               <h3>Objectives</h3>
               <ul>
-                <li>Design spike-efficient controllers for robots</li>
-                <li>Build RAG with measurable hallucination ↓</li>
-                <li>Optimize edge inference (latency/cost)</li>
+                <li>Design temporal models that remain stable beyond short horizons</li>
+                <li>Build AI systems that meet latency, memory, and energy constraints</li>
+                <li>Understand and mitigate failure modes under rollout and feedback</li>
+                <li>Translate research ideas into measurable, reproducible systems</li>
               </ul>
             </div>
             <div class="box">
               <h3>Core Problems</h3>
               <ul>
-                <li>Sensorimotor loops under tight budgets</li>
-                <li>Stable retrieval with safe generation</li>
+                <li>Long-horizon degradation in temporal prediction</li>
+                <li>Feedback-induced instability in closed-loop systems</li>
                 <li>Energy–accuracy trade-offs at scale</li>
               </ul>
             </div>
@@ -730,7 +729,7 @@
               <ul>
                 <li>TCN–SNN research & metrics (spikes/MACs)</li>
                 <li>ROS2, Simulator, <code>/cmd_vel</code> pipelines</li>
-                <li>RAG eval, guardrails, FastAPI services</li>
+                <li>Deployment tooling: FastAPI services, Docker, CI/CD</li>
               </ul>
             </div>
           </div>
@@ -767,20 +766,19 @@
               aria-label="Hybrid TCN–SNN abstraction"
             ></div>
             <div class="body">
-              <div class="kicker">Reasearch · Spiking Neural Networks</div>
+              <div class="kicker">Research · Spiking Neural Networks</div>
               <h3 id="p3">TCN–SNN for sEMG Gesture</h3>
               <p class="desc">
-                The research investigates spiking-based neural architectures for surface electromyography (sEMG)–driven neuroprosthetic control.
-                Composite score over spikes;
+                Spiking-based temporal models for sEMG-driven neuroprosthetic control.
+                Focus on energy-aware evaluation (spike activity / MACs) and robustness under streaming inference.
               </p>
               <div class="badges">
                 <span class="badge">PyTorch</span
                 ><span class="badge">snnTorch</span>
-                <span class="badge">SeMG</span>
+                <span class="badge">sEMG</span>
               </div>
               <div class="link-buttons">
                 <a href="https://github.com/parkjunho12/snn-controller-neuroprosthetic" 
-                  aria-disabled="true" 
                   target="_blank" 
                   rel="noreferrer"
                   class="magic-btn">
@@ -798,10 +796,11 @@
               aria-label="Abstract neuromorphic control"
             ></div>
             <div class="body">
-              <div class="kicker">Neuromorphic robotics</div>
-              <h3 id="p1">Spike-based TurtleBot Navigation</h3>
+              <div class="kicker">Neuromorphic Robotics · Edge Control</div>
+              <h3 id="p1">Spike-based Navigation for Mobile Robots</h3>
               <p class="desc">
-                A production-ready template for SNN/TCN-based edge robotics projects (ROS2 + snnTorch + FastAPI + Docker). Focus: latency, spike/energy metrics, edge deployment(Fake Hardware / Matlab Simulator) (Optional Pi/Jetson).
+                Production-ready template for neuromorphic edge robotics (ROS2 + snnTorch + FastAPI + Docker).
+                Emphasis on latency, spike/energy metrics, and simulation-first deployment workflows (Matlab-based mock hardware and ROS2 simulators).
               </p>
               <div class="badges">
                 <span class="badge">ROS2</span
@@ -835,20 +834,22 @@
               aria-label="Efficient spatiotemporal world model abstract"
             ></div>
             <div class="body">
-              <div class="kicker">Applied ML · World Modelling</div>
+              <div class="kicker">Applied ML · World Modelling (In progress)</div>
               <h3 id="p2">Efficient Spatiotemporal World Model</h3>
               <p class="desc">
-                Latency-aware world model for long-horizon prediction in autonomous
-                systems. Focused on temporal dynamics, efficiency trade-offs, and
-                stable rollout under resource constraints.
-              </p>
+                In-progress latency-aware world model for long-horizon prediction in autonomous systems.
+                Focus on temporal dynamics, efficiency trade-offs, and stable rollout under resource constraints.
+                Current stage: baseline implementation + rollout stability metrics + benchmarking scaffold.
+              </p>              
               <div class="badges">
                 <span class="badge">World Model</span><span class="badge">Temporal Modeling</span
                 ><span class="badge">Efficiency</span>
               </div>
               <div class="link-buttons">
-                <a href="https://github.com/parkjunho12/efficient-world-models" aria-disabled="true"
-                class="magic-btn">⭐ Repo (working)</a>
+                <a href="https://github.com/parkjunho12/efficient-world-models"
+                  target="_blank"
+                  rel="noreferrer"
+                class="magic-btn">⭐ Repo (in progress)</a>
               </div>
             </div>
           </article>
@@ -885,7 +886,7 @@
           <div class="case" aria-label="42dot experience">
             <div class="body">
               <div class="kicker">42dot (Hyundai Motor Group)</div>
-              <h3>Android Engineer → Edge ML</h3>
+              <h3>Android Engineer → AI Engineer</h3>
               <ul>
                 <li>Fleet dispatch wait time <b>−30%</b></li>
                 <li>Realtime telemetry <b>&lt; 2 s</b></li>
@@ -915,7 +916,7 @@
               <h3>On-device & Robotics</h3>
               <ul>
                 <li>ROS2 + SNN control loop prototypes</li>
-                <li>Security RAG — cost/latency/hallucination control</li>
+                <li>Edge deployment & benchmarking (Docker, FastAPI, ONNX)</li>
               </ul>
             </div>
           </div>
@@ -972,8 +973,7 @@
         <div class="contact">
           <div class="card">
             <p class="lead" style="margin-top: 0">
-              Open to Research Engineer (Neuromorphic/Robotics), Applied ML
-              (Security), and Robotics + ML roles.
+              Open to Research Engineer (Neuromorphic/Robotics), Applied ML (Temporal Modelling / Efficient ML), and Robotics + ML roles.
             </p>
             <p>
               <b>Email</b> —
@@ -1013,10 +1013,10 @@
           <div class="card" aria-live="polite">
             <h3 style="margin: 0 0 6px">What’s next</h3>
             <ul style="margin: 0 0 0 18px">
-              <li>Publish Spike vs PID control plots</li>
-              <li>Release Security RAG cost/latency dashboard</li>
-              <li>Open-source ROS2 + SNN controller</li>
-            </ul>
+              <li>Publish spike/energy metrics + control plots (Spike vs baseline)</li>
+              <li>World model: rollout stability metrics + first demo video</li>
+              <li>Open-source ROS2 + SNN controller module with deployment notes</li>
+            </ul>            
           </div>
         </div>
       </section>
