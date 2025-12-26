@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>India Job Agent — Demo / Landing</title>
+    <meta
+      name="description"
+      content="Apply faster across Naukri + LinkedIn with an assisted job application agent: ATS scoring, tracking, and WhatsApp notifications."
+    />
+    <style>
+      :root{
+        --bg:#0b0f17;
+        --card:#0f1522;
+        --card2:#0d1320;
+        --text:#e9eef7;
+        --muted:#a8b3c7;
+        --line:rgba(255,255,255,0.10);
+        --accent:#f0c77a;
+        --accent2:#e7b55f;
+        --good:#6ee7b7;
+        --bad:#fb7185;
+        --shadow: 0 18px 60px rgba(0,0,0,0.45);
+        --radius: 22px;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+        background:
+          radial-gradient(1200px 600px at 50% -10%, rgba(240,199,122,0.22), transparent 60%),
+          radial-gradient(900px 450px at 10% 10%, rgba(99,102,241,0.18), transparent 60%),
+          radial-gradient(900px 450px at 90% 15%, rgba(34,211,238,0.10), transparent 60%),
+          var(--bg);
+        color:var(--text);
+      }
+      a{color:inherit}
+      .wrap{max-width:1080px; margin:0 auto; padding:28px 18px 80px}
+      .topbar{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:14px; padding:12px 14px;
+        border:1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(15,21,34,0.55);
+        backdrop-filter: blur(10px);
+      }
+      .brand{
+        display:flex; align-items:center; gap:10px; font-weight:800;
+        letter-spacing:0.2px;
+      }
+      .brand .dot{
+        width:12px; height:12px; border-radius:50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 0 0 4px rgba(240,199,122,0.12);
+      }
+      .nav{display:flex; gap:14px; color:var(--muted); font-weight:600; font-size:14px}
+      .nav a{ text-decoration:none; opacity:0.9 }
+      .nav a:hover{ opacity:1; color:var(--text) }
+      .cta-row{display:flex; gap:10px; align-items:center}
+      .btn{
+        display:inline-flex; align-items:center; justify-content:center; gap:8px;
+        padding:10px 14px; border-radius:999px;
+        border:1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        text-decoration:none;
+        font-weight:700;
+        font-size:14px;
+        transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      }
+      .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+      .btn.primary{
+        border: none;
+        color:#1a1a1a;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+      }
+      .btn.primary:hover{ box-shadow: 0 16px 45px rgba(240,199,122,0.22); }
+      .btn.ghost:hover{ background: rgba(255,255,255,0.05); }
+
+      /* HERO */
+      .hero{
+        display:grid; grid-template-columns: 1.15fr 0.85fr;
+        gap:24px;
+        margin-top:22px;
+        align-items:stretch;
+      }
+      @media (max-width: 880px){
+        .hero{grid-template-columns:1fr; }
+        .nav{display:none}
+      }
+      .hero-card{
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(15,21,34,0.66);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow);
+        overflow:hidden;
+        position:relative;
+      }
+      .hero-art{
+        height: 190px;
+        background:
+          linear-gradient(180deg, rgba(240,199,122,0.18), transparent 60%),
+          linear-gradient(120deg, rgba(183,101,59,0.12), transparent 55%),
+          radial-gradient(900px 280px at 50% 30%, rgba(99,102,241,0.16), transparent 60%),
+          linear-gradient(0deg, rgba(15,21,34,0.95), rgba(15,21,34,0.95));
+        position:relative;
+      }
+      .hero-art::after{
+        content:"";
+        position:absolute; inset:0;
+        background-image:
+          radial-gradient(circle at 20% 60%, rgba(255,255,255,0.12) 1px, transparent 1px),
+          radial-gradient(circle at 50% 70%, rgba(255,255,255,0.08) 1px, transparent 1px),
+          radial-gradient(circle at 85% 55%, rgba(255,255,255,0.10) 1px, transparent 1px);
+        background-size: 18px 18px, 22px 22px, 26px 26px;
+        opacity:0.45;
+        mix-blend-mode: screen;
+      }
+      .hero-body{ padding: 18px 18px 20px; }
+      .kicker{
+        font-size: 12px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: rgba(233,238,247,0.75);
+        font-weight: 800;
+      }
+      h1{
+        margin: 10px 0 10px;
+        font-size: 38px;
+        line-height: 1.06;
+        letter-spacing: -0.6px;
+      }
+      .sub{
+        color: var(--muted);
+        font-size: 15.5px;
+        line-height: 1.55;
+        margin: 0 0 14px;
+      }
+      .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+      .pill{
+        border: 1px dashed rgba(240,199,122,0.40);
+        background: rgba(240,199,122,0.06);
+        color: rgba(233,238,247,0.9);
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .hero-actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+
+      /* Side panel */
+      .side{
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(15,21,34,0.66);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+      .mini-title{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:10px; margin-bottom:10px;
+      }
+      .mini-title h2{
+        margin:0; font-size:16px; letter-spacing:-0.2px;
+      }
+      .tag{
+        font-size:12px; font-weight:800; color:#1a1a1a;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        padding:6px 10px; border-radius:999px;
+      }
+      .statgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px}
+      .stat{
+        border:1px solid var(--line);
+        border-radius: 16px;
+        padding:12px;
+        background: rgba(255,255,255,0.02);
+      }
+      .stat .num{font-size:18px; font-weight:900; letter-spacing:-0.3px}
+      .stat .lbl{font-size:12px; color:var(--muted); font-weight:700; margin-top:3px}
+      .small{font-size:12px; color:var(--muted); line-height:1.45; margin-top:10px}
+
+      /* Sections */
+      .section{
+        margin-top:26px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(15,21,34,0.55);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+      .section h3{margin:0 0 10px; font-size:18px}
+      .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px}
+      @media (max-width: 880px){ .grid3{grid-template-columns:1fr} }
+      .feature{
+        border:1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px;
+        background: rgba(255,255,255,0.02);
+      }
+      .feature .t{font-weight:900; margin-bottom:6px}
+      .feature .d{color:var(--muted); font-size:13px; line-height:1.45}
+
+      /* Pricing */
+      .pricing{
+        display:grid; grid-template-columns: repeat(3, 1fr);
+        gap:12px;
+      }
+      @media (max-width: 960px){ .pricing{grid-template-columns:1fr} }
+      .plan{
+        border:1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        background: rgba(255,255,255,0.02);
+        position:relative;
+        overflow:hidden;
+      }
+      .plan.popular{
+        border-color: rgba(240,199,122,0.55);
+        box-shadow: 0 18px 60px rgba(240,199,122,0.12);
+      }
+      .badge-pop{
+        position:absolute; top:12px; right:12px;
+        font-size:11px; font-weight:1000;
+        letter-spacing:0.6px;
+        padding:6px 10px; border-radius:999px;
+        background: rgba(240,199,122,0.12);
+        border:1px solid rgba(240,199,122,0.40);
+        color: rgba(240,199,122,0.95);
+        text-transform: uppercase;
+      }
+      .plan .pname{font-weight:1000; font-size:16px; margin-bottom:2px}
+      .plan .price{font-weight:1000; font-size:28px; letter-spacing:-0.6px; margin:6px 0 10px}
+      .plan .per{color:var(--muted); font-size:12px; font-weight:700}
+      .ul{margin:12px 0 0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55}
+      .ul li{margin:6px 0}
+      .plan .actions{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap}
+
+      /* FAQ */
+      details{
+        border:1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px 12px;
+        background: rgba(255,255,255,0.02);
+        margin:10px 0;
+      }
+      summary{cursor:pointer; font-weight:900}
+      details p{color:var(--muted); font-size:13px; line-height:1.55; margin:10px 0 0}
+
+      /* Footer */
+      footer{margin-top:22px; color:var(--muted); font-size:12px; text-align:center}
+      .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand" aria-label="India Job Agent">
+          <div class="dot" aria-hidden="true"></div>
+          <div>India Job Agent</div>
+        </div>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how">How it works</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="cta-row">
+          <a class="btn ghost" href="#pricing">See plans</a>
+          <a class="btn primary" href="#get-started">Get Started</a>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero" id="get-started">
+        <section class="hero-card">
+          <div class="hero-art" role="img" aria-label="Abstract job-application automation art"></div>
+          <div class="hero-body">
+            <div class="kicker">Applied Automation · Job Search (India)</div>
+            <h1>India Job Agent</h1>
+            <p class="sub">
+              Assisted job applications across <strong>Naukri + LinkedIn</strong> with keyword-ready ATS scoring,
+              application tracking, and optional WhatsApp notifications.
+              Designed for high-volume, low-friction job hunting.
+            </p>
+
+            <div class="pill-row" aria-label="Key tags">
+              <span class="pill">Naukri Handler</span>
+              <span class="pill">LinkedIn Easy Apply</span>
+              <span class="pill">ATS Scoring</span>
+              <span class="pill">Tracking</span>
+              <span class="pill">WhatsApp Alerts</span>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#pricing">🎥 Demo / Landing</a>
+              <a class="btn ghost" href="#how">View workflow</a>
+            </div>
+
+            <p class="small">
+              Note: This is an assisted tool. Users remain responsible for accuracy and compliance with each portal’s Terms.
+            </p>
+          </div>
+        </section>
+
+        <aside class="side" aria-label="Demo highlights">
+          <div class="mini-title">
+            <h2>Demo Highlights</h2>
+            <span class="tag">IN PROGRESS</span>
+          </div>
+
+          <div class="statgrid">
+            <div class="stat">
+              <div class="num">10+</div>
+              <div class="lbl">Free applications / month</div>
+            </div>
+            <div class="stat">
+              <div class="num">1–3 min</div>
+              <div class="lbl">Typical apply time</div>
+            </div>
+            <div class="stat">
+              <div class="num">Basic</div>
+              <div class="lbl">ATS keyword score</div>
+            </div>
+            <div class="stat">
+              <div class="num">Portal</div>
+              <div class="lbl">Naukri + LinkedIn</div>
+            </div>
+          </div>
+
+          <p class="small">
+            Built for fast iteration: handler reliability, form coverage, retries, and rate limiting.
+            Next milestone: batch apply + analytics dashboard.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn ghost" href="#faq">Read FAQ</a>
+            <a class="btn primary" href="#pricing">Choose plan</a>
+          </div>
+        </aside>
+      </div>
+
+      <!-- FEATURES -->
+      <section class="section" id="features">
+        <h3>What it does</h3>
+        <div class="grid3">
+          <div class="feature">
+            <div class="t">Multi-portal assisted apply</div>
+            <div class="d">Naukri + LinkedIn flows with consistent data mapping, retries, and safe pacing.</div>
+          </div>
+          <div class="feature">
+            <div class="t">ATS keyword scoring</div>
+            <div class="d">Extracts skills/keywords from JD and scores CV alignment to guide edits.</div>
+          </div>
+          <div class="feature">
+            <div class="t">Tracking + notifications</div>
+            <div class="d">Centralized application log; WhatsApp alerts available on paid plans.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+      <section class="section" id="pricing">
+        <h3>Plans</h3>
+        <div class="pricing">
+          <div class="plan">
+            <div class="pname">Free</div>
+            <div class="price">₹0 <span class="per">/ month</span></div>
+            <ul class="ul">
+              <li><strong>10</strong> applications / month</li>
+              <li>Naukri + LinkedIn</li>
+              <li>Basic ATS scoring</li>
+            </ul>
+            <div class="actions">
+              <a class="btn primary" href="#get-started">Get Started</a>
+              <a class="btn ghost" href="#faq">Questions?</a>
+            </div>
+          </div>
+
+          <div class="plan popular">
+            <div class="badge-pop">Most Popular</div>
+            <div class="pname">Starter</div>
+            <div class="price">₹299 <span class="per">/ month</span></div>
+            <ul class="ul">
+              <li><strong>50</strong> applications / month</li>
+              <li>All job portals</li>
+              <li>WhatsApp notifications</li>
+              <li>Priority support</li>
+            </ul>
+            <div class="actions">
+              <a class="btn primary" href="#get-started">Start Now</a>
+              <a class="btn ghost" href="#how">See how it works</a>
+            </div>
+          </div>
+
+          <div class="plan">
+            <div class="pname">Pro</div>
+            <div class="price">₹699 <span class="per">/ month</span></div>
+            <ul class="ul">
+              <li><strong>200</strong> applications / month</li>
+              <li>Batch apply (20+ jobs)</li>
+              <li>Analytics dashboard</li>
+              <li>VIP support</li>
+            </ul>
+            <div class="actions">
+              <a class="btn primary" href="#get-started">Go Pro</a>
+              <a class="btn ghost" href="#faq">FAQ</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="section" id="how">
+        <h3>How it works</h3>
+        <div class="grid3">
+          <div class="feature">
+            <div class="t">1) Connect portals</div>
+            <div class="d">Log in to Naukri/LinkedIn in your browser. The extension reads the job form in real time.</div>
+          </div>
+          <div class="feature">
+            <div class="t">2) Review & confirm</div>
+            <div class="d">The agent fills fields, proposes answers, and highlights missing/low-confidence items.</div>
+          </div>
+          <div class="feature">
+            <div class="t">3) Track outcomes</div>
+            <div class="d">All applications are logged with timestamps, company, role, and ATS score for iteration.</div>
+          </div>
+        </div>
+        <p class="small">
+          Engineering note: handlers should sanitize regex skills (e.g., <span class="mono">C++</span>) and preserve line breaks in descriptions.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <h3>FAQ</h3>
+
+        <details>
+          <summary>Is this fully automated submission?</summary>
+          <p>
+            It is an assisted application tool. You review key fields and remain responsible for the content you submit.
+          </p>
+        </details>
+
+        <details>
+          <summary>Will portals block my account?</summary>
+          <p>
+            Risk depends on portal policies and usage patterns. The product should enforce pacing, retries, and avoid aggressive automation.
+          </p>
+        </details>
+
+        <details>
+          <summary>What does “Basic ATS scoring” mean?</summary>
+          <p>
+            A lightweight keyword/skills match score between the JD text and your CV/profile content. It is not a guarantee of selection.
+          </p>
+        </details>
+
+        <details>
+          <summary>Does WhatsApp notification work on Free plan?</summary>
+          <p>
+            No. WhatsApp notifications are offered on paid plans due to messaging infrastructure costs.
+          </p>
+        </details>
+      </section>
+
+      <footer>
+        © <span id="year"></span> India Job Agent · Assisted job applications. <span class="mono">junho.uk</span>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
