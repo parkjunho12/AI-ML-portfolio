@@ -36,26 +36,14 @@
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .thumb{
-      height:210px;
-      background:
-        linear-gradient(180deg, rgba(240,199,122,0.18), transparent 60%),
-        linear-gradient(120deg, rgba(183,101,59,0.12), transparent 55%),
-        radial-gradient(900px 280px at 50% 30%, rgba(99,102,241,0.16), transparent 60%),
-        linear-gradient(0deg, rgba(15,21,34,0.95), rgba(15,21,34,0.95));
-      position:relative;
-    }
-    .thumb::after{
-      content:"";
-      position:absolute; inset:0;
-      background-image:
-        radial-gradient(circle at 20% 60%, rgba(255,255,255,0.12) 1px, transparent 1px),
-        radial-gradient(circle at 50% 70%, rgba(255,255,255,0.08) 1px, transparent 1px),
-        radial-gradient(circle at 85% 55%, rgba(255,255,255,0.10) 1px, transparent 1px);
-      background-size: 18px 18px, 22px 22px, 26px 26px;
-      opacity:0.45;
-      mix-blend-mode: screen;
-    }
+    .thumb {
+        width: 100%;
+        aspect-ratio: 16 / 9;        /* 핵심 */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-bottom: 1px solid var(--line);
+      }
     .body{padding:18px}
     .kicker{
       font-size:12px;
