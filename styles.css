@@ -723,6 +723,27 @@ section {
     color: var(--accent-cyan);
     transition: all 0.3s ease;
 }
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* cover | contain 선택 */
+    border-radius: 8px;
+  }
+.project-img-semg {
+    background-image: url("./images/project_snn_tcn_thumb.png");
+  }
+  .project-img-rag {
+    background-image: url("./images/project_rag_thumb.png");
+  }
+  .project-img-robotics {
+    background-image: url("./images/project_robotics_thumb.png");
+  }
+  .project-img-job-agent {
+    background-image: url("./images/project_job_agent.png");
+  }
+  .project-img-worldmodel {
+    background-image: url("./images/world_thumb.jpg");
+  }
 
 .project-card:hover .project-image-placeholder {
     border-color: var(--accent-cyan);
