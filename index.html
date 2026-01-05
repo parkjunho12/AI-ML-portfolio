@@ -1,1106 +1,602 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>
-      Junho Park — Cybersecurity & AI · Neuromorphic · Robotics · Applied ML
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Junho Park portfolio — MSc Cybersecurity & AI (Merit). Research Engineer (Neuromorphic/Robotics), Applied ML (Temporal Modelling / Efficient ML), and Robotics + ML roles"
-    />
-    <meta name="color-scheme" content="light" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Inter for body, Fraunces for titles (serif warmth without heaviness) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
-      rel="stylesheet"
-    />
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junho Park — Robotics · Applied AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Matrix-style background effect -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-bracket">[</span>
+                <span class="logo-text">AI_ENGINEER</span>
+                <span class="logo-bracket">]</span>
+                <span class="cursor-blink">_</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">home</a>
+                <a href="#blog" class="nav-link">blog</a>
+                <a href="#projects" class="nav-link">projects</a>
+                <a href="#about" class="nav-link">about</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="theme-icon">◐</span>
+                </button>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-    <style>
-      /* ===== Design tokens (autumn, legible) ===== */
-      :root {
-        --bg: #faf7f1; /* warm paper */
-        --ink: #2c2a27; /* walnut */
-        --muted: #6e675f; /* warm grey */
-        --line: #e8e0d8; /* linen line */
-        --leaf: #647a62; /* moss */
-        --rust: #b5653f; /* rust accent */
-        --amber: #cda264; /* amber accent */
-        --card: #fffdf8; /* warm card */
-        --grain: radial-gradient(
-            1200px 600px at 10% -10%,
-            rgba(205, 162, 100, 0.08),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 500px at 110% 0%,
-            rgba(182, 101, 64, 0.06),
-            transparent 55%
-          );
-        --shadow-1: 0 8px 22px rgba(82, 66, 50, 0.08);
-        --shadow-2: 0 18px 40px rgba(82, 66, 50, 0.14);
-        --r: 16px;
-        --pad: 28px;
-        --max: 1060px;
-        --focus: 2px solid rgba(181, 101, 63, 0.45);
-      }
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-glitch-wrapper">
+                <h1 class="hero-title glitch" data-text="Junho Park">
+                    Junho Park
+                </h1>
+            </div>
+            <p class="hero-subtitle">
+                <span class="typing-text">Building intelligent systems that matter</span>
+                <span class="cursor">|</span>
+            </p>
+            <div class="hero-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Deep Learning</span>
+                <span class="tag">MLOps</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Computer Vision</span>
+            </div>
+            <div class="hero-cta">
+                <a href="#blog" class="btn btn-primary">
+                    <span>Explore Blog</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#projects" class="btn btn-secondary">
+                    <span>View Projects</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="neural-network">
+                <svg viewBox="0 0 400 400" class="network-svg">
+                    <!-- Neural network visualization -->
+                    <g class="nodes">
+                        <!-- Input layer -->
+                        <circle cx="50" cy="100" r="8" class="node node-input" />
+                        <circle cx="50" cy="160" r="8" class="node node-input" />
+                        <circle cx="50" cy="220" r="8" class="node node-input" />
+                        <circle cx="50" cy="280" r="8" class="node node-input" />
+                        
+                        <!-- Hidden layer 1 -->
+                        <circle cx="150" cy="80" r="8" class="node node-hidden" />
+                        <circle cx="150" cy="140" r="8" class="node node-hidden" />
+                        <circle cx="150" cy="200" r="8" class="node node-hidden" />
+                        <circle cx="150" cy="260" r="8" class="node node-hidden" />
+                        <circle cx="150" cy="320" r="8" class="node node-hidden" />
+                        
+                        <!-- Hidden layer 2 -->
+                        <circle cx="250" cy="100" r="8" class="node node-hidden" />
+                        <circle cx="250" cy="160" r="8" class="node node-hidden" />
+                        <circle cx="250" cy="220" r="8" class="node node-hidden" />
+                        <circle cx="250" cy="280" r="8" class="node node-hidden" />
+                        
+                        <!-- Output layer -->
+                        <circle cx="350" cy="160" r="8" class="node node-output" />
+                        <circle cx="350" cy="220" r="8" class="node node-output" />
+                    </g>
+                    <g class="connections">
+                        <!-- Connections will be drawn by JavaScript -->
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </section>
 
-      /* ===== Base ===== */
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
-          Helvetica, Arial, sans-serif;
-      }
-      body {
-        background-image: var(--grain);
-      }
-      img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-      }
-      a {
-        color: var(--rust);
-        text-decoration: none;
-      }
-      a:focus-visible {
-        outline: var(--focus);
-        outline-offset: 3px;
-        border-radius: 8px;
-      }
-      code,
-      kbd {
-        font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
-        font-size: 0.95em;
-      }
-
-      /* ===== Helpers ===== */
-      .wrap {
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: var(--pad);
-      }
-      .sr {
-        position: absolute;
-        left: -9999px;
-        top: auto;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
-
-      /* ===== Header/App bar ===== */
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 253, 248, 0.9),
-          rgba(255, 253, 248, 0.65) 60%,
-          transparent
-        );
-        backdrop-filter: blur(4px) saturate(120%);
-        border-bottom: 1px solid var(--line);
-      }
-      .bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        height: 64px;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .mark {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        display: grid;
-        place-items: center;
-        background: linear-gradient(135deg, #f1e7da, #eadfce);
-        border: 1px solid var(--line);
-        color: #6a5b4d;
-        font-weight: 800;
-        box-shadow: var(--shadow-1);
-      }
-      nav {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: #fffdf9;
-        color: var(--muted);
-        font-weight: 700;
-        font-size: 14px;
-      }
-      .pill:hover {
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-1);
-      }
-
-      /* ===== Section header ornaments ===== */
-      .section-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 10px;
-        font: 700 22px/1.25 Inter, system-ui;
-        letter-spacing: 0.01em;
-      }
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%; /* 동그랗게 */
-        object-fit: cover; /* 얼굴 비율 유지 */
-        border: 1px solid var(--line);
-        box-shadow: var(--shadow-1);
-        background: #f1e7da; /* 이미지 없을 때 배경 */
-      }
-      .section-title svg {
-        flex: 0 0 auto;
-      }
-      .sub {
-        color: var(--muted);
-        margin: -4px 0 14px;
-        font-size: 14px;
-      }
-
-      /* ===== Hero ===== */
-      .hero {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 18px;
-        margin: 18px 0;
-      }
-      .card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: var(--r);
-        box-shadow: var(--shadow-1);
-        padding: 18px;
-      }
-      .title {
-        /* Readable title */
-        font-family: "Fraunces", Georgia, serif;
-        font-size: 30px;
-        line-height: 1.28;
-        letter-spacing: -0.005em;
-        margin: 0 0 8px;
-        color: #2c2a27;
-      }
-      .lead {
-        font-size: 16px;
-        line-height: 1.75;
-        color: var(--muted);
-        margin: 6px 0 12px;
-      }
-      .cta {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .btn {
-        padding: 10px 14px;
-        border-radius: 12px;
-        border: 1px solid var(--line);
-        background: #fffdf9;
-        color: #2c2a27;
-        font-weight: 800;
-      }
-      .btn:hover {
-        box-shadow: var(--shadow-2);
-        transform: translateY(-2px);
-      }
-      .btn.primary {
-        background: var(--rust);
-        border-color: transparent;
-        color: #fff;
-      }
-
-      /* ===== Focus panel (compact grid) ===== */
-      .focus-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px;
-      }
-      .q {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-      .q a {
-        padding: 6px 10px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: #fffdf9;
-        color: #3a3835;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .focus-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-      .box {
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px;
-        background: #fffdf9;
-      }
-      .box h3 {
-        font: 700 14px/1.2 Inter;
-        color: var(--leaf);
-        margin: 0 0 6px;
-      }
-      .box ul {
-        margin: 0;
-        padding-left: 16px;
-      }
-      .box li {
-        margin: 4px 0;
-        color: #46413a;
-        font-size: 14px;
-      }
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 6px;
-      }
-      .chip {
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px dashed #ddccb9;
-        background: #f7efe4;
-        font-weight: 800;
-        font-size: 12px;
-      }
-      .note {
-        font-size: 13px;
-        color: var(--muted);
-        margin-top: 8px;
-      }
-
-      /* ===== Projects ===== */
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-      .case {
-        background: #fffdf9;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: var(--shadow-1);
-        transition: transform 0.18s ease, box-shadow 0.18s ease,
-          border-color 0.18s ease;
-      }
-      .case:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-2);
-        border-color: #e1d6c9;
-      }
-      .thumb {
-        width: 100%;
-        aspect-ratio: 16 / 9;        /* 핵심 */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        border-bottom: 1px solid var(--line);
-      }
-      .body {
-        padding: 12px;
-      }
-      .kicker {
-        font-variant-caps: all-small-caps;
-        letter-spacing: 0.08em;
-        color: var(--leaf);
-        font-weight: 800;
-        font-size: 12px;
-      }
-      .body h3 {
-        margin: 6px 0 6px;
-        font: 700 17px/1.3 Inter;
-      }
-      .desc {
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.6;
-      }
-      .badges {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        margin-top: 6px;
-      }
-      .badge {
-        padding: 4px 8px;
-        border-radius: 999px;
-        border: 1px dashed #ddccb9;
-        background: #f7efe4;
-        font-size: 12px;
-      }
-      .actions {
-        margin-top: 8px;
-      }
-      .actions a {
-        font-weight: 800;
-      }
-
-      /* ===== Experience & Stats ===== */
-      .tiles {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-      .tile {
-        background: #fffdf9;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px;
-        box-shadow: var(--shadow-1);
-      }
-      .metric {
-        font: 800 26px/1 Inter;
-        background: linear-gradient(
-          90deg,
-          var(--leaf),
-          var(--amber),
-          var(--rust)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        margin-bottom: 4px;
-      }
-      .muted {
-        color: var(--muted);
-      }
-
-      /* ===== Skills ===== */
-      .skills {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-      .skill {
-        background: #fffdf9;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px;
-        box-shadow: var(--shadow-1);
-      }
-      .skill strong {
-        display: block;
-        margin-bottom: 6px;
-      }
-      .stack {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .stack span {
-        padding: 6px 10px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: #fffdf9;
-        font-size: 12px;
-      }
-
-      /* ===== Contact ===== */
-      .contact {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 12px;
-      }
-      footer {
-        margin: 28px 0 40px;
-        text-align: center;
-        color: var(--muted);
-      }
-      .to-top {
-        position: fixed;
-        right: 16px;
-        bottom: 16px;
-        padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        background: #fffdf9;
-        box-shadow: var(--shadow-1);
-        cursor: pointer;
-      }
-      .project-img-semg {
-        background-image: url("./images/project_snn_tcn_thumb.png");
-      }
-      .project-img-rag {
-        background-image: url("./images/project_rag_thumb.png");
-      }
-      .project-img-robotics {
-        background-image: url("./images/project_robotics_thumb.png");
-      }
-      .project-img-job-agent {
-        background-image: url("./images/project_job_agent.png");
-      }
-      .project-img-worldmodel {
-        background-image: url("./images/world_thumb.jpg");
-      }
-      #experience {
-        margin-top: clamp(32px, 6vw, 20px);
-      }
-      #skills {
-        margin-top: clamp(32px, 6vw, 20px);
-      }
-      #contact {
-        margin-top: clamp(32px, 6vw, 20px);
-      }
-      #contact {
-        margin-top: clamp(32px, 6vw, 20px);
-      }
-      #projects {
-        margin-top: clamp(32px, 6vw, 20px);
-      }
+    <!-- Blog Section -->
+    <section id="blog" class="blog-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">01.</span>
+                    Latest Posts
+                </h2>
+                <div class="section-line"></div>
+            </div>
             
-      /* ===== Motion (polite) ===== */
-      @media (prefers-reduced-motion: no-preference) {
-        .reveal {
-          opacity: 0;
-          transform: translateY(10px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .reveal.on {
-          opacity: 1;
-          transform: none;
-        }
-        .case:hover .thumb {
-          transition: filter 0.25s ease;
-          filter: saturate(1.05);
-        }
-      }
+            <div class="blog-grid">
+                <!-- Blog Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">Deep Learning</span>
+                        <span class="blog-date">2025.01.05</span>
+                    </div>
+                    <h3 class="blog-title">Scaling Transformers: A Practical Guide</h3>
+                    <p class="blog-excerpt">
+                        This article explores methods and optimization techniques for efficiently scaling Transformer models in production environments.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">PyTorch</span>
+                        <span class="mini-tag">Optimization</span>
+                        <span class="mini-tag">Distributed</span>
+                    </div>
+                    <a href="./blogs/blog-post-1.html" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
 
-      /* ===== Responsive ===== */
-      @media (max-width: 1000px) {
-        .hero {
-          grid-template-columns: 1fr;
-        }
-        .grid,
-        .tiles,
-        .skills,
-        .contact {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-      @media (max-width: 640px) {
-        .grid,
-        .tiles,
-        .skills,
-        .contact {
-          grid-template-columns: 1fr;
-        }
-        .title {
-          font-size: 26px;
-          line-height: 1.35;
-        }
-      }
-      .link-buttons {
-        display: flex;
-        gap: 8px;
-        margin-top: 8px;
-        align-items: center;
-    }
-    
-    .btn-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 14px;
-        border-radius: 999px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-decoration: none;
-        border: 1px solid transparent;
-        cursor: pointer;
-        transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s;
-    }
-    
-    .btn-link.primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
-    }
-    
-    .btn-link.secondary {
-        background: #f5f5ff;
-        color: #4a4a8a;
-        border-color: #d0d0ff;
-    }
-    
-    .btn-link:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
-    }
-    
-    .btn-link:active {
-        transform: translateY(0);
-        box-shadow: none;
-    }
-    
-    /* aria-disabled 스타일링 */
-    .btn-link[aria-disabled="true"] {
-        opacity: 0.6;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-    .magic-btn {
-        display: inline-block;
-        padding: 10px 18px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #cda264 0%, #cda264 100%);
-        color: white;
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-        transition: 0.2s;
-    }
-    
-    .magic-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-    }
-    
-    .magic-btn.secondary {
-        background: white;
-        color: #444;
-        border: 2px solid #cda264;
-    }
-    
-    .magic-btn.secondary:hover {
-        background: #f5f5ff;
-    }
-  
-    </style>
-  </head>
-  <body>
-    <a class="sr" href="#main">Skip to content</a>
+                <!-- Blog Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">MLOps</span>
+                        <span class="blog-date">2025.01.02</span>
+                    </div>
+                    <h3 class="blog-title">Building Robust ML Pipelines with Kubeflow</h3>
+                    <p class="blog-excerpt">
+                        A practical guide to building stable and scalable machine learning pipelines in Kubernetes-based infrastructures.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">Kubernetes</span>
+                        <span class="mini-tag">CI/CD</span>
+                        <span class="mini-tag">Pipeline</span>
+                    </div>
+                    <a href="./blogs/blog-post-2.html" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
 
-    <!-- Header -->
-    <header>
-      <div class="wrap bar" role="navigation" aria-label="Top">
-        <div class="brand">
-          <img
-            src="./files/junho_profile.jpg"
-            alt="Portrait of Junho Park"
-            class="avatar"
-          />
-          <div>
-            <strong>Junho Park</strong><br />
-            <span style="color: var(--muted); font-size: 13px"
-              >MSc Cybersecurity &amp; AI (Merit) · Sheffield, UK</span
-            >
-          </div>
+                <!-- Blog Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">Computer Vision</span>
+                        <span class="blog-date">2024.12.28</span>
+                    </div>
+                    <h3 class="blog-title">Real-time Object Detection at the Edge</h3>
+                    <p class="blog-excerpt">
+                        An in-depth introduction to model compression and optimization strategies for real-time object detection on edge devices.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">YOLO</span>
+                        <span class="mini-tag">TensorRT</span>
+                        <span class="mini-tag">Edge AI</span>
+                    </div>
+                    <a href="#" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
+
+                <!-- Blog Post 4 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">NLP</span>
+                        <span class="blog-date">2024.12.20</span>
+                    </div>
+                    <h3 class="blog-title">Fine-tuning LLMs: Best Practices</h3>
+                    <p class="blog-excerpt">
+                        A comprehensive overview of effective methodologies and key considerations for fine-tuning large language models for specific domains.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">LLM</span>
+                        <span class="mini-tag">Fine-tuning</span>
+                        <span class="mini-tag">PEFT</span>
+                    </div>
+                    <a href="#" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
+
+                <!-- Blog Post 5 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">Research</span>
+                        <span class="blog-date">2024.12.15</span>
+                    </div>
+                    <h3 class="blog-title">Understanding Diffusion Models</h3>
+                    <p class="blog-excerpt">
+                        A deep dive into the mathematical foundations and practical implementations of Diffusion Models, a core technology behind modern generative AI.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">Generative AI</span>
+                        <span class="mini-tag">Diffusion</span>
+                        <span class="mini-tag">Theory</span>
+                    </div>
+                    <a href="#" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
+
+                <!-- Blog Post 6 -->
+                <article class="blog-card">
+                    <div class="blog-card-header">
+                        <span class="blog-category">Tools</span>
+                        <span class="blog-date">2024.12.10</span>
+                    </div>
+                    <h3 class="blog-title">My AI Development Toolkit 2024</h3>
+                    <p class="blog-excerpt">
+                        A curated overview of essential tools and development environment setups that AI engineers rely on in their daily workflows.
+                    </p>
+                    <div class="blog-tags">
+                        <span class="mini-tag">Tools</span>
+                        <span class="mini-tag">Productivity</span>
+                        <span class="mini-tag">DevOps</span>
+                    </div>
+                    <a href="#" class="blog-link">
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <div class="blog-card-glow"></div>
+                </article>
+            </div>
         </div>
-        <nav aria-label="Primary">
-          <a class="pill" href="#focus">Focus</a>
-          <a class="pill" href="#projects">Projects</a>
-          <a class="pill" href="#experience">Experience</a>
-          <a class="pill" href="#skills">Skills</a>
-          <a class="pill" href="#contact">Contact</a>
-        </nav>
-      </div>
-    </header>
+    </section>
 
-    <main id="main" class="wrap" role="main">
-      <!-- Hero -->
-      <section class="hero">
-        <div class="card reveal" aria-labelledby="hero-title">
-          <h1 id="hero-title" class="title">
-            Designing Efficient Temporal AI Systems for the Real World
-          </h1>
-          <p class="lead">
-            I build <strong>efficient temporal AI systems</strong> that operate reliably over time and under real-world constraints.
-            My work focuses on temporal modelling, system stability, and deployment-aware machine learning across neuromorphic AI, robotics, and reliable AI services.
-            The goal: ship AI that meets real-world constraints—<em>latency budgets, feedback loops, distribution shift, and long-horizon operation</em>.
-          </p>
-          <div class="cta" role="group" aria-label="Primary actions">
-            <a class="btn primary" href="https://drive.google.com/file/d/1uI3S-Qb-PFpP4viIBPI5cjgmgU8vy8Ej/view?usp=sharing" download
-              >Download CV (PDF)</a
-            >
-            <a
-              class="btn"
-              href="https://drive.google.com/file/d/164MTYtXNQOky4IfI2UyKhjruSG8BHUV6/view?usp=sharing"
-              download
-              >Dissertation (PDF)</a
-            >
-            <a
-              class="btn"
-              href="./dissertation/background.html"
-              target="_blank"
-              rel="noreferrer"
-              >View dissertation slides</a
-            >
-            <a
-              class="btn"
-              href="https://github.com/parkjunho12"
-              target="_blank"
-              rel="noreferrer"
-              >GitHub</a
-            >
-            <a
-              class="btn"
-              href="https://www.linkedin.com/in/junho-park-881222164/"
-              target="_blank"
-              rel="noreferrer"
-              >LinkedIn</a
-            >
-          </div>
-        </div>
-
-        <!-- Focus (compact and full) -->
-        <aside
-          id="focus"
-          class="card reveal"
-          aria-labelledby="focus-title"
-          style="padding: 14px"
-        >
-          <div class="focus-head">
-            <h2 id="focus-title" class="section-title">
-              <!-- Small ornament -->
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="#647a62"
-                  d="M12 2a1 1 0 0 1 .9.55l2.13 4.31 4.76.69a1 1 0 0 1 .55 1.7l-3.45 3.37.81 4.73a1 1 0 0 1-1.45 1.05L12 17.77l-4.25 2.23a1 1 0 0 1-1.45-1.05l.81-4.73L3.66 9.25a1 1 0 0 1 .55-1.7l4.76-.69L11.1 2.55A1 1 0 0 1 12 2Z"
-                />
-              </svg>
-              Focus
-            </h2>
-            <div class="q">
-              <a href="#projects">See projects</a>
-              <a href="#experience">Outcomes</a>
-              <a href="#contact">Get in touch</a>
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">02.</span>
+                    Featured Projects
+                </h2>
+                <div class="section-line"></div>
             </div>
-          </div>
 
-          <div class="focus-grid">
-            <div class="box">
-              <h3>Objectives</h3>
-              <ul>
-                <li>Design temporal models that remain stable beyond short horizons</li>
-                <li>Build AI systems that meet latency, memory, and energy constraints</li>
-                <li>Translate research ideas into measurable, reproducible systems</li>
-              </ul>
-            </div>
-            <div class="box">
-              <h3>Core Problems</h3>
-              <ul>
-                <li>Long-horizon degradation in temporal prediction</li>
-                <li>Feedback-induced instability in closed-loop systems</li>
-                <li>Energy–accuracy trade-offs at scale</li>
-              </ul>
-            </div>
-            <div class="box">
-              <h3>What I Bring</h3>
-              <ul>
-                <li>TCN–SNN research & metrics (spikes/MACs)</li>
-                <li>ROS2, Simulator, <code>/cmd_vel</code> pipelines</li>
-                <li>Deployment tooling: FastAPI services, Docker, CI/CD</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="chips" aria-label="Key focus metrics">
-            <span class="chip">−42% spike activity vs baseline</span>
-            <span class="chip">&lt; 2 s edge inference</span>
-            <span class="chip">+6.8 pp accuracy (hybrid)</span>
-          </div>
-          <p class="note">
-            Target roles: Research Engineer (Neuromorphic/Robotics), Applied ML (Temporal Modelling / Efficient ML), Robotics + ML.
-          </p>
-        </aside>
-      </section>
-
-      <!-- Projects -->
-      <section id="projects" class="reveal" aria-labelledby="projects-title">
-        <h2 id="projects-title" class="section-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#b5653f" d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z" />
-          </svg>
-          Selected Projects
-        </h2>
-        <p class="sub">
-          Case studies with metrics, evaluation, and deployment notes.
-        </p>
-
-        <div class="grid" role="list">
-          <article class="case" role="listitem" aria-labelledby="p3">
-            <div
-              class="thumb project-img-semg"
-              role="img"
-              aria-label="Hybrid TCN–SNN abstraction"
-            ></div>
-            <div class="body">
-              <div class="kicker">Research · Spiking Neural Networks</div>
-              <h3 id="p3">TCN–SNN for sEMG Gesture</h3>
-              <p class="desc">
-                Spiking-based temporal models for sEMG-driven neuroprosthetic control.
-                Focus on energy-aware evaluation (spike activity / MACs) and robustness under streaming inference.
-              </p>
-              <div class="badges">
-                <span class="badge">PyTorch</span
-                ><span class="badge">snnTorch</span>
-                <span class="badge">sEMG</span>
-              </div>
-              <div class="link-buttons">
-                <a href="https://github.com/parkjunho12/snn-controller-neuroprosthetic" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  class="magic-btn">
-                  ⭐ Repo
-                </a>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-number">01</div>
+                    <div class="project-content">
+                        <h3 class="project-title">TCN–SNN for sEMG Gesture</h3>
+                        <p class="project-description">
+                            Spiking-based temporal models for sEMG-driven neuroprosthetic control.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">PyTorch</span>
+                            <span class="tech-badge">snnTorch</span>
+                            <span class="tech-badge">sEMG</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/parkjunho12/snn-controller-neuroprosthetic" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.165 20 14.418 20 10c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                        <div class="project-links">
+                            <a href="./dissertation/background.html" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M18 2H2C0.9 2 0 2.9 0 4V16C0 17.1 0.9 18 2 18H18C19.1 18 20 17.1 20 16V4C20 2.9 19.1 2 18 2ZM18 16H2V8H18V16Z" fill="currentColor"/>
+                                </svg>
+                                Presentation Slides
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-visual">
+                        <div class="project-image-placeholder">
+                            <svg viewBox="0 0 200 200" fill="none">
+                                <rect x="20" y="20" width="160" height="160" rx="8" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="100" cy="70" r="20" fill="currentColor" opacity="0.3"/>
+                                <path d="M40 140L80 100L120 120L160 80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-              
-            </div>
-          </article>
 
-          <article class="case" role="listitem" aria-labelledby="p1">
-            <div
-              class="thumb project-img-robotics"
-              role="img"
-              aria-label="Abstract neuromorphic control"
-            ></div>
-            <div class="body">
-              <div class="kicker">Neuromorphic Robotics · Edge Control</div>
-              <h3 id="p1">Spike-based Navigation for Mobile Robots</h3>
-              <p class="desc">
-                Production-ready template for neuromorphic edge robotics (ROS2 + snnTorch + FastAPI + Docker).
-                Emphasis on latency, spike/energy metrics, and simulation-first deployment workflows (Matlab-based mock hardware and ROS2 simulators).
-              </p>
-              <div class="badges">
-                <span class="badge">ROS2</span
-                ><span class="badge">snnTorch</span
-                ><span class="badge">Matlab</span>
-              </div>
-              <div class="link-buttons">
-                <a href="https://github.com/parkjunho12/edge-snn-robot-template" 
-                  aria-disabled="true" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  class="magic-btn">
-                  ⭐ Repo
-                </a>
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-number">02</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Spike-based Navigation for Mobile Robots</h3>
+                        <p class="project-description">
+                            Production-ready template for neuromorphic edge robotics (ROS2 + snnTorch + FastAPI + Docker).
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">ROS2</span>
+                            <span class="tech-badge">snnTorch</span>
+                            <span class="tech-badge">Matlab</span>
+                            <span class="tech-badge">Docker</span>
+                            <span class="tech-badge">FastAPI</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/parkjunho12/edge-snn-robot-template"  class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.165 20 14.418 20 10c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+                                </svg>
+                                GitHub
+                            </a>
+                            <a href="https://junho.uk/sEMG/emgstream.html" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 0L12.9 6.3L20 7.3L15 12.1L16.2 19.1L10 15.9L3.8 19.1L5 12.1L0 7.3L7.1 6.3L10 0Z" fill="currentColor"/>
+                                </svg>
+                                📡 Live EMG Dashboard
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-visual">
+                        <div class="project-image-placeholder">
+                            <svg viewBox="0 0 200 200" fill="none">
+                                <circle cx="60" cy="100" r="30" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                                <circle cx="100" cy="100" r="30" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+                                <circle cx="140" cy="100" r="30" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                                <circle cx="100" cy="100" r="10" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-              <div class="link-buttons">
-                <a href="https://junho.uk/sEMG/emgstream.html"
-                  target="_blank"
-                  rel="noreferrer"
-                  class="magic-btn">
-                  📡 Live EMG Dashboard
-                </a>
-              </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-number">03</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Efficient Spatiotemporal World Model</h3>
+                        <p class="project-description">
+                            In-progress latency-aware world model for long-horizon prediction in autonomous systems.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">World Model</span>
+                            <span class="tech-badge">Temporal Modeling</span>
+                            <span class="tech-badge">Efficiency</span>
+                            <span class="tech-badge">MLflow</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/parkjunho12/efficient-world-models" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.165 20 14.418 20 10c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-visual">
+                        <div class="project-image-placeholder">
+                            <svg viewBox="0 0 200 200" fill="none">
+                                <rect x="30" y="80" width="20" height="80" fill="currentColor" opacity="0.3"/>
+                                <rect x="60" y="60" width="20" height="100" fill="currentColor" opacity="0.5"/>
+                                <rect x="90" y="40" width="20" height="120" fill="currentColor" opacity="0.7"/>
+                                <rect x="120" y="70" width="20" height="90" fill="currentColor" opacity="0.5"/>
+                                <rect x="150" y="50" width="20" height="110" fill="currentColor" opacity="0.6"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-number">04</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Job Agent</h3>
+                        <p class="project-description">
+                            Browser-extension–driven job application assistant.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Chrome Extension</span>
+                            <span class="tech-badge">LLM</span>
+                            <span class="tech-badge">Analytics</span>
+                            <span class="tech-badge">ATS Scoring</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://junho.uk/jobagent/demo/index.html" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 0L12.9 6.3L20 7.3L15 12.1L16.2 19.1L10 15.9L3.8 19.1L5 12.1L0 7.3L7.1 6.3L10 0Z" fill="currentColor"/>
+                                </svg>
+                                🎥 Demo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-visual">
+                        <div class="project-image-placeholder">
+                            <svg viewBox="0 0 200 200" fill="none">
+                                <rect x="30" y="80" width="20" height="80" fill="currentColor" opacity="0.3"/>
+                                <rect x="60" y="60" width="20" height="100" fill="currentColor" opacity="0.5"/>
+                                <rect x="90" y="40" width="20" height="120" fill="currentColor" opacity="0.7"/>
+                                <rect x="120" y="70" width="20" height="90" fill="currentColor" opacity="0.5"/>
+                                <rect x="150" y="50" width="20" height="110" fill="currentColor" opacity="0.6"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </article>
-
-          <article class="case" role="listitem" aria-labelledby="p2">
-            <div
-              class="thumb project-img-worldmodel"
-              role="img"
-              aria-label="Efficient spatiotemporal world model abstract"
-            ></div>
-            <div class="body">
-              <div class="kicker">Applied ML · World Modelling (In progress)</div>
-              <h3 id="p2">Efficient Spatiotemporal World Model</h3>
-              <p class="desc">
-                In-progress latency-aware world model for long-horizon prediction in autonomous systems.
-                Focus on temporal dynamics, efficiency trade-offs, and stable rollout under resource constraints.
-                Current stage: baseline implementation + rollout stability metrics + benchmarking scaffold.
-              </p>              
-              <div class="badges">
-                <span class="badge">World Model</span><span class="badge">Temporal Modeling</span
-                ><span class="badge">Efficiency</span>
-              </div>
-              <div class="link-buttons">
-                <a href="https://github.com/parkjunho12/efficient-world-models"
-                  target="_blank"
-                  rel="noreferrer"
-                class="magic-btn">⭐ Repo</a>
-              </div>
-            </div>
-          </article>
-          <!-- 🇮🇳 India Job Agent (case card) -->
-          <article class="case" role="listitem" aria-labelledby="p2">
-            <div
-              class="thumb project-img-job-agent"
-              role="img"
-              aria-label="Applied Job Application Automation"
-            ></div>
-
-            <div class="body">
-              <div class="kicker">Applied Automation · Job Search Manage</div>
-
-              <h3 id="p2">Job Agent</h3>
-
-              <p class="desc">
-                Browser-extension–driven job application assistant (Naukri + LinkedIn).
-                Automates form filling and tracking, provides basic ATS keyword scoring. Current focus: robust DOM extraction, portal-safe
-                rate limiting, and reliability under UI changes.
-              </p>
-
-              <div class="badges">
-                <span class="badge">Chrome Extension</span>
-                <span class="badge">LLM</span>
-                <span class="badge">LangChain</span>
-                <span class="badge">ATS Scoring</span>
-                <span class="badge">GraphRAG</span>
-                <span class="badge">Analytics</span>
-              </div>
-
-
-              <div class="link-buttons">
-                <a
-                  href="https://junho.uk/jobagent/demo/index.html"
-                  target="_blank"
-                  rel="noreferrer"
-                  class="magic-btn"
-                >
-                  🎥 Demo / Landing
-                </a>
-              </div>
-            </div>
-          </article>
         </div>
-      </section>
+    </section>
 
-      <!-- Experience & Outcomes -->
-      <section id="experience" class="reveal" aria-labelledby="exp-title">
-        <h2 id="exp-title" class="section-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="#647a62"
-              d="M17 2H7a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2Z"
-            />
-          </svg>
-          Experience & Outcomes
-        </h2>
-        <div class="tiles" aria-label="Key outcomes">
-          <div class="tile">
-            <div class="metric">−30%</div>
-            <div class="muted">Dispatch wait time (autonomous mobility)</div>
-          </div>
-          <div class="tile">
-            <div class="metric">&lt; 2 s</div>
-            <div class="muted">Realtime mapping latency</div>
-          </div>
-          <div class="tile">
-            <div class="metric">+25%</div>
-            <div class="muted">Release cadence (CI/CD)</div>
-          </div>
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">03.</span>
+                    About Me
+                </h2>
+                <div class="section-line">
+                    Junho Park | MSc Cybersecurity & AI (Merit) · Sheffield, UK
+                </div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-intro">
+                        Hello, I’m an <strong>Applied AI Engineer</strong> who enjoys translating AI technologies into practical solutions for real-world challenges.
+                    </p>
+                    <p class="about-description">
+                        I am highly interested in building end-to-end AI systems, from machine learning model development to production deployment.
+                        In particular, I have a strong interest in Deep Learning, Natural Language Processing, and Computer Vision,
+                         and I enjoy solving the practical challenges that arise when applying state-of-the-art research to real-world services.
+                    </p>
+                    
+                    <div class="skills-section">
+                        <h3 class="skills-title">Technical Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>AI/ML</h4>
+                                <ul>
+                                    <li>PyTorch</li>
+                                    <li>TensorFlow</li>
+                                    <li>Scikit-learn</li>
+                                    <li>Hugging Face</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>MLOps</h4>
+                                <ul>
+                                    <li>Docker</li>
+                                    <li>Kubernetes</li>
+                                    <li>MLflow</li>
+                                    <li>Kubeflow</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Backend</h4>
+                                <ul>
+                                    <li>Python</li>
+                                    <li>FastAPI</li>
+                                    <li>PostgreSQL</li>
+                                    <li>Redis</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Cloud</h4>
+                                <ul>
+                                    <li>AWS</li>
+                                    <li>GCP</li>
+                                    <li>Azure</li>
+                                    <li>Terraform</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <h3 class="contact-title">Get in Touch</h3>
+                        <div class="contact-links">
+                            <a href="mailto:ghdlwnsgh25@gmail.com" class="contact-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                ghdlwnsgh25@gmail.com
+                            </a>
+                            <a href="https://github.com/parkjunho12" class="contact-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 0C5.374 0 0 5.373 0 12C0 17.302 3.438 21.8 8.207 23.387C8.806 23.498 9 23.126 9 22.81V20.576C5.662 21.302 4.967 19.16 4.967 19.16C4.421 17.773 3.634 17.404 3.634 17.404C2.545 16.659 3.717 16.675 3.717 16.675C4.922 16.759 5.556 17.912 5.556 17.912C6.626 19.746 8.363 19.216 9.048 18.909C9.155 18.134 9.466 17.604 9.81 17.305C7.145 17 4.343 15.971 4.343 11.374C4.343 10.063 4.812 8.993 5.579 8.153C5.455 7.85 5.044 6.629 5.696 4.977C5.696 4.977 6.704 4.655 8.997 6.207C9.954 5.941 10.98 5.808 12 5.803C13.02 5.808 14.047 5.941 15.006 6.207C17.297 4.655 18.303 4.977 18.303 4.977C18.956 6.63 18.545 7.851 18.421 8.153C19.191 8.993 19.656 10.064 19.656 11.374C19.656 15.983 16.849 16.998 14.177 17.295C14.607 17.667 15 18.397 15 19.517V22.81C15 23.129 15.192 23.504 15.801 23.386C20.566 21.797 24 17.3 24 12C24 5.373 18.627 0 12 0Z" fill="currentColor"/>
+                                </svg>
+                                github.com/parkjunho12
+                            </a>
+                            <a href="https://www.linkedin.com/in/junho-park-881222164" class="contact-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20.447 20.452H16.893V14.883C16.893 13.555 16.866 11.846 15.041 11.846C13.188 11.846 12.905 13.291 12.905 14.785V20.452H9.351V9H12.765V10.561H12.811C13.288 9.661 14.448 8.711 16.181 8.711C19.782 8.711 20.448 11.081 20.448 14.166V20.452H20.447ZM5.337 7.433C4.193 7.433 3.274 6.507 3.274 5.368C3.274 4.23 4.194 3.305 5.337 3.305C6.477 3.305 7.401 4.23 7.401 5.368C7.401 6.507 6.476 7.433 5.337 7.433ZM7.119 20.452H3.555V9H7.119V20.452ZM22.225 0H1.771C0.792 0 0 0.774 0 1.729V22.271C0 23.227 0.792 24 1.771 24H22.222C23.2 24 24 23.227 24 22.271V1.729C24 0.774 23.2 0 22.222 0H22.225Z" fill="currentColor"/>
+                                </svg>
+                                linkedin.com/in/junho-park-881222164
+                            </a>
+                            <a href="https://drive.google.com/file/d/164MTYtXNQOky4IfI2UyKhjruSG8BHUV6/view?usp=sharing" class="contact-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M18 2H2C0.9 2 0 2.9 0 4V16C0 17.1 0.9 18 2 18H18C19.1 18 20 17.1 20 16V4C20 2.9 19.1 2 18 2ZM18 16H2V8H18V16Z" fill="currentColor"/>
+                               
+                                </svg>
+                                Dissertation
+                            </a>
+                            <a href="https://drive.google.com/file/d/1uI3S-Qb-PFpP4viIBPI5cjgmgU8vy8Ej/view?usp=sharing" class="contact-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M18 2H2C0.9 2 0 2.9 0 4V16C0 17.1 0.9 18 2 18H18C19.1 18 20 17.1 20 16V4C20 2.9 19.1 2 18 2ZM18 16H2V8H18V16Z" fill="currentColor"/>
+                               
+                                </svg>
+                                CV
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-visual">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="terminal-button red"></span>
+                                <span class="terminal-button yellow"></span>
+                                <span class="terminal-button green"></span>
+                            </div>
+                            <div class="terminal-title">~/profile.py</div>
+                        </div>
+                        <div class="terminal-body">
+                            <pre><code><span class="code-keyword">class</span> <span class="code-class">AIEngineer</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-param">self</span>):
+        <span class="code-param">self</span>.name = <span class="code-string">"Junho Park"</span>
+        <span class="code-param">self</span>.role = <span class="code-string">"Applied AI Engineer"</span>
+        <span class="code-param">self</span>.interests = [
+            <span class="code-string">"Deep Learning"</span>,
+            <span class="code-string">"NLP"</span>,
+            <span class="code-string">"Computer Vision"</span>,
+            <span class="code-string">"MLOps"</span>
+        ]
+    
+    <span class="code-keyword">def</span> <span class="code-function">get_passion</span>(<span class="code-param">self</span>):
+        <span class="code-keyword">return</span> <span class="code-string">"Building AI that matters"</span>
+
+<span class="code-comment"># Initialize</span>
+engineer = AIEngineer()
+<span class="code-function">print</span>(engineer.get_passion())</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="grid" style="margin-top: 10px">
-          <div class="case" aria-label="42dot experience">
-            <div class="body">
-              <div class="kicker">42dot (Hyundai Motor Group)</div>
-              <h3>Android Engineer → AI Engineer</h3>
-              <ul>
-                <li>Fleet dispatch wait time <b>−30%</b></li>
-                <li>Realtime telemetry <b>&lt; 2 s</b></li>
-                <li>CI/CD rollout, release cadence <b>+25%</b></li>
-              </ul>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p class="footer-text">Designed & Built by Applied AI Engineer</p>
+                    <p class="footer-text small">© 2025 All rights reserved</p>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#blog">Blog</a>
+                        <a href="#projects">Projects</a>
+                        <a href="#about">About</a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="case" aria-label="Graduate research">
-            <div class="body">
-              <div class="kicker">Graduate research</div>
-              <h3>MSc Cybersecurity &amp; AI (Merit)</h3>
-              <ul>
-                <li>
-                  Dissertation:
-                  <em
-                    >Designing Spiking Neural Controllers for Neuroprosthetic
-                    Systems</em
-                  >
-                </li>
-                <li>Hybrid TCN–SNN · Energy-aware evaluation</li>
-              </ul>
-            </div>
-          </div>
-          <div class="case" aria-label="Hands-on">
-            <div class="body">
-              <div class="kicker">Hands-on</div>
-              <h3>On-device & Robotics</h3>
-              <ul>
-                <li>ROS2 + SNN control loop prototypes</li>
-                <li>Edge deployment & benchmarking (Docker, FastAPI, ONNX)</li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </section>
-
-      <!-- Skills -->
-      <section id="skills" class="reveal" aria-labelledby="skills-title">
-        <h2 id="skills-title" class="section-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="#cda264"
-              d="M9.5 7.5L12 2l2.5 5.5L20 10l-5.5 2.5L12 18l-2.5-5.5L4 10l5.5-2.5Z"
-            />
-          </svg>
-          Skills
-        </h2>
-        <div class="skills">
-          <div class="skill">
-            <strong>AI & Research</strong>
-            <div class="stack">
-              <span>PyTorch</span><span>snnTorch</span><span>TensorFlow</span
-              ><span>NumPy</span> <span>scikit-learn</span><span>ONNX</span>
-            </div>
-          </div>
-          <div class="skill">
-            <strong>Robotics</strong>
-            <div class="stack">
-              <span>ROS2</span><span>Gazebo</span><span>RViz2</span
-              ><span>TurtleBot3</span>
-            </div>
-          </div>
-          <div class="skill">
-            <strong>Systems & Apps</strong>
-            <div class="stack">
-              <span>Linux</span><span>Docker</span><span>FastAPI</span
-              ><span>Android</span><span>CI/CD</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact -->
-      <section id="contact" class="reveal" aria-labelledby="contact-title">
-        <h2 id="contact-title" class="section-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="#b5653f"
-              d="M21 8V7l-3 2-4-3-4 3-4-3-3 2v1l3-2 4 3 4-3 4 3 3-2zM3 9v8l7-3 4 2 7-3V9l-7 3-4-3-7 3z"
-            />
-          </svg>
-          Contact
-        </h2>
-        <div class="contact">
-          <div class="card">
-            <p class="lead" style="margin-top: 0">
-              Open to Research Engineer (Neuromorphic/Robotics), Applied ML (Temporal Modelling / Efficient ML), and Robotics + ML roles.
-            </p>
-            <p>
-              <b>Email</b> —
-              <a href="mailto:ghdlwnsgh25@gmail.com">ghdlwnsgh25@gmail.com</a
-              ><br />
-              <b>GitHub</b> —
-              <a
-                href="https://github.com/parkjunho12"
-                target="_blank"
-                rel="noreferrer"
-                >github.com/parkjunho12</a
-              ><br />
-              <b>LinkedIn</b> —
-              <a
-                href="https://www.linkedin.com/in/park-junho-881222164/"
-                target="_blank"
-                rel="noreferrer"
-                >/in/park-junho-881222164/</a
-              ><br />
-              <b>CV</b> —
-              <a href="https://drive.google.com/file/d/1uI3S-Qb-PFpP4viIBPI5cjgmgU8vy8Ej/view?usp=sharing" download>Download PDF</a
-              ><br />
-
-              <b>Dissertation</b> —
-              <a href="https://drive.google.com/file/d/164MTYtXNQOky4IfI2UyKhjruSG8BHUV6/view?usp=sharing" download
-                >Download PDF</a
-              ><br />
-              <b>Dissertation slides</b> —
-              <a
-                href="./dissertation/background.html"
-                target="_blank"
-                rel="noreferrer"
-                >Open HTML</a
-              >
-            </p>
-          </div>
-          <div class="card" aria-live="polite">
-            <h3 style="margin: 0 0 6px">What’s next</h3>
-            <ul style="margin: 0 0 0 18px">
-              <li>Publish spike/energy metrics + control plots (Spike vs baseline)</li>
-              <li>World model: rollout stability metrics + first demo video</li>
-              <li>Open-source ROS2 + SNN controller module with deployment notes</li>
-            </ul>            
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <button
-      class="to-top"
-      aria-label="Back to top"
-      onclick="window.scrollTo({top:0,behavior:'smooth'})"
-    >
-      ↑
-    </button>
-    <footer>
-      © <span id="y"></span> Junho Park
     </footer>
 
-    <script>
-      // Year
-      document.getElementById("y").textContent = new Date().getFullYear();
-
-      // Polite reveal on scroll (respects reduced motion)
-      const reduce = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      if (!reduce) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.classList.add("on");
-                io.unobserve(e.target);
-              }
-            });
-          },
-          { threshold: 0.18 }
-        );
-        document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-      } else {
-        document
-          .querySelectorAll(".reveal")
-          .forEach((el) => el.classList.add("on"));
-      }
-    </script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
