@@ -17,166 +17,105 @@ document.addEventListener('DOMContentLoaded', function() {
     let searchQuery = '';
 
     // ==========================================
-    // LIVE VISITOR TRACKING SYSTEM
+    // VISITOR COUNTER SYSTEM (Persistent)
     // ==========================================
     
-    class VisitorTracker {
+    class VisitorCounter {
         constructor() {
-            this.liveViewersEl = document.getElementById('liveViewers');
-            this.viewerBarEl = document.getElementById('viewerBar');
-            this.todayEl = document.getElementById('todayVisitors');
-            this.weekEl = document.getElementById('weekVisitors');
-            this.monthEl = document.getElementById('monthVisitors');
-            this.totalEl = document.getElementById('totalViews');
+            this.visitorsEl = document.getElementById('totalVisitors');
+            this.viewsEl = document.getElementById('totalViews');
+            this.lastUpdatedEl = document.getElementById('lastUpdated');
             
-            // Get server time (simulated with local time)
-            this.serverTime = new Date();
+            // Storage keys
+            this.STORAGE_KEY = 'blog_stats';
             
-            // Initialize base numbers based on time of day
-            this.initializeBaseNumbers();
-            
-            // Start tracking
-            this.startTracking();
+            // Initialize
+            this.loadStats();
+            this.startHourlyUpdate();
         }
         
-        initializeBaseNumbers() {
-            const hour = this.serverTime.getHours();
-            const dayOfWeek = this.serverTime.getDay();
-            const dayOfMonth = this.serverTime.getDate();
+        loadStats() {
+            // Try to load from localStorage
+            const stored = localStorage.getItem(this.STORAGE_KEY);
             
-            // Base numbers that make sense
-            this.baseTotal = 45000 + Math.floor(Math.random() * 5000);
-            this.baseMonth = 12000 + Math.floor(Math.random() * 2000);
-            this.baseWeek = 2800 + Math.floor(Math.random() * 400);
-            
-            // Today's visitors vary by time
-            // Peak hours: 9-11am and 2-5pm
-            let todayMultiplier;
-            if (hour >= 9 && hour <= 11) {
-                todayMultiplier = 0.8 + Math.random() * 0.3; // High traffic
-            } else if (hour >= 14 && hour <= 17) {
-                todayMultiplier = 0.7 + Math.random() * 0.3; // High traffic
-            } else if (hour >= 6 && hour <= 8) {
-                todayMultiplier = 0.4 + Math.random() * 0.2; // Morning build-up
-            } else if (hour >= 18 && hour <= 22) {
-                todayMultiplier = 0.5 + Math.random() * 0.2; // Evening traffic
+            if (stored) {
+                const data = JSON.parse(stored);
+                this.visitors = data.visitors || 128;
+                this.views = data.views || 456;
+                this.lastUpdate = new Date(data.lastUpdate);
+                
+                // Check if we need to update (hourly check)
+                this.checkAndUpdate();
             } else {
-                todayMultiplier = 0.1 + Math.random() * 0.2; // Night/early morning
+                // Initial values
+                this.visitors = 12847;
+                this.views = 45623;
+                this.lastUpdate = new Date();
+                this.saveStats();
             }
             
-            this.baseToday = Math.floor(450 * todayMultiplier);
-            
-            // Live viewers based on time
-            let liveMultiplier;
-            if (hour >= 9 && hour <= 11 || hour >= 14 && hour <= 17) {
-                liveMultiplier = 0.7 + Math.random() * 0.5; // Peak: 12-20 viewers
-            } else if (hour >= 6 && hour <= 8 || hour >= 18 && hour <= 22) {
-                liveMultiplier = 0.4 + Math.random() * 0.3; // Medium: 7-12 viewers
-            } else {
-                liveMultiplier = 0.1 + Math.random() * 0.2; // Low: 2-5 viewers
-            }
-            
-            this.currentLive = Math.floor(15 * liveMultiplier) + 2;
-            
-            // Set initial values
             this.updateDisplay(false);
         }
         
-        startTracking() {
-            // Update live viewers every 3-8 seconds
-            setInterval(() => this.updateLiveViewers(), 3000 + Math.random() * 5000);
-            
-            // Update today's count every 20-40 seconds
-            setInterval(() => this.updateTodayCount(), 20000 + Math.random() * 20000);
-            
-            // Update week count every 2-5 minutes
-            setInterval(() => this.updateWeekCount(), 120000 + Math.random() * 180000);
-            
-            // Update month/total less frequently (5-10 minutes)
-            setInterval(() => this.updateLongTermCounts(), 300000 + Math.random() * 300000);
-            
-            // Gradual increase simulation throughout the day
-            setInterval(() => this.gradualIncrease(), 60000); // Every minute
+        saveStats() {
+            const data = {
+                visitors: this.visitors,
+                views: this.views,
+                lastUpdate: this.lastUpdate.toISOString()
+            };
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
         }
         
-        updateLiveViewers() {
-            const hour = new Date().getHours();
+        checkAndUpdate() {
+            const now = new Date();
+            const hoursSinceUpdate = (now - this.lastUpdate) / (1000 * 60 * 60);
             
-            // Determine change direction and magnitude
-            let change;
-            if (hour >= 9 && hour <= 17) {
-                // Peak hours: mostly increase
-                change = Math.random() > 0.3 ? Math.floor(Math.random() * 3) + 1 : -Math.floor(Math.random() * 2);
-            } else if (hour >= 6 && hour <= 8 || hour >= 18 && hour <= 22) {
-                // Medium hours: balanced
-                change = Math.random() > 0.5 ? Math.floor(Math.random() * 2) + 1 : -Math.floor(Math.random() * 2);
-            } else {
-                // Off hours: mostly decrease or stay
-                change = Math.random() > 0.7 ? 1 : -Math.floor(Math.random() * 2);
-            }
-            
-            this.currentLive = Math.max(1, Math.min(25, this.currentLive + change));
-            
-            // Update display with animation
-            this.liveViewersEl.classList.add('updating');
-            this.liveViewersEl.textContent = this.currentLive;
-            
-            // Update bar
-            const percentage = (this.currentLive / 25) * 100;
-            this.viewerBarEl.style.width = percentage + '%';
-            
-            setTimeout(() => this.liveViewersEl.classList.remove('updating'), 500);
-        }
-        
-        updateTodayCount() {
-            // Increment today's count (1-3 new visitors)
-            const increment = Math.floor(Math.random() * 3) + 1;
-            this.baseToday += increment;
-            
-            this.animateCountUpdate(this.todayEl, this.baseToday);
-        }
-        
-        updateWeekCount() {
-            // Increment week count
-            const increment = Math.floor(Math.random() * 5) + 3;
-            this.baseWeek += increment;
-            
-            this.animateCountUpdate(this.weekEl, this.baseWeek);
-        }
-        
-        updateLongTermCounts() {
-            // Increment month and total
-            const monthIncrement = Math.floor(Math.random() * 10) + 5;
-            const totalIncrement = Math.floor(Math.random() * 15) + 8;
-            
-            this.baseMonth += monthIncrement;
-            this.baseTotal += totalIncrement;
-            
-            this.animateCountUpdate(this.monthEl, this.baseMonth);
-            this.animateCountUpdate(this.totalEl, this.baseTotal);
-        }
-        
-        gradualIncrease() {
-            // Small increments every minute to simulate continuous traffic
-            const hour = new Date().getHours();
-            
-            if (hour >= 6 && hour <= 23) {
-                this.baseToday += Math.random() > 0.5 ? 1 : 0;
-                this.baseWeek += Math.random() > 0.7 ? 1 : 0;
-                this.baseMonth += Math.random() > 0.8 ? 1 : 0;
-                this.baseTotal += Math.random() > 0.6 ? 1 : 0;
+            // If at least 1 hour has passed
+            if (hoursSinceUpdate >= 1) {
+                const hoursToAdd = Math.floor(hoursSinceUpdate);
                 
-                this.updateDisplay(false);
+                // Add 1 visitor per hour that passed
+                this.visitors += hoursToAdd;
+                
+                // Add random 1-10 views per visitor
+                for (let i = 0; i < hoursToAdd; i++) {
+                    const viewsToAdd = Math.floor(Math.random() * 10) + 1;
+                    this.views += viewsToAdd;
+                }
+                
+                this.lastUpdate = now;
+                this.saveStats();
+                this.updateDisplay(true);
+            }
+        }
+        
+        startHourlyUpdate() {
+            // Check every minute if an hour has passed
+            setInterval(() => {
+                this.checkAndUpdate();
+                this.updateLastUpdatedTime();
+            }, 60000); // Every minute
+            
+            // Initial update
+            this.updateLastUpdatedTime();
+        }
+        
+        updateDisplay(animate = false) {
+            if (animate) {
+                this.animateCountUpdate(this.visitorsEl, this.visitors);
+                this.animateCountUpdate(this.viewsEl, this.views);
+            } else {
+                this.visitorsEl.textContent = this.formatNumber(this.visitors);
+                this.viewsEl.textContent = this.formatNumber(this.views);
             }
         }
         
         animateCountUpdate(element, newValue) {
             element.classList.add('updating');
             
-            // Counter animation
             const oldValue = parseInt(element.textContent.replace(/,/g, ''));
-            const duration = 800;
-            const steps = 30;
+            const duration = 1000;
+            const steps = 40;
             const stepValue = (newValue - oldValue) / steps;
             const stepDuration = duration / steps;
             
@@ -189,29 +128,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (currentStep >= steps) {
                     clearInterval(interval);
                     element.textContent = this.formatNumber(newValue);
-                    element.classList.remove('updating');
+                    setTimeout(() => {
+                        element.classList.remove('updating');
+                    }, 100);
                 }
             }, stepDuration);
         }
         
-        updateDisplay(animate = true) {
-            if (animate) {
-                this.animateCountUpdate(this.liveViewersEl, this.currentLive);
-                this.animateCountUpdate(this.todayEl, this.baseToday);
-                this.animateCountUpdate(this.weekEl, this.baseWeek);
-                this.animateCountUpdate(this.monthEl, this.baseMonth);
-                this.animateCountUpdate(this.totalEl, this.baseTotal);
+        updateLastUpdatedTime() {
+            const now = new Date();
+            const diff = now - this.lastUpdate;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(minutes / 60);
+            
+            let timeText;
+            if (minutes < 1) {
+                timeText = 'Just now';
+            } else if (minutes < 60) {
+                timeText = `${minutes} min ago`;
+            } else if (hours < 24) {
+                timeText = `${hours} hour${hours > 1 ? 's' : ''} ago`;
             } else {
-                this.liveViewersEl.textContent = this.currentLive;
-                this.todayEl.textContent = this.formatNumber(this.baseToday);
-                this.weekEl.textContent = this.formatNumber(this.baseWeek);
-                this.monthEl.textContent = this.formatNumber(this.baseMonth);
-                this.totalEl.textContent = this.formatNumber(this.baseTotal);
+                const days = Math.floor(hours / 24);
+                timeText = `${days} day${days > 1 ? 's' : ''} ago`;
             }
             
-            // Update bar
-            const percentage = (this.currentLive / 25) * 100;
-            this.viewerBarEl.style.width = percentage + '%';
+            this.lastUpdatedEl.textContent = timeText;
         }
         
         formatNumber(num) {
@@ -219,8 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize visitor tracker
-    const visitorTracker = new VisitorTracker();
+    // Initialize visitor counter
+    const visitorCounter = new VisitorCounter();
     
     // ==========================================
     // REST OF THE BLOG FUNCTIONALITY

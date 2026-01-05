@@ -136,36 +136,29 @@
                                 <div class="stat-label">Categories</div>
                             </div>
                         </div>
-                        
-                        <div class="live-stats">
-                            <div class="live-stat-row">
-                                <span class="live-indicator">
-                                    <span class="pulse-dot"></span>
-                                    Live
-                                </span>
-                                <span class="live-count" id="liveViewers">0</span>
-                            </div>
-                            <div class="stat-bar">
-                                <div class="stat-bar-fill" id="viewerBar"></div>
-                            </div>
-                        </div>
 
                         <div class="visitor-stats">
                             <div class="visitor-row">
-                                <span class="visitor-label">Today</span>
-                                <span class="visitor-count" id="todayVisitors">0</span>
+                                <span class="visitor-label">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align: middle; margin-right: 4px;">
+                                        <path d="M8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8ZM8 10C5.33 10 0 11.34 0 14V16H16V14C16 11.34 10.67 10 8 10Z" fill="currentColor"/>
+                                    </svg>
+                                    Total Visitors
+                                </span>
+                                <span class="visitor-count" id="totalVisitors">0</span>
                             </div>
                             <div class="visitor-row">
-                                <span class="visitor-label">This Week</span>
-                                <span class="visitor-count" id="weekVisitors">0</span>
+                                <span class="visitor-label">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align: middle; margin-right: 4px;">
+                                        <path d="M8 0C3.58 0 0 3.58 0 8C0 12.42 3.58 16 8 16C12.42 16 16 12.42 16 8C16 3.58 12.42 0 8 0ZM8 14C4.69 14 2 11.31 2 8C2 4.69 4.69 2 8 2C11.31 2 14 4.69 14 8C14 11.31 11.31 14 8 14ZM8.5 4H7V9L11.25 11.52L12 10.27L8.5 8.25V4Z" fill="currentColor"/>
+                                    </svg>
+                                    Total Views
+                                </span>
+                                <span class="visitor-count highlight" id="totalViews">0</span>
                             </div>
-                            <div class="visitor-row">
-                                <span class="visitor-label">This Month</span>
-                                <span class="visitor-count" id="monthVisitors">0</span>
-                            </div>
-                            <div class="visitor-row total">
-                                <span class="visitor-label">Total Views</span>
-                                <span class="visitor-count" id="totalViews">0</span>
+                            <div class="last-updated">
+                                <span class="last-updated-label">Last updated:</span>
+                                <span class="last-updated-time" id="lastUpdated">Just now</span>
                             </div>
                         </div>
                     </div>
@@ -417,7 +410,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
     <script src="blog.js"></script>
 </body>
 </html>
