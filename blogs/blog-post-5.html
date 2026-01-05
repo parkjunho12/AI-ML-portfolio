@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building Robust ML Pipelines with Kubeflow | Applied AI Engineer</title>
+    <title>Understanding Diffusion Models | Applied AI Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -13,7 +13,6 @@
 <body>
     <canvas id="matrix-canvas"></canvas>
     
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
             <a href="../index.html" class="logo">
@@ -34,97 +33,61 @@
         </div>
     </nav>
 
-    <!-- Blog Post Content -->
     <article class="blog-post">
         <div class="container">
-            <!-- Post Header -->
             <header class="post-header">
                 <div class="post-meta">
-                    <span class="post-category">MLOps</span>
-                    <span class="post-date">January 02, 2025</span>
-                    <span class="post-reading-time">15 min read</span>
+                    <span class="post-category">Research</span>
+                    <span class="post-date">December 15, 2024</span>
+                    <span class="post-reading-time">18 min read</span>
                 </div>
-                <h1 class="post-title">Building Robust ML Pipelines with Kubeflow</h1>
+                <h1 class="post-title">Understanding Diffusion Models</h1>
                 <p class="post-subtitle">
-                    A practical guide to creating scalable and maintainable machine learning workflows on Kubernetes
+                    A deep dive into the mathematical foundations and practical implementations of Diffusion Models, a core technology behind modern generative AI
                 </p>
                 <div class="post-tags">
-                    <span class="tag">Kubernetes</span>
-                    <span class="tag">CI/CD</span>
-                    <span class="tag">Pipeline</span>
-                    <span class="tag">MLOps</span>
+                    <span class="tag">Generative AI</span>
+                    <span class="tag">Diffusion</span>
+                    <span class="tag">Theory</span>
                 </div>
             </header>
 
-            <!-- Post Content -->
             <div class="post-content">
                 <section class="content-section">
-                    <h2>Why Kubeflow?</h2>
+                    <h2>The Diffusion Revolution</h2>
                     <p>
-                        In the rapidly evolving landscape of machine learning operations, the gap between experimental 
-                        notebooks and production-ready systems remains one of the biggest challenges facing ML engineers. 
-                        Kubeflow emerged as a comprehensive solution to bridge this gap, providing a platform for 
-                        orchestrating ML workflows on Kubernetes.
+                        Diffusion models have revolutionized generative AI, powering systems like Stable Diffusion, 
+                        DALL-E 2, and Midjourney. Unlike GANs which learn to generate directly, diffusion models 
+                        learn to gradually denoise data, resulting in more stable training and higher quality outputs.
                     </p>
                     <p>
-                        Having deployed dozens of ML models into production over the past few years, I've learned that 
-                        the tooling you choose for your ML pipeline can make or break your ability to iterate quickly 
-                        and maintain reliability. Kubeflow has become my go-to platform for several reasons.
+                        This guide explores the mathematical intuition and practical implementation of diffusion models, 
+                        making them accessible to engineers and researchers.
                     </p>
                 </section>
 
                 <section class="content-section">
-                    <h2>Architecture Overview</h2>
+                    <h2>The Core Idea</h2>
                     
                     <div class="info-box">
-                        <h3>Core Components</h3>
+                        <h3>Two-Phase Process</h3>
                         <ul>
-                            <li><strong>Kubeflow Pipelines:</strong> DAG-based workflow orchestration for ML experiments</li>
-                            <li><strong>Katib:</strong> Hyperparameter tuning and neural architecture search</li>
-                            <li><strong>KFServing:</strong> Model serving with autoscaling and canary deployments</li>
-                            <li><strong>Training Operators:</strong> Distributed training for TensorFlow, PyTorch, MXNet, etc.</li>
-                            <li><strong>Notebook Servers:</strong> Managed Jupyter environments for development</li>
+                            <li><strong>Forward Process:</strong> Gradually add Gaussian noise to data until it becomes pure noise</li>
+                            <li><strong>Reverse Process:</strong> Train a neural network to reverse the noise, recovering the original data</li>
                         </ul>
                     </div>
 
                     <p>
-                        The beauty of Kubeflow's architecture lies in its modularity. You don't need to adopt everything 
-                        at once—start with pipelines, then gradually add components as your needs grow.
+                        The key insight: if we can learn to denoise slightly noisy images, we can chain these 
+                        denoising steps together to generate images from pure noise.
                     </p>
                 </section>
 
                 <section class="content-section">
-                    <h2>Setting Up Your First Pipeline</h2>
+                    <h2>Forward Diffusion Process</h2>
                     
-                    <h3>Installation</h3>
                     <p>
-                        First, ensure you have a Kubernetes cluster running. For development, I recommend using 
-                        kind (Kubernetes in Docker) or minikube. For production, use a managed Kubernetes service 
-                        like GKE, EKS, or AKS.
-                    </p>
-
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span class="code-language">Bash</span>
-                            <button class="code-copy">Copy</button>
-                        </div>
-                        <pre><code># Install Kubeflow Pipelines standalone
-export PIPELINE_VERSION=2.0.5
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
-kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
-
-# Verify installation
-kubectl get pods -n kubeflow
-
-# Port-forward to access UI
-kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80</code></pre>
-                    </div>
-
-                    <h3>Creating a Simple Pipeline</h3>
-                    <p>
-                        Let's build a complete ML pipeline that trains a text classification model. This example 
-                        demonstrates data preprocessing, training, evaluation, and model deployment.
+                        The forward process adds noise at each timestep according to a variance schedule:
                     </p>
 
                     <div class="code-block">
@@ -132,503 +95,322 @@ kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80</code></pre>
                             <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>from kfp import dsl
-from kfp import compiler
-from kfp.dsl import component, Input, Output, Dataset, Model, Metrics
+                        <pre><code>import torch
+import torch.nn as nn
+import numpy as np
 
-@component(
-    packages_to_install=['pandas', 'scikit-learn'],
-    base_image='python:3.9'
-)
-def preprocess_data(
-    input_data: Input[Dataset],
-    output_train: Output[Dataset],
-    output_test: Output[Dataset],
-    test_size: float = 0.2
-):
-    """Preprocess and split data into train/test sets."""
-    import pandas as pd
-    from sklearn.model_selection import train_test_split
-    
-    # Load data
-    df = pd.read_csv(input_data.path)
-    
-    # Basic preprocessing
-    df = df.dropna()
-    df['text'] = df['text'].str.lower()
-    
-    # Split data
-    train_df, test_df = train_test_split(
-        df, 
-        test_size=test_size, 
-        random_state=42
-    )
-    
-    # Save splits
-    train_df.to_csv(output_train.path, index=False)
-    test_df.to_csv(output_test.path, index=False)
-    
-    print(f"Train size: {len(train_df)}, Test size: {len(test_df)}")
-
-
-@component(
-    packages_to_install=['pandas', 'scikit-learn', 'transformers', 'torch'],
-    base_image='python:3.9'
-)
-def train_model(
-    train_data: Input[Dataset],
-    model_output: Output[Model],
-    metrics: Output[Metrics],
-    learning_rate: float = 2e-5,
-    epochs: int = 3
-):
-    """Train a text classification model."""
-    import pandas as pd
-    import torch
-    from transformers import (
-        AutoTokenizer, 
-        AutoModelForSequenceClassification,
-        TrainingArguments, 
-        Trainer
-    )
-    from sklearn.metrics import accuracy_score, f1_score
-    
-    # Load training data
-    train_df = pd.read_csv(train_data.path)
-    
-    # Initialize tokenizer and model
-    model_name = "distilbert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(
-        model_name, 
-        num_labels=2
-    )
-    
-    # Tokenize data
-    train_encodings = tokenizer(
-        train_df['text'].tolist(),
-        truncation=True,
-        padding=True,
-        max_length=128
-    )
-    
-    # Create PyTorch dataset
-    class TextDataset(torch.utils.data.Dataset):
-        def __init__(self, encodings, labels):
-            self.encodings = encodings
-            self.labels = labels
+class DiffusionForward:
+    def __init__(self, num_timesteps=1000, beta_start=0.0001, beta_end=0.02):
+        """Initialize forward diffusion process."""
+        self.num_timesteps = num_timesteps
         
-        def __len__(self):
-            return len(self.labels)
+        # Linear beta schedule
+        self.betas = torch.linspace(beta_start, beta_end, num_timesteps)
         
-        def __getitem__(self, idx):
-            item = {k: torch.tensor(v[idx]) for k, v in self.encodings.items()}
-            item['labels'] = torch.tensor(self.labels[idx])
-            return item
+        # Pre-compute useful values
+        self.alphas = 1.0 - self.betas
+        self.alphas_cumprod = torch.cumprod(self.alphas, dim=0)
+        self.alphas_cumprod_prev = torch.cat([
+            torch.tensor([1.0]), 
+            self.alphas_cumprod[:-1]
+        ])
+        
+        self.sqrt_alphas_cumprod = torch.sqrt(self.alphas_cumprod)
+        self.sqrt_one_minus_alphas_cumprod = torch.sqrt(1.0 - self.alphas_cumprod)
     
-    train_dataset = TextDataset(
-        train_encodings, 
-        train_df['label'].tolist()
-    )
-    
-    # Training arguments
-    training_args = TrainingArguments(
-        output_dir='./results',
-        num_train_epochs=epochs,
-        per_device_train_batch_size=16,
-        learning_rate=learning_rate,
-        logging_steps=100,
-        save_strategy="epoch",
-    )
-    
-    # Train model
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-    )
-    
-    trainer.train()
-    
-    # Save model
-    model.save_pretrained(model_output.path)
-    tokenizer.save_pretrained(model_output.path)
-    
-    # Log metrics
-    metrics.log_metric("learning_rate", learning_rate)
-    metrics.log_metric("epochs", epochs)
-    
-    print(f"Model saved to {model_output.path}")
-
-
-@component(
-    packages_to_install=['pandas', 'scikit-learn', 'transformers', 'torch'],
-    base_image='python:3.9'
-)
-def evaluate_model(
-    test_data: Input[Dataset],
-    model: Input[Model],
-    metrics: Output[Metrics],
-    threshold: float = 0.8
-) -> bool:
-    """Evaluate model and determine if it meets quality threshold."""
-    import pandas as pd
-    import torch
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    from sklearn.metrics import accuracy_score, f1_score, classification_report
-    
-    # Load test data
-    test_df = pd.read_csv(test_data.path)
-    
-    # Load model and tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model.path)
-    model_obj = AutoModelForSequenceClassification.from_pretrained(model.path)
-    model_obj.eval()
-    
-    # Tokenize test data
-    test_encodings = tokenizer(
-        test_df['text'].tolist(),
-        truncation=True,
-        padding=True,
-        max_length=128,
-        return_tensors='pt'
-    )
-    
-    # Make predictions
-    with torch.no_grad():
-        outputs = model_obj(**test_encodings)
-        predictions = torch.argmax(outputs.logits, dim=1).numpy()
-    
-    # Calculate metrics
-    true_labels = test_df['label'].values
-    accuracy = accuracy_score(true_labels, predictions)
-    f1 = f1_score(true_labels, predictions, average='weighted')
-    
-    # Log metrics
-    metrics.log_metric("accuracy", accuracy)
-    metrics.log_metric("f1_score", f1)
-    metrics.log_metric("test_samples", len(test_df))
-    
-    # Print detailed report
-    print(classification_report(true_labels, predictions))
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    
-    # Check if model meets threshold
-    meets_threshold = accuracy >= threshold
-    print(f"Model {'PASSES' if meets_threshold else 'FAILS'} threshold of {threshold}")
-    
-    return meets_threshold
-
-
-@component(
-    packages_to_install=['kserve'],
-    base_image='python:3.9'
-)
-def deploy_model(
-    model: Input[Model],
-    model_name: str = "text-classifier",
-    namespace: str = "default"
-):
-    """Deploy model to KServe."""
-    from kubernetes import client, config
-    import json
-    
-    # Load kubeconfig
-    config.load_incluster_config()
-    
-    # Create InferenceService spec
-    inference_service = {
-        "apiVersion": "serving.kserve.io/v1beta1",
-        "kind": "InferenceService",
-        "metadata": {
-            "name": model_name,
-            "namespace": namespace
-        },
-        "spec": {
-            "predictor": {
-                "pytorch": {
-                    "storageUri": model.uri,
-                    "resources": {
-                        "limits": {
-                            "cpu": "1",
-                            "memory": "2Gi"
-                        },
-                        "requests": {
-                            "cpu": "500m",
-                            "memory": "1Gi"
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    # Deploy using custom resource
-    api = client.CustomObjectsApi()
-    api.create_namespaced_custom_object(
-        group="serving.kserve.io",
-        version="v1beta1",
-        namespace=namespace,
-        plural="inferenceservices",
-        body=inference_service
-    )
-    
-    print(f"Model {model_name} deployed successfully!")
-
-
-@dsl.pipeline(
-    name='Text Classification Pipeline',
-    description='End-to-end pipeline for text classification'
-)
-def text_classification_pipeline(
-    data_path: str,
-    learning_rate: float = 2e-5,
-    epochs: int = 3,
-    test_size: float = 0.2,
-    accuracy_threshold: float = 0.8
-):
-    """Complete ML pipeline with conditional deployment."""
-    
-    # Step 1: Preprocess data
-    preprocess_task = preprocess_data(
-        input_data=data_path,
-        test_size=test_size
-    )
-    
-    # Step 2: Train model
-    train_task = train_model(
-        train_data=preprocess_task.outputs['output_train'],
-        learning_rate=learning_rate,
-        epochs=epochs
-    )
-    
-    # Step 3: Evaluate model
-    eval_task = evaluate_model(
-        test_data=preprocess_task.outputs['output_test'],
-        model=train_task.outputs['model_output'],
-        threshold=accuracy_threshold
-    )
-    
-    # Step 4: Deploy if evaluation passes
-    with dsl.Condition(eval_task.output == True):
-        deploy_task = deploy_model(
-            model=train_task.outputs['model_output']
-        )
-
-
-# Compile pipeline
-if __name__ == '__main__':
-    compiler.Compiler().compile(
-        pipeline_func=text_classification_pipeline,
-        package_path='text_classification_pipeline.yaml'
-    )
-    print("Pipeline compiled successfully!")</code></pre>
+    def q_sample(self, x_0, t, noise=None):
+        """Add noise to x_0 at timestep t.
+        
+        q(x_t | x_0) = N(x_t; √ᾱ_t x_0, (1 - ᾱ_t)I)
+        """
+        if noise is None:
+            noise = torch.randn_like(x_0)
+        
+        sqrt_alpha_prod = self.sqrt_alphas_cumprod[t].view(-1, 1, 1, 1)
+        sqrt_one_minus_alpha_prod = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1, 1)
+        
+        return sqrt_alpha_prod * x_0 + sqrt_one_minus_alpha_prod * noise</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Running and Monitoring Pipelines</h2>
+                    <h2>U-Net Denoising Architecture</h2>
                     
-                    <h3>Submitting a Pipeline Run</h3>
+                    <p>
+                        Most diffusion models use a U-Net architecture with attention layers to predict noise:
+                    </p>
+
                     <div class="code-block">
                         <div class="code-header">
                             <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>import kfp
+                        <pre><code>class TimeEmbedding(nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
+        
+    def forward(self, t):
+        """Sinusoidal time embedding."""
+        half_dim = self.dim // 2
+        emb = torch.log(torch.tensor(10000.0)) / (half_dim - 1)
+        emb = torch.exp(torch.arange(half_dim) * -emb)
+        emb = t[:, None] * emb[None, :]
+        emb = torch.cat([torch.sin(emb), torch.cos(emb)], dim=-1)
+        return emb
 
-# Connect to Kubeflow Pipelines
-client = kfp.Client(host='http://localhost:8080')
+class UNetBlock(nn.Module):
+    def __init__(self, in_channels, out_channels, time_dim):
+        super().__init__()
+        self.conv1 = nn.Conv2d(in_channels, out_channels, 3, padding=1)
+        self.conv2 = nn.Conv2d(out_channels, out_channels, 3, padding=1)
+        self.time_mlp = nn.Linear(time_dim, out_channels)
+        self.norm1 = nn.GroupNorm(8, out_channels)
+        self.norm2 = nn.GroupNorm(8, out_channels)
+        
+    def forward(self, x, t):
+        h = self.conv1(x)
+        h = self.norm1(h)
+        h = h + self.time_mlp(t)[:, :, None, None]
+        h = torch.relu(h)
+        h = self.conv2(h)
+        h = self.norm2(h)
+        h = torch.relu(h)
+        return h
 
-# Upload and run pipeline
-pipeline_id = client.upload_pipeline(
-    pipeline_package_path='text_classification_pipeline.yaml',
-    pipeline_name='Text Classification Pipeline'
-)
-
-# Create experiment
-experiment = client.create_experiment(name='text-classification-exp')
-
-# Run pipeline
-run = client.run_pipeline(
-    experiment_id=experiment.id,
-    job_name='text-classifier-run-1',
-    pipeline_id=pipeline_id,
-    params={
-        'data_path': 'gs://my-bucket/training-data.csv',
-        'learning_rate': 2e-5,
-        'epochs': 5,
-        'accuracy_threshold': 0.85
-    }
-)
-
-print(f"Run created: {run.id}")</code></pre>
+class SimpleUNet(nn.Module):
+    def __init__(self, in_channels=3, time_dim=256):
+        super().__init__()
+        self.time_embed = TimeEmbedding(time_dim)
+        
+        # Encoder
+        self.enc1 = UNetBlock(in_channels, 64, time_dim)
+        self.enc2 = UNetBlock(64, 128, time_dim)
+        self.enc3 = UNetBlock(128, 256, time_dim)
+        
+        # Bottleneck
+        self.bottleneck = UNetBlock(256, 512, time_dim)
+        
+        # Decoder
+        self.dec3 = UNetBlock(512 + 256, 256, time_dim)
+        self.dec2 = UNetBlock(256 + 128, 128, time_dim)
+        self.dec1 = UNetBlock(128 + 64, 64, time_dim)
+        
+        # Output
+        self.out = nn.Conv2d(64, in_channels, 1)
+        
+        self.pool = nn.MaxPool2d(2)
+        self.upsample = nn.Upsample(scale_factor=2, mode='bilinear')
+        
+    def forward(self, x, t):
+        # Time embedding
+        t_emb = self.time_embed(t)
+        
+        # Encoder
+        e1 = self.enc1(x, t_emb)
+        e2 = self.enc2(self.pool(e1), t_emb)
+        e3 = self.enc3(self.pool(e2), t_emb)
+        
+        # Bottleneck
+        b = self.bottleneck(self.pool(e3), t_emb)
+        
+        # Decoder with skip connections
+        d3 = self.dec3(torch.cat([self.upsample(b), e3], dim=1), t_emb)
+        d2 = self.dec2(torch.cat([self.upsample(d3), e2], dim=1), t_emb)
+        d1 = self.dec1(torch.cat([self.upsample(d2), e1], dim=1), t_emb)
+        
+        return self.out(d1)</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Best Practices</h2>
+                    <h2>Training Loop</h2>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-language">Python</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                        <pre><code>def train_diffusion(model, dataloader, num_epochs=100):
+    """Train diffusion model."""
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+    diffusion = DiffusionForward()
+    
+    model.train()
+    for epoch in range(num_epochs):
+        for batch_idx, (images, _) in enumerate(dataloader):
+            images = images.cuda()
+            batch_size = images.shape[0]
+            
+            # Sample random timesteps
+            t = torch.randint(0, diffusion.num_timesteps, (batch_size,)).cuda()
+            
+            # Sample noise
+            noise = torch.randn_like(images)
+            
+            # Add noise to images
+            noisy_images = diffusion.q_sample(images, t, noise)
+            
+            # Predict noise
+            predicted_noise = model(noisy_images, t)
+            
+            # Compute loss (simple MSE)
+            loss = nn.MSELoss()(predicted_noise, noise)
+            
+            # Backprop
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+            if batch_idx % 100 == 0:
+                print(f"Epoch {epoch}, Batch {batch_idx}, Loss: {loss.item():.4f}")</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>Sampling (Reverse Process)</h2>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-language">Python</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                        <pre><code>@torch.no_grad()
+def sample(model, diffusion, image_size, batch_size=1, num_steps=1000):
+    """Generate images using reverse diffusion process."""
+    model.eval()
+    
+    # Start from pure noise
+    x = torch.randn(batch_size, 3, image_size, image_size).cuda()
+    
+    # Reverse diffusion
+    for t in reversed(range(num_steps)):
+        t_batch = torch.full((batch_size,), t, dtype=torch.long).cuda()
+        
+        # Predict noise
+        predicted_noise = model(x, t_batch)
+        
+        # Get diffusion parameters
+        alpha = diffusion.alphas[t]
+        alpha_cumprod = diffusion.alphas_cumprod[t]
+        beta = diffusion.betas[t]
+        
+        # Compute x_{t-1}
+        if t > 0:
+            noise = torch.randn_like(x)
+        else:
+            noise = torch.zeros_like(x)
+        
+        # DDPM sampling formula
+        x = (1 / torch.sqrt(alpha)) * (
+            x - ((1 - alpha) / torch.sqrt(1 - alpha_cumprod)) * predicted_noise
+        ) + torch.sqrt(beta) * noise
+    
+    return x
+
+# Generate images
+generated_images = sample(model, diffusion, image_size=64, batch_size=4)</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>Advanced Techniques</h2>
                     
                     <div class="tips-box">
-                        <h3>💡 Production Tips</h3>
+                        <h3>💡 Improvements</h3>
                         <ul>
-                            <li><strong>Version everything:</strong> Data, code, models, and pipeline definitions</li>
-                            <li><strong>Use component caching:</strong> Speed up iterations by caching unchanged components</li>
-                            <li><strong>Implement proper monitoring:</strong> Track pipeline metrics, success rates, and execution times</li>
-                            <li><strong>Handle failures gracefully:</strong> Add retry logic and fallback mechanisms</li>
-                            <li><strong>Secure your pipelines:</strong> Use RBAC and secrets management</li>
-                            <li><strong>Document extensively:</strong> Clear docs save debugging time later</li>
-                            <li><strong>Test components independently:</strong> Unit test before pipeline integration</li>
+                            <li><strong>Classifier-free guidance:</strong> Better control over generation</li>
+                            <li><strong>DDIM sampling:</strong> Faster sampling with fewer steps</li>
+                            <li><strong>Latent diffusion:</strong> Work in compressed latent space (Stable Diffusion)</li>
+                            <li><strong>Conditional generation:</strong> Control with text, class labels, or images</li>
+                            <li><strong>Cosine schedule:</strong> Better noise scheduling than linear</li>
                         </ul>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Advanced Patterns</h2>
+                    <h2>Latent Diffusion (Stable Diffusion)</h2>
                     
-                    <h3>Hyperparameter Tuning with Katib</h3>
                     <p>
-                        Integrate automated hyperparameter optimization into your pipelines:
+                        Stable Diffusion applies diffusion in the latent space of a VAE, dramatically reducing 
+                        computational requirements:
                     </p>
 
                     <div class="code-block">
                         <div class="code-header">
-                            <span class="code-language">YAML</span>
+                            <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>apiVersion: kubeflow.org/v1beta1
-kind: Experiment
-metadata:
-  name: text-classifier-hpo
-spec:
-  algorithm:
-    algorithmName: random
-  parallelTrialCount: 3
-  maxTrialCount: 12
-  objective:
-    type: maximize
-    goal: 0.95
-    objectiveMetricName: accuracy
-  parameters:
-    - name: learning_rate
-      parameterType: double
-      feasibleSpace:
-        min: "0.00001"
-        max: "0.001"
-    - name: batch_size
-      parameterType: int
-      feasibleSpace:
-        min: "16"
-        max: "64"
-        step: "16"
-  trialTemplate:
-    primaryContainerName: training-container
-    trialSpec:
-      apiVersion: batch/v1
-      kind: Job
-      spec:
-        template:
-          spec:
-            containers:
-              - name: training-container
-                image: myregistry/text-classifier:latest
-                command:
-                  - python
-                  - train.py
-                  - --learning-rate=${trialParameters.learningRate}
-                  - --batch-size=${trialParameters.batchSize}</code></pre>
-                    </div>
+                        <pre><code>from diffusers import StableDiffusionPipeline
 
-                    <h3>A/B Testing Deployments</h3>
-                    <p>
-                        Use canary deployments to gradually roll out new models:
-                    </p>
+# Load Stable Diffusion
+pipe = StableDiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-1",
+    torch_dtype=torch.float16
+).to("cuda")
 
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span class="code-language">YAML</span>
-                            <button class="code-copy">Copy</button>
-                        </div>
-                        <pre><code>apiVersion: serving.kserve.io/v1beta1
-kind: InferenceService
-metadata:
-  name: text-classifier
-spec:
-  predictor:
-    canaryTrafficPercent: 20
-    pytorch:
-      storageUri: gs://models/text-classifier/v2
-    model:
-      modelFormat:
-        name: pytorch
-  # Previous version gets 80% of traffic
-  canary:
-    pytorch:
-      storageUri: gs://models/text-classifier/v1</code></pre>
+# Generate image from text
+prompt = "A serene mountain landscape at sunset, digital art"
+image = pipe(
+    prompt,
+    num_inference_steps=50,
+    guidance_scale=7.5
+).images[0]
+
+image.save("generated.png")</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
                     <h2>Conclusion</h2>
                     <p>
-                        Kubeflow provides a powerful platform for building production ML systems, but like any complex 
-                        tool, it requires investment to master. Start simple—perhaps just with Kubeflow Pipelines—and 
-                        gradually adopt more components as your needs grow.
+                        Diffusion models represent a paradigm shift in generative AI. By learning to reverse a 
+                        noise process, they achieve remarkable generation quality with stable training.
                     </p>
                     <p>
-                        The key to success with Kubeflow is treating your ML workflows as first-class software engineering 
-                        artifacts. Apply the same rigor you would to any production system: version control, testing, 
-                        monitoring, and documentation.
-                    </p>
-                    <p>
-                        In upcoming posts, we'll dive deeper into specific aspects like optimizing pipeline performance, 
-                        implementing CI/CD for ML, and building custom Kubeflow components.
+                        The mathematical elegance combined with practical effectiveness has made diffusion models 
+                        the foundation of modern image generation systems.
                     </p>
                 </section>
 
                 <section class="content-section">
                     <h2>Resources</h2>
                     <ul class="references-list">
-                        <li>Official Kubeflow Documentation: https://kubeflow.org/docs/</li>
-                        <li>Kubeflow Pipelines SDK: https://kubeflow-pipelines.readthedocs.io/</li>
-                        <li>Katib Documentation: https://www.kubeflow.org/docs/components/katib/</li>
-                        <li>KServe Documentation: https://kserve.github.io/website/</li>
+                        <li>Ho, J., et al. (2020). "Denoising Diffusion Probabilistic Models"</li>
+                        <li>Rombach, R., et al. (2022). "High-Resolution Image Synthesis with Latent Diffusion Models"</li>
+                        <li>Hugging Face Diffusers: https://github.com/huggingface/diffusers</li>
+                        <li>Lilian Weng's Blog: https://lilianweng.github.io/posts/2021-07-11-diffusion-models/</li>
                     </ul>
                 </section>
             </div>
 
-            <!-- Post Footer -->
             <footer class="post-footer">
                 <div class="post-author">
                     <div class="author-avatar">AI</div>
                     <div class="author-info">
                         <h3>Applied AI Engineer</h3>
-                        <p>Building production ML systems that scale and deliver value.</p>
+                        <p>Exploring the frontiers of generative AI.</p>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="blog-post-1.html" class="nav-button prev">
+                    <a href="blog-post-4.html" class="nav-button prev">
                         <span class="nav-label">Previous Post</span>
-                        <span class="nav-title">Scaling Transformers: A Practical Guide</span>
+                        <span class="nav-title">Fine-tuning LLMs</span>
                     </a>
-                    <a href="blog-post-3.html" class="nav-button next">
+                    <a href="blog-post-6.html" class="nav-button next">
                         <span class="nav-label">Next Post</span>
-                        <span class="nav-title">Real-time Object Detection at the Edge</span>
+                        <span class="nav-title">My AI Development Toolkit</span>
                     </a>
                 </div>
 
                 <div class="back-to-blog">
-                    <a href="../index.html#blog" class="btn btn-secondary">
-                        ← Back to Blog
-                    </a>
+                    <a href="../index.html#blog" class="btn btn-secondary">← Back to Blog</a>
                 </div>
             </footer>
         </div>
     </article>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">

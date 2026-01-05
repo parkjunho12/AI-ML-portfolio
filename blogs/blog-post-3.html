@@ -13,7 +13,6 @@
 <body>
     <canvas id="matrix-canvas"></canvas>
     
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
             <a href="../index.html" class="logo">
@@ -34,10 +33,8 @@
         </div>
     </nav>
 
-    <!-- Blog Post Content -->
     <article class="blog-post">
         <div class="container">
-            <!-- Post Header -->
             <header class="post-header">
                 <div class="post-meta">
                     <span class="post-category">Computer Vision</span>
@@ -46,85 +43,45 @@
                 </div>
                 <h1 class="post-title">Real-time Object Detection at the Edge</h1>
                 <p class="post-subtitle">
-                    Optimizing YOLO models for deployment on resource-constrained edge devices with TensorRT
+                    An in-depth introduction to model compression and optimization strategies for real-time object detection on edge devices
                 </p>
                 <div class="post-tags">
                     <span class="tag">YOLO</span>
                     <span class="tag">TensorRT</span>
                     <span class="tag">Edge AI</span>
-                    <span class="tag">Optimization</span>
                 </div>
             </header>
 
-            <!-- Post Content -->
             <div class="post-content">
                 <section class="content-section">
-                    <h2>Why Kubeflow?</h2>
+                    <h2>The Edge Computing Challenge</h2>
                     <p>
-                        In the rapidly evolving landscape of machine learning operations, the gap between experimental 
-                        notebooks and production-ready systems remains one of the biggest challenges facing ML engineers. 
-                        Kubeflow emerged as a comprehensive solution to bridge this gap, providing a platform for 
-                        orchestrating ML workflows on Kubernetes.
+                        Deploying computer vision models on edge devices—Raspberry Pi, NVIDIA Jetson, smartphones—requires 
+                        balancing accuracy, speed, and power consumption. You're working with constrained compute, limited 
+                        memory, and often battery power, yet users expect real-time performance at 30+ FPS.
                     </p>
                     <p>
-                        Having deployed dozens of ML models into production over the past few years, I've learned that 
-                        the tooling you choose for your ML pipeline can make or break your ability to iterate quickly 
-                        and maintain reliability. Kubeflow has become my go-to platform for several reasons.
+                        This guide shares practical techniques I've learned deploying object detection models to hundreds 
+                        of edge devices across retail, manufacturing, and security applications.
                     </p>
                 </section>
 
                 <section class="content-section">
-                    <h2>Architecture Overview</h2>
+                    <h2>Model Selection for Edge Deployment</h2>
                     
                     <div class="info-box">
-                        <h3>Core Components</h3>
+                        <h3>Architecture Trade-offs</h3>
                         <ul>
-                            <li><strong>Kubeflow Pipelines:</strong> DAG-based workflow orchestration for ML experiments</li>
-                            <li><strong>Katib:</strong> Hyperparameter tuning and neural architecture search</li>
-                            <li><strong>KFServing:</strong> Model serving with autoscaling and canary deployments</li>
-                            <li><strong>Training Operators:</strong> Distributed training for TensorFlow, PyTorch, MXNet, etc.</li>
-                            <li><strong>Notebook Servers:</strong> Managed Jupyter environments for development</li>
+                            <li><strong>YOLOv8 Nano:</strong> 6MB, 37.3 mAP50, 45 FPS on Jetson Nano</li>
+                            <li><strong>YOLOv8 Small:</strong> 22MB, 44.9 mAP50, 28 FPS on Jetson Nano</li>
+                            <li><strong>MobileNet SSD:</strong> 19MB, 35.2 mAP50, 30 FPS on Raspberry Pi 4</li>
+                            <li><strong>EfficientDet-Lite:</strong> 5.5MB, 33.5 mAP50, optimized for mobile</li>
                         </ul>
                     </div>
 
                     <p>
-                        The beauty of Kubeflow's architecture lies in its modularity. You don't need to adopt everything 
-                        at once—start with pipelines, then gradually add components as your needs grow.
-                    </p>
-                </section>
-
-                <section class="content-section">
-                    <h2>Setting Up Your First Pipeline</h2>
-                    
-                    <h3>Installation</h3>
-                    <p>
-                        First, ensure you have a Kubernetes cluster running. For development, I recommend using 
-                        kind (Kubernetes in Docker) or minikube. For production, use a managed Kubernetes service 
-                        like GKE, EKS, or AKS.
-                    </p>
-
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span class="code-language">Bash</span>
-                            <button class="code-copy">Copy</button>
-                        </div>
-                        <pre><code># Install Kubeflow Pipelines standalone
-export PIPELINE_VERSION=2.0.5
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
-kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
-
-# Verify installation
-kubectl get pods -n kubeflow
-
-# Port-forward to access UI
-kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80</code></pre>
-                    </div>
-
-                    <h3>Creating a Simple Pipeline</h3>
-                    <p>
-                        Let's build a complete ML pipeline that trains a text classification model. This example 
-                        demonstrates data preprocessing, training, evaluation, and model deployment.
+                        For most edge applications, YOLOv8 Nano provides the best balance. Its compact size and 
+                        single-stage architecture make it ideal for resource-constrained environments.
                     </p>
 
                     <div class="code-block">
@@ -132,503 +89,518 @@ kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80</code></pre>
                             <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>from kfp import dsl
-from kfp import compiler
-from kfp.dsl import component, Input, Output, Dataset, Model, Metrics
+                        <pre><code>from ultralytics import YOLO
 
-@component(
-    packages_to_install=['pandas', 'scikit-learn'],
-    base_image='python:3.9'
+# Load YOLOv8 nano model
+model = YOLO('yolov8n.pt')
+
+# Validate performance
+results = model.val(data='coco.yaml')
+print(f"mAP50-95: {results.box.map:.3f}")
+print(f"mAP50: {results.box.map50:.3f}")
+
+# Export for edge deployment
+model.export(format='onnx', simplify=True)</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>Quantization: INT8 for 4x Speedup</h2>
+                    
+                    <p>
+                        Quantization reduces model precision from FP32 to INT8, cutting model size by 75% and 
+                        speeding up inference 2-4x with minimal accuracy loss (typically &lt;2% mAP drop).
+                    </p>
+
+                    <h3>Post-Training Quantization</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-language">Python</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                        <pre><code>import torch
+import onnx
+from onnxruntime.quantization import quantize_dynamic
+
+# Export to ONNX first
+model = YOLO('yolov8n.pt')
+model.export(format='onnx')
+
+# Dynamic quantization (easiest method)
+quantize_dynamic(
+    model_input='yolov8n.onnx',
+    model_output='yolov8n_int8.onnx',
+    weight_type=onnx.QuantType.QInt8
 )
-def preprocess_data(
-    input_data: Input[Dataset],
-    output_train: Output[Dataset],
-    output_test: Output[Dataset],
-    test_size: float = 0.2
-):
-    """Preprocess and split data into train/test sets."""
-    import pandas as pd
-    from sklearn.model_selection import train_test_split
-    
-    # Load data
-    df = pd.read_csv(input_data.path)
-    
-    # Basic preprocessing
-    df = df.dropna()
-    df['text'] = df['text'].str.lower()
-    
-    # Split data
-    train_df, test_df = train_test_split(
-        df, 
-        test_size=test_size, 
-        random_state=42
-    )
-    
-    # Save splits
-    train_df.to_csv(output_train.path, index=False)
-    test_df.to_csv(output_test.path, index=False)
-    
-    print(f"Train size: {len(train_df)}, Test size: {len(test_df)}")
 
+# For better results: Static quantization with calibration data
+from onnxruntime.quantization import quantize_static, CalibrationDataReader
 
-@component(
-    packages_to_install=['pandas', 'scikit-learn', 'transformers', 'torch'],
-    base_image='python:3.9'
-)
-def train_model(
-    train_data: Input[Dataset],
-    model_output: Output[Model],
-    metrics: Output[Metrics],
-    learning_rate: float = 2e-5,
-    epochs: int = 3
-):
-    """Train a text classification model."""
-    import pandas as pd
-    import torch
-    from transformers import (
-        AutoTokenizer, 
-        AutoModelForSequenceClassification,
-        TrainingArguments, 
-        Trainer
-    )
-    from sklearn.metrics import accuracy_score, f1_score
+class ImageDataReader(CalibrationDataReader):
+    def __init__(self, calibration_images):
+        self.images = calibration_images
+        self.current = 0
     
-    # Load training data
-    train_df = pd.read_csv(train_data.path)
+    def get_next(self):
+        if self.current >= len(self.images):
+            return None
+        img = self.preprocess(self.images[self.current])
+        self.current += 1
+        return {"images": img}
     
-    # Initialize tokenizer and model
-    model_name = "distilbert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(
-        model_name, 
-        num_labels=2
-    )
+    def rewind(self):
+        self.current = 0
+
+# Use representative calibration data
+calibration_reader = ImageDataReader(calibration_images)
+
+quantize_static(
+    model_input='yolov8n.onnx',
+    model_output='yolov8n_int8_static.onnx',
+    calibration_data_reader=calibration_reader
+)</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>TensorRT Optimization for NVIDIA Devices</h2>
+                    
+                    <p>
+                        NVIDIA TensorRT provides dramatic speedups on Jetson devices through layer fusion, 
+                        kernel auto-tuning, and precision calibration.
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-language">Python</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                        <pre><code>import tensorrt as trt
+import pycuda.driver as cuda
+import pycuda.autoinit
+import numpy as np
+
+class TRTDetector:
+    """TensorRT inference wrapper for YOLO."""
     
-    # Tokenize data
-    train_encodings = tokenizer(
-        train_df['text'].tolist(),
-        truncation=True,
-        padding=True,
-        max_length=128
-    )
-    
-    # Create PyTorch dataset
-    class TextDataset(torch.utils.data.Dataset):
-        def __init__(self, encodings, labels):
-            self.encodings = encodings
-            self.labels = labels
+    def __init__(self, engine_path):
+        # Load TensorRT engine
+        self.logger = trt.Logger(trt.Logger.WARNING)
+        with open(engine_path, 'rb') as f:
+            runtime = trt.Runtime(self.logger)
+            self.engine = runtime.deserialize_cuda_engine(f.read())
         
-        def __len__(self):
-            return len(self.labels)
+        self.context = self.engine.create_execution_context()
         
-        def __getitem__(self, idx):
-            item = {k: torch.tensor(v[idx]) for k, v in self.encodings.items()}
-            item['labels'] = torch.tensor(self.labels[idx])
-            return item
+        # Allocate buffers
+        self.allocate_buffers()
     
-    train_dataset = TextDataset(
-        train_encodings, 
-        train_df['label'].tolist()
-    )
+    def allocate_buffers(self):
+        """Allocate GPU memory for input/output."""
+        self.inputs = []
+        self.outputs = []
+        self.bindings = []
+        
+        for i in range(self.engine.num_io_tensors):
+            tensor_name = self.engine.get_tensor_name(i)
+            size = trt.volume(self.engine.get_tensor_shape(tensor_name))
+            dtype = trt.nptype(self.engine.get_tensor_dtype(tensor_name))
+            
+            # Allocate host and device buffers
+            host_mem = cuda.pagelocked_empty(size, dtype)
+            device_mem = cuda.mem_alloc(host_mem.nbytes)
+            self.bindings.append(int(device_mem))
+            
+            if self.engine.get_tensor_mode(tensor_name) == trt.TensorIOMode.INPUT:
+                self.inputs.append({'host': host_mem, 'device': device_mem})
+            else:
+                self.outputs.append({'host': host_mem, 'device': device_mem})
     
-    # Training arguments
-    training_args = TrainingArguments(
-        output_dir='./results',
-        num_train_epochs=epochs,
-        per_device_train_batch_size=16,
-        learning_rate=learning_rate,
-        logging_steps=100,
-        save_strategy="epoch",
-    )
+    def infer(self, image):
+        """Run inference on image."""
+        # Preprocess
+        input_data = self.preprocess(image)
+        
+        # Copy to GPU
+        np.copyto(self.inputs[0]['host'], input_data.ravel())
+        cuda.memcpy_htod(self.inputs[0]['device'], self.inputs[0]['host'])
+        
+        # Execute
+        self.context.execute_v2(bindings=self.bindings)
+        
+        # Copy from GPU
+        cuda.memcpy_dtoh(self.outputs[0]['host'], self.outputs[0]['device'])
+        
+        # Postprocess
+        return self.postprocess(self.outputs[0]['host'])
     
-    # Train model
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-    )
+    def preprocess(self, image):
+        """Resize and normalize image."""
+        resized = cv2.resize(image, (640, 640))
+        normalized = resized.astype(np.float32) / 255.0
+        transposed = np.transpose(normalized, (2, 0, 1))
+        batched = np.expand_dims(transposed, axis=0)
+        return np.ascontiguousarray(batched)
     
-    trainer.train()
-    
-    # Save model
-    model.save_pretrained(model_output.path)
-    tokenizer.save_pretrained(model_output.path)
-    
-    # Log metrics
-    metrics.log_metric("learning_rate", learning_rate)
-    metrics.log_metric("epochs", epochs)
-    
-    print(f"Model saved to {model_output.path}")
-
-
-@component(
-    packages_to_install=['pandas', 'scikit-learn', 'transformers', 'torch'],
-    base_image='python:3.9'
-)
-def evaluate_model(
-    test_data: Input[Dataset],
-    model: Input[Model],
-    metrics: Output[Metrics],
-    threshold: float = 0.8
-) -> bool:
-    """Evaluate model and determine if it meets quality threshold."""
-    import pandas as pd
-    import torch
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    from sklearn.metrics import accuracy_score, f1_score, classification_report
-    
-    # Load test data
-    test_df = pd.read_csv(test_data.path)
-    
-    # Load model and tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model.path)
-    model_obj = AutoModelForSequenceClassification.from_pretrained(model.path)
-    model_obj.eval()
-    
-    # Tokenize test data
-    test_encodings = tokenizer(
-        test_df['text'].tolist(),
-        truncation=True,
-        padding=True,
-        max_length=128,
-        return_tensors='pt'
-    )
-    
-    # Make predictions
-    with torch.no_grad():
-        outputs = model_obj(**test_encodings)
-        predictions = torch.argmax(outputs.logits, dim=1).numpy()
-    
-    # Calculate metrics
-    true_labels = test_df['label'].values
-    accuracy = accuracy_score(true_labels, predictions)
-    f1 = f1_score(true_labels, predictions, average='weighted')
-    
-    # Log metrics
-    metrics.log_metric("accuracy", accuracy)
-    metrics.log_metric("f1_score", f1)
-    metrics.log_metric("test_samples", len(test_df))
-    
-    # Print detailed report
-    print(classification_report(true_labels, predictions))
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    
-    # Check if model meets threshold
-    meets_threshold = accuracy >= threshold
-    print(f"Model {'PASSES' if meets_threshold else 'FAILS'} threshold of {threshold}")
-    
-    return meets_threshold
-
-
-@component(
-    packages_to_install=['kserve'],
-    base_image='python:3.9'
-)
-def deploy_model(
-    model: Input[Model],
-    model_name: str = "text-classifier",
-    namespace: str = "default"
-):
-    """Deploy model to KServe."""
-    from kubernetes import client, config
-    import json
-    
-    # Load kubeconfig
-    config.load_incluster_config()
-    
-    # Create InferenceService spec
-    inference_service = {
-        "apiVersion": "serving.kserve.io/v1beta1",
-        "kind": "InferenceService",
-        "metadata": {
-            "name": model_name,
-            "namespace": namespace
-        },
-        "spec": {
-            "predictor": {
-                "pytorch": {
-                    "storageUri": model.uri,
-                    "resources": {
-                        "limits": {
-                            "cpu": "1",
-                            "memory": "2Gi"
-                        },
-                        "requests": {
-                            "cpu": "500m",
-                            "memory": "1Gi"
-                        }
-                    }
-                }
-            }
+    def postprocess(self, output):
+        """Apply NMS and return detections."""
+        # Parse YOLO output format
+        boxes = output[:, :4]
+        scores = output[:, 4]
+        classes = output[:, 5]
+        
+        # Filter by confidence
+        mask = scores > 0.5
+        return {
+            'boxes': boxes[mask],
+            'scores': scores[mask],
+            'classes': classes[mask]
         }
-    }
-    
-    # Deploy using custom resource
-    api = client.CustomObjectsApi()
-    api.create_namespaced_custom_object(
-        group="serving.kserve.io",
-        version="v1beta1",
-        namespace=namespace,
-        plural="inferenceservices",
-        body=inference_service
-    )
-    
-    print(f"Model {model_name} deployed successfully!")
 
+# Convert ONNX to TensorRT
+def build_trt_engine(onnx_path, engine_path, fp16=True):
+    """Build TensorRT engine from ONNX model."""
+    logger = trt.Logger(trt.Logger.WARNING)
+    builder = trt.Builder(logger)
+    network = builder.create_network(
+        1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
+    )
+    parser = trt.OnnxParser(network, logger)
+    
+    # Parse ONNX
+    with open(onnx_path, 'rb') as model:
+        if not parser.parse(model.read()):
+            for error in range(parser.num_errors):
+                print(parser.get_error(error))
+            return None
+    
+    # Build config
+    config = builder.create_builder_config()
+    config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30)  # 1GB
+    
+    # Enable FP16 for Jetson
+    if fp16 and builder.platform_has_fast_fp16:
+        config.set_flag(trt.BuilderFlag.FP16)
+    
+    # Build and save
+    engine = builder.build_serialized_network(network, config)
+    with open(engine_path, 'wb') as f:
+        f.write(engine)
+    
+    return engine
 
-@dsl.pipeline(
-    name='Text Classification Pipeline',
-    description='End-to-end pipeline for text classification'
-)
-def text_classification_pipeline(
-    data_path: str,
-    learning_rate: float = 2e-5,
-    epochs: int = 3,
-    test_size: float = 0.2,
-    accuracy_threshold: float = 0.8
-):
-    """Complete ML pipeline with conditional deployment."""
-    
-    # Step 1: Preprocess data
-    preprocess_task = preprocess_data(
-        input_data=data_path,
-        test_size=test_size
-    )
-    
-    # Step 2: Train model
-    train_task = train_model(
-        train_data=preprocess_task.outputs['output_train'],
-        learning_rate=learning_rate,
-        epochs=epochs
-    )
-    
-    # Step 3: Evaluate model
-    eval_task = evaluate_model(
-        test_data=preprocess_task.outputs['output_test'],
-        model=train_task.outputs['model_output'],
-        threshold=accuracy_threshold
-    )
-    
-    # Step 4: Deploy if evaluation passes
-    with dsl.Condition(eval_task.output == True):
-        deploy_task = deploy_model(
-            model=train_task.outputs['model_output']
-        )
-
-
-# Compile pipeline
-if __name__ == '__main__':
-    compiler.Compiler().compile(
-        pipeline_func=text_classification_pipeline,
-        package_path='text_classification_pipeline.yaml'
-    )
-    print("Pipeline compiled successfully!")</code></pre>
+# Usage
+build_trt_engine('yolov8n.onnx', 'yolov8n.trt', fp16=True)
+detector = TRTDetector('yolov8n.trt')</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Running and Monitoring Pipelines</h2>
+                    <h2>Multi-threaded Real-time Pipeline</h2>
                     
-                    <h3>Submitting a Pipeline Run</h3>
+                    <p>
+                        Separate capture, inference, and display into threads for maximum throughput:
+                    </p>
+
                     <div class="code-block">
                         <div class="code-header">
                             <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>import kfp
+                        <pre><code>import cv2
+import threading
+import queue
+from collections import deque
+import time
 
-# Connect to Kubeflow Pipelines
-client = kfp.Client(host='http://localhost:8080')
+class RealtimeDetector:
+    """Multi-threaded real-time object detection."""
+    
+    def __init__(self, model_path, camera_id=0):
+        self.model = TRTDetector(model_path)
+        self.camera_id = camera_id
+        
+        # Thread-safe queues
+        self.frame_queue = queue.Queue(maxsize=2)
+        self.result_queue = queue.Queue(maxsize=2)
+        
+        # FPS tracking
+        self.fps_buffer = deque(maxlen=30)
+        self.running = False
+    
+    def capture_thread(self):
+        """Capture frames from camera."""
+        cap = cv2.VideoCapture(self.camera_id)
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Minimize lag
+        
+        while self.running:
+            ret, frame = cap.read()
+            if not ret:
+                continue
+            
+            # Drop old frames
+            if self.frame_queue.full():
+                try:
+                    self.frame_queue.get_nowait()
+                except queue.Empty:
+                    pass
+            
+            self.frame_queue.put(frame)
+        
+        cap.release()
+    
+    def inference_thread(self):
+        """Run detection on frames."""
+        while self.running:
+            try:
+                frame = self.frame_queue.get(timeout=1)
+            except queue.Empty:
+                continue
+            
+            # Detect objects
+            start = time.time()
+            detections = self.model.infer(frame)
+            inference_time = time.time() - start
+            
+            # Calculate FPS
+            fps = 1.0 / inference_time
+            self.fps_buffer.append(fps)
+            
+            # Store result
+            result = {
+                'frame': frame,
+                'detections': detections,
+                'fps': np.mean(self.fps_buffer)
+            }
+            
+            if self.result_queue.full():
+                try:
+                    self.result_queue.get_nowait()
+                except queue.Empty:
+                    pass
+            
+            self.result_queue.put(result)
+    
+    def display_thread(self):
+        """Display results."""
+        while self.running:
+            try:
+                result = self.result_queue.get(timeout=1)
+            except queue.Empty:
+                continue
+            
+            # Draw detections
+            frame = self.draw_boxes(
+                result['frame'],
+                result['detections'],
+                result['fps']
+            )
+            
+            cv2.imshow('Detection', frame)
+            
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                self.running = False
+        
+        cv2.destroyAllWindows()
+    
+    def draw_boxes(self, frame, detections, fps):
+        """Draw bounding boxes on frame."""
+        for box, score, cls in zip(
+            detections['boxes'],
+            detections['scores'],
+            detections['classes']
+        ):
+            x1, y1, x2, y2 = map(int, box)
+            
+            # Draw box
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            
+            # Draw label
+            label = f"Class {int(cls)}: {score:.2f}"
+            cv2.putText(frame, label, (x1, y1 - 10),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        
+        # Draw FPS
+        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30),
+                   cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        
+        return frame
+    
+    def run(self):
+        """Start detection pipeline."""
+        self.running = True
+        
+        # Start threads
+        threads = [
+            threading.Thread(target=self.capture_thread),
+            threading.Thread(target=self.inference_thread),
+            threading.Thread(target=self.display_thread)
+        ]
+        
+        for t in threads:
+            t.start()
+        
+        for t in threads:
+            t.join()
 
-# Upload and run pipeline
-pipeline_id = client.upload_pipeline(
-    pipeline_package_path='text_classification_pipeline.yaml',
-    pipeline_name='Text Classification Pipeline'
-)
-
-# Create experiment
-experiment = client.create_experiment(name='text-classification-exp')
-
-# Run pipeline
-run = client.run_pipeline(
-    experiment_id=experiment.id,
-    job_name='text-classifier-run-1',
-    pipeline_id=pipeline_id,
-    params={
-        'data_path': 'gs://my-bucket/training-data.csv',
-        'learning_rate': 2e-5,
-        'epochs': 5,
-        'accuracy_threshold': 0.85
-    }
-)
-
-print(f"Run created: {run.id}")</code></pre>
+# Run detector
+detector = RealtimeDetector('yolov8n.trt', camera_id=0)
+detector.run()</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Best Practices</h2>
+                    <h2>Optimization Techniques</h2>
                     
                     <div class="tips-box">
-                        <h3>💡 Production Tips</h3>
+                        <h3>💡 Performance Tips</h3>
                         <ul>
-                            <li><strong>Version everything:</strong> Data, code, models, and pipeline definitions</li>
-                            <li><strong>Use component caching:</strong> Speed up iterations by caching unchanged components</li>
-                            <li><strong>Implement proper monitoring:</strong> Track pipeline metrics, success rates, and execution times</li>
-                            <li><strong>Handle failures gracefully:</strong> Add retry logic and fallback mechanisms</li>
-                            <li><strong>Secure your pipelines:</strong> Use RBAC and secrets management</li>
-                            <li><strong>Document extensively:</strong> Clear docs save debugging time later</li>
-                            <li><strong>Test components independently:</strong> Unit test before pipeline integration</li>
+                            <li><strong>Input resolution:</strong> Use 416x416 instead of 640x640 for 2.4x speedup</li>
+                            <li><strong>Confidence threshold:</strong> Increase to 0.5+ to reduce post-processing</li>
+                            <li><strong>NMS threshold:</strong> 0.45 balances accuracy and speed</li>
+                            <li><strong>Max detections:</strong> Limit to 100 objects per frame</li>
+                            <li><strong>Frame skipping:</strong> Process every 2nd frame for 2x throughput</li>
+                            <li><strong>ROI processing:</strong> Detect only in regions of interest</li>
+                            <li><strong>Batch processing:</strong> Process multiple frames together on GPU</li>
                         </ul>
                     </div>
                 </section>
 
                 <section class="content-section">
-                    <h2>Advanced Patterns</h2>
+                    <h2>Power Management for Battery Devices</h2>
                     
-                    <h3>Hyperparameter Tuning with Katib</h3>
-                    <p>
-                        Integrate automated hyperparameter optimization into your pipelines:
-                    </p>
-
                     <div class="code-block">
                         <div class="code-header">
-                            <span class="code-language">YAML</span>
+                            <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>apiVersion: kubeflow.org/v1beta1
-kind: Experiment
-metadata:
-  name: text-classifier-hpo
-spec:
-  algorithm:
-    algorithmName: random
-  parallelTrialCount: 3
-  maxTrialCount: 12
-  objective:
-    type: maximize
-    goal: 0.95
-    objectiveMetricName: accuracy
-  parameters:
-    - name: learning_rate
-      parameterType: double
-      feasibleSpace:
-        min: "0.00001"
-        max: "0.001"
-    - name: batch_size
-      parameterType: int
-      feasibleSpace:
-        min: "16"
-        max: "64"
-        step: "16"
-  trialTemplate:
-    primaryContainerName: training-container
-    trialSpec:
-      apiVersion: batch/v1
-      kind: Job
-      spec:
-        template:
-          spec:
-            containers:
-              - name: training-container
-                image: myregistry/text-classifier:latest
-                command:
-                  - python
-                  - train.py
-                  - --learning-rate=${trialParameters.learningRate}
-                  - --batch-size=${trialParameters.batchSize}</code></pre>
+                        <pre><code>class AdaptiveDetector:
+    """Adapt performance based on thermal/power state."""
+    
+    def __init__(self):
+        self.modes = {
+            'high': {'resolution': 640, 'fps': 30, 'confidence': 0.5},
+            'medium': {'resolution': 416, 'fps': 20, 'confidence': 0.6},
+            'low': {'resolution': 320, 'fps': 10, 'confidence': 0.7}
+        }
+        self.current_mode = 'high'
+    
+    def check_thermal(self):
+        """Read device temperature."""
+        try:
+            with open('/sys/class/thermal/thermal_zone0/temp') as f:
+                temp = float(f.read()) / 1000.0
+            return temp
+        except:
+            return 50.0  # Default
+    
+    def adjust_performance(self):
+        """Switch modes based on temperature."""
+        temp = self.check_thermal()
+        
+        if temp > 80:
+            self.current_mode = 'low'
+        elif temp > 70:
+            self.current_mode = 'medium'
+        else:
+            self.current_mode = 'high'
+        
+        return self.modes[self.current_mode]</code></pre>
                     </div>
+                </section>
 
-                    <h3>A/B Testing Deployments</h3>
-                    <p>
-                        Use canary deployments to gradually roll out new models:
-                    </p>
-
+                <section class="content-section">
+                    <h2>Benchmarking Your Deployment</h2>
+                    
                     <div class="code-block">
                         <div class="code-header">
-                            <span class="code-language">YAML</span>
+                            <span class="code-language">Python</span>
                             <button class="code-copy">Copy</button>
                         </div>
-                        <pre><code>apiVersion: serving.kserve.io/v1beta1
-kind: InferenceService
-metadata:
-  name: text-classifier
-spec:
-  predictor:
-    canaryTrafficPercent: 20
-    pytorch:
-      storageUri: gs://models/text-classifier/v2
-    model:
-      modelFormat:
-        name: pytorch
-  # Previous version gets 80% of traffic
-  canary:
-    pytorch:
-      storageUri: gs://models/text-classifier/v1</code></pre>
+                        <pre><code>def benchmark_model(model, num_runs=100):
+    """Benchmark model performance."""
+    # Warmup
+    dummy_input = np.random.randn(1, 3, 640, 640).astype(np.float32)
+    for _ in range(10):
+        _ = model.infer(dummy_input)
+    
+    # Benchmark
+    times = []
+    for _ in range(num_runs):
+        start = time.time()
+        _ = model.infer(dummy_input)
+        times.append(time.time() - start)
+    
+    times = np.array(times) * 1000  # to ms
+    
+    print(f"Mean: {np.mean(times):.2f} ms")
+    print(f"Std: {np.std(times):.2f} ms")
+    print(f"P50: {np.percentile(times, 50):.2f} ms")
+    print(f"P95: {np.percentile(times, 95):.2f} ms")
+    print(f"FPS: {1000 / np.mean(times):.1f}")
+
+# Compare optimizations
+print("FP32 ONNX:")
+benchmark_model(onnx_model)
+
+print("\nINT8 Quantized:")
+benchmark_model(quantized_model)
+
+print("\nTensorRT FP16:")
+benchmark_model(trt_model)</code></pre>
                     </div>
                 </section>
 
                 <section class="content-section">
                     <h2>Conclusion</h2>
                     <p>
-                        Kubeflow provides a powerful platform for building production ML systems, but like any complex 
-                        tool, it requires investment to master. Start simple—perhaps just with Kubeflow Pipelines—and 
-                        gradually adopt more components as your needs grow.
+                        Edge deployment requires systematic optimization: choose lightweight architectures, apply 
+                        quantization, leverage hardware acceleration with TensorRT, and implement efficient pipelines.
                     </p>
                     <p>
-                        The key to success with Kubeflow is treating your ML workflows as first-class software engineering 
-                        artifacts. Apply the same rigor you would to any production system: version control, testing, 
-                        monitoring, and documentation.
-                    </p>
-                    <p>
-                        In upcoming posts, we'll dive deeper into specific aspects like optimizing pipeline performance, 
-                        implementing CI/CD for ML, and building custom Kubeflow components.
+                        The key is balancing the accuracy-speed-power triangle for your specific application. Not 
+                        every use case needs 60 FPS at 640x640—often 30 FPS at 416x416 hits the sweet spot.
                     </p>
                 </section>
 
                 <section class="content-section">
                     <h2>Resources</h2>
                     <ul class="references-list">
-                        <li>Official Kubeflow Documentation: https://kubeflow.org/docs/</li>
-                        <li>Kubeflow Pipelines SDK: https://kubeflow-pipelines.readthedocs.io/</li>
-                        <li>Katib Documentation: https://www.kubeflow.org/docs/components/katib/</li>
-                        <li>KServe Documentation: https://kserve.github.io/website/</li>
+                        <li>Ultralytics YOLOv8: https://docs.ultralytics.com/</li>
+                        <li>NVIDIA TensorRT: https://docs.nvidia.com/deeplearning/tensorrt/</li>
+                        <li>ONNX Runtime: https://onnxruntime.ai/</li>
+                        <li>Jetson AI Courses: https://developer.nvidia.com/embedded/learn/jetson-ai-certification</li>
                     </ul>
                 </section>
             </div>
 
-            <!-- Post Footer -->
             <footer class="post-footer">
                 <div class="post-author">
                     <div class="author-avatar">AI</div>
                     <div class="author-info">
                         <h3>Applied AI Engineer</h3>
-                        <p>Building production ML systems that scale and deliver value.</p>
+                        <p>Deploying computer vision from cloud to edge.</p>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
                     <a href="blog-post-2.html" class="nav-button prev">
                         <span class="nav-label">Previous Post</span>
-                        <span class="nav-title">Building Robust ML Pipelines with Kubeflow</span>
+                        <span class="nav-title">Building Robust ML Pipelines</span>
                     </a>
                     <a href="blog-post-4.html" class="nav-button next">
                         <span class="nav-label">Next Post</span>
-                        <span class="nav-title">Fine-tuning LLMs: Best Practices</span>
+                        <span class="nav-title">Fine-tuning LLMs</span>
                     </a>
                 </div>
 
                 <div class="back-to-blog">
-                    <a href="../index.html#blog" class="btn btn-secondary">
-                        ← Back to Blog
-                    </a>
+                    <a href="../index.html#blog" class="btn btn-secondary">← Back to Blog</a>
                 </div>
             </footer>
         </div>
     </article>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
