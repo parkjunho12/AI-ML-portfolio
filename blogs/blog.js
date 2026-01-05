@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let searchQuery = '';
 
     // ==========================================
-    // VISITOR COUNTER SYSTEM (Persistent)
+    // SIMPLE VISITOR COUNTER
     // ==========================================
     
     class VisitorCounter {
@@ -26,134 +26,124 @@ document.addEventListener('DOMContentLoaded', function() {
             this.viewsEl = document.getElementById('totalViews');
             this.lastUpdatedEl = document.getElementById('lastUpdated');
             
-            // Storage keys
-            this.STORAGE_KEY = 'blog_stats';
+            // API endpoint
+            this.API_URL = 'http://localhost:3000/api';
+            
+            // Check if this is first visit in this session
+            this.hasTracked = sessionStorage.getItem('visit_tracked');
             
             // Initialize
-            this.loadStats();
-            this.startHourlyUpdate();
+            this.init();
         }
         
-        loadStats() {
-            // Try to load from localStorage
-            const stored = localStorage.getItem(this.STORAGE_KEY);
+        async init() {
+            // Get current stats
+            await this.loadStats();
             
-            if (stored) {
-                const data = JSON.parse(stored);
-                this.visitors = data.visitors || 128;
-                this.views = data.views || 456;
-                this.lastUpdate = new Date(data.lastUpdate);
-                
-                // Check if we need to update (hourly check)
-                this.checkAndUpdate();
+            // Track visit only once per session
+            if (!this.hasTracked) {
+                await this.trackVisit();
+                sessionStorage.setItem('visit_tracked', 'true');
             } else {
-                // Initial values
-                this.visitors = 12847;
-                this.views = 45623;
-                this.lastUpdate = new Date();
-                this.saveStats();
+                await this.trackView();
             }
             
-            this.updateDisplay(false);
+            // Update time display
+            setInterval(() => this.updateTime(), 30000);
+            this.updateTime();
         }
         
-        saveStats() {
-            const data = {
-                visitors: this.visitors,
-                views: this.views,
-                lastUpdate: this.lastUpdate.toISOString()
-            };
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-        }
-        
-        checkAndUpdate() {
-            const now = new Date();
-            const hoursSinceUpdate = (now - this.lastUpdate) / (1000 * 60 * 60);
-            
-            // If at least 1 hour has passed
-            if (hoursSinceUpdate >= 1) {
-                const hoursToAdd = Math.floor(hoursSinceUpdate);
+        async trackVisit() {
+            try {
+                const response = await fetch(`${this.API_URL}/visit`, {
+                    method: 'POST'
+                });
                 
-                // Add 1 visitor per hour that passed
-                this.visitors += hoursToAdd;
-                
-                // Add random 1-10 views per visitor
-                for (let i = 0; i < hoursToAdd; i++) {
-                    const viewsToAdd = Math.floor(Math.random() * 10) + 1;
-                    this.views += viewsToAdd;
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        this.updateDisplay(data.visitors, data.views, true);
+                        console.log('✅ Visit tracked');
+                    }
                 }
-                
-                this.lastUpdate = now;
-                this.saveStats();
-                this.updateDisplay(true);
+            } catch (error) {
+                console.log('⚠️ Using fallback mode');
+                this.useFallback();
             }
         }
         
-        startHourlyUpdate() {
-            // Check every minute if an hour has passed
-            setInterval(() => {
-                this.checkAndUpdate();
-                this.updateLastUpdatedTime();
-            }, 60000); // Every minute
-            
-            // Initial update
-            this.updateLastUpdatedTime();
+        async trackView() {
+            try {
+                const response = await fetch(`${this.API_URL}/view`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        this.updateDisplay(data.visitors, data.views, true);
+                        console.log('✅ View tracked');
+                    }
+                }
+            } catch (error) {
+                console.log('⚠️ Using fallback mode');
+                this.useFallback();
+            }
+        }
+
+        
+        async loadStats() {
+            try {
+                const response = await fetch(`${this.API_URL}/stats`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        this.updateDisplay(data.visitors, data.views, false);
+                    }
+                }
+            } catch (error) {
+                this.useFallback();
+            }
         }
         
-        updateDisplay(animate = false) {
+        useFallback() {
+            // Fallback: show static numbers
+            const visitors = 1284;
+            const views = 4562;
+            this.updateDisplay(visitors, views, false);
+        }
+        
+        updateDisplay(visitors, views, animate) {
             if (animate) {
-                this.animateCountUpdate(this.visitorsEl, this.visitors);
-                this.animateCountUpdate(this.viewsEl, this.views);
+                this.animateCount(this.visitorsEl, visitors);
+                this.animateCount(this.viewsEl, views);
             } else {
-                this.visitorsEl.textContent = this.formatNumber(this.visitors);
-                this.viewsEl.textContent = this.formatNumber(this.views);
+                this.visitorsEl.textContent = this.formatNumber(visitors);
+                this.viewsEl.textContent = this.formatNumber(views);
             }
         }
         
-        animateCountUpdate(element, newValue) {
-            element.classList.add('updating');
-            
-            const oldValue = parseInt(element.textContent.replace(/,/g, ''));
+        animateCount(element, newValue) {
+            const oldValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
             const duration = 1000;
-            const steps = 40;
-            const stepValue = (newValue - oldValue) / steps;
-            const stepDuration = duration / steps;
+            const steps = 30;
+            const increment = (newValue - oldValue) / steps;
             
-            let currentStep = 0;
-            const interval = setInterval(() => {
-                currentStep++;
-                const currentValue = Math.floor(oldValue + (stepValue * currentStep));
-                element.textContent = this.formatNumber(currentValue);
+            let current = 0;
+            const timer = setInterval(() => {
+                current++;
+                const value = Math.floor(oldValue + (increment * current));
+                element.textContent = this.formatNumber(value);
                 
-                if (currentStep >= steps) {
-                    clearInterval(interval);
+                if (current >= steps) {
+                    clearInterval(timer);
                     element.textContent = this.formatNumber(newValue);
-                    setTimeout(() => {
-                        element.classList.remove('updating');
-                    }, 100);
                 }
-            }, stepDuration);
+            }, duration / steps);
         }
         
-        updateLastUpdatedTime() {
-            const now = new Date();
-            const diff = now - this.lastUpdate;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(minutes / 60);
-            
-            let timeText;
-            if (minutes < 1) {
-                timeText = 'Just now';
-            } else if (minutes < 60) {
-                timeText = `${minutes} min ago`;
-            } else if (hours < 24) {
-                timeText = `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            } else {
-                const days = Math.floor(hours / 24);
-                timeText = `${days} day${days > 1 ? 's' : ''} ago`;
-            }
-            
-            this.lastUpdatedEl.textContent = timeText;
+        updateTime() {
+            this.lastUpdatedEl.textContent = 'Just now';
         }
         
         formatNumber(num) {
