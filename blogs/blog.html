@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Applied AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-bracket">[</span>
+                <span class="logo-text">AI_ENGINEER</span>
+                <span class="logo-bracket">]</span>
+                <span class="cursor-blink">_</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../index.html#home" class="nav-link">home</a>
+                <a href="blog.html" class="nav-link active">blog</a>
+                <a href="../index.html#projects" class="nav-link">projects</a>
+                <a href="../index.html#about" class="nav-link">about</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="theme-icon">◐</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1 class="blog-hero-title">
+                <span class="glitch" data-text="Technical Blog">Technical Blog</span>
+            </h1>
+            <p class="blog-hero-subtitle">
+                Deep dives into AI engineering, machine learning, and production systems
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content">
+        <div class="container">
+            <div class="blog-layout">
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Categories</h3>
+                        <div class="category-list">
+                            <button class="category-btn active" data-category="all">
+                                <span class="category-name">All Posts</span>
+                                <span class="category-count">6</span>
+                            </button>
+                            <button class="category-btn" data-category="Deep Learning">
+                                <span class="category-name">Deep Learning</span>
+                                <span class="category-count">1</span>
+                            </button>
+                            <button class="category-btn" data-category="MLOps">
+                                <span class="category-name">MLOps</span>
+                                <span class="category-count">1</span>
+                            </button>
+                            <button class="category-btn" data-category="Computer Vision">
+                                <span class="category-name">Computer Vision</span>
+                                <span class="category-count">1</span>
+                            </button>
+                            <button class="category-btn" data-category="NLP">
+                                <span class="category-name">NLP</span>
+                                <span class="category-count">1</span>
+                            </button>
+                            <button class="category-btn" data-category="Research">
+                                <span class="category-name">Research</span>
+                                <span class="category-count">1</span>
+                            </button>
+                            <button class="category-btn" data-category="Tools">
+                                <span class="category-name">Tools</span>
+                                <span class="category-count">1</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Tags</h3>
+                        <div class="tags-cloud">
+                            <button class="tag-filter" data-tag="PyTorch">PyTorch</button>
+                            <button class="tag-filter" data-tag="Optimization">Optimization</button>
+                            <button class="tag-filter" data-tag="Distributed">Distributed</button>
+                            <button class="tag-filter" data-tag="Kubernetes">Kubernetes</button>
+                            <button class="tag-filter" data-tag="YOLO">YOLO</button>
+                            <button class="tag-filter" data-tag="TensorRT">TensorRT</button>
+                            <button class="tag-filter" data-tag="LLM">LLM</button>
+                            <button class="tag-filter" data-tag="Fine-tuning">Fine-tuning</button>
+                            <button class="tag-filter" data-tag="Diffusion">Diffusion</button>
+                            <button class="tag-filter" data-tag="DevOps">DevOps</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Sort By</h3>
+                        <select id="sortSelect" class="sort-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
+                    </div>
+
+                    <div class="sidebar-section stats-section">
+                        <h3 class="sidebar-title">Blog Stats</h3>
+                        <div class="blog-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Articles</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">95</div>
+                                <div class="stat-label">Min Read</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">7</div>
+                                <div class="stat-label">Categories</div>
+                            </div>
+                        </div>
+                        
+                        <div class="live-stats">
+                            <div class="live-stat-row">
+                                <span class="live-indicator">
+                                    <span class="pulse-dot"></span>
+                                    Live
+                                </span>
+                                <span class="live-count" id="liveViewers">0</span>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-bar-fill" id="viewerBar"></div>
+                            </div>
+                        </div>
+
+                        <div class="visitor-stats">
+                            <div class="visitor-row">
+                                <span class="visitor-label">Today</span>
+                                <span class="visitor-count" id="todayVisitors">0</span>
+                            </div>
+                            <div class="visitor-row">
+                                <span class="visitor-label">This Week</span>
+                                <span class="visitor-count" id="weekVisitors">0</span>
+                            </div>
+                            <div class="visitor-row">
+                                <span class="visitor-label">This Month</span>
+                                <span class="visitor-count" id="monthVisitors">0</span>
+                            </div>
+                            <div class="visitor-row total">
+                                <span class="visitor-label">Total Views</span>
+                                <span class="visitor-count" id="totalViews">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="blog-main">
+                    <div class="blog-header">
+                        <h2 class="results-title">
+                            <span id="resultsCount">6</span> Articles
+                        </h2>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="11" y="2" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="2" y="11" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="11" y="11" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <line x1="2" y1="5" x2="18" y2="5" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="2" y1="15" x2="18" y2="15" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="blog-grid" id="blogGrid">
+                        <!-- Blog Post 1 -->
+                        <article class="blog-card" data-category="Deep Learning" data-tags="PyTorch,Optimization,Distributed" data-date="2025-01-05">
+                            <div class="blog-card-header">
+                                <span class="blog-category">Deep Learning</span>
+                                <span class="blog-date">Jan 05, 2025</span>
+                            </div>
+                            <h3 class="blog-title">Scaling Transformers: A Practical Guide</h3>
+                            <p class="blog-excerpt">
+                                Strategies and techniques for efficiently scaling transformer models in production environments with PyTorch.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">PyTorch</span>
+                                <span class="mini-tag">Optimization</span>
+                                <span class="mini-tag">Distributed</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">12 min read</span>
+                            </div>
+                            <a href="blog-post-1.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+
+                        <!-- Blog Post 2 -->
+                        <article class="blog-card" data-category="MLOps" data-tags="Kubernetes,CI/CD,Pipeline" data-date="2025-01-02">
+                            <div class="blog-card-header">
+                                <span class="blog-category">MLOps</span>
+                                <span class="blog-date">Jan 02, 2025</span>
+                            </div>
+                            <h3 class="blog-title">Building Robust ML Pipelines with Kubeflow</h3>
+                            <p class="blog-excerpt">
+                                A practical guide to creating scalable and maintainable machine learning workflows on Kubernetes.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">Kubernetes</span>
+                                <span class="mini-tag">CI/CD</span>
+                                <span class="mini-tag">Pipeline</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">15 min read</span>
+                            </div>
+                            <a href="blog-post-2.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+
+                        <!-- Blog Post 3 -->
+                        <article class="blog-card" data-category="Computer Vision" data-tags="YOLO,TensorRT,Edge AI" data-date="2024-12-28">
+                            <div class="blog-card-header">
+                                <span class="blog-category">Computer Vision</span>
+                                <span class="blog-date">Dec 28, 2024</span>
+                            </div>
+                            <h3 class="blog-title">Real-time Object Detection at the Edge</h3>
+                            <p class="blog-excerpt">
+                                Model compression and optimization strategies for deploying object detection on resource-constrained devices.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">YOLO</span>
+                                <span class="mini-tag">TensorRT</span>
+                                <span class="mini-tag">Edge AI</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">14 min read</span>
+                            </div>
+                            <a href="blog-post-3.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+
+                        <!-- Blog Post 4 -->
+                        <article class="blog-card" data-category="NLP" data-tags="LLM,Fine-tuning,PEFT" data-date="2024-12-20">
+                            <div class="blog-card-header">
+                                <span class="blog-category">NLP</span>
+                                <span class="blog-date">Dec 20, 2024</span>
+                            </div>
+                            <h3 class="blog-title">Fine-tuning LLMs: Best Practices</h3>
+                            <p class="blog-excerpt">
+                                Comprehensive guide to parameter-efficient fine-tuning of large language models using LoRA and QLoRA.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">LLM</span>
+                                <span class="mini-tag">Fine-tuning</span>
+                                <span class="mini-tag">PEFT</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">15 min read</span>
+                            </div>
+                            <a href="blog-post-4.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+
+                        <!-- Blog Post 5 -->
+                        <article class="blog-card" data-category="Research" data-tags="Generative AI,Diffusion,Theory" data-date="2024-12-15">
+                            <div class="blog-card-header">
+                                <span class="blog-category">Research</span>
+                                <span class="blog-date">Dec 15, 2024</span>
+                            </div>
+                            <h3 class="blog-title">Understanding Diffusion Models</h3>
+                            <p class="blog-excerpt">
+                                Deep dive into the mathematical foundations and practical implementations of diffusion models for image generation.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">Generative AI</span>
+                                <span class="mini-tag">Diffusion</span>
+                                <span class="mini-tag">Theory</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">18 min read</span>
+                            </div>
+                            <a href="blog-post-5.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+
+                        <!-- Blog Post 6 -->
+                        <article class="blog-card" data-category="Tools" data-tags="Tools,Productivity,DevOps" data-date="2024-12-10">
+                            <div class="blog-card-header">
+                                <span class="blog-category">Tools</span>
+                                <span class="blog-date">Dec 10, 2024</span>
+                            </div>
+                            <h3 class="blog-title">My AI Development Toolkit 2024</h3>
+                            <p class="blog-excerpt">
+                                Essential tools, frameworks, and workflows for modern AI engineering and maximum productivity.
+                            </p>
+                            <div class="blog-tags">
+                                <span class="mini-tag">Tools</span>
+                                <span class="mini-tag">Productivity</span>
+                                <span class="mini-tag">DevOps</span>
+                            </div>
+                            <div class="blog-meta">
+                                <span class="read-time">12 min read</span>
+                            </div>
+                            <a href="blog-post-6.html" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <div class="blog-card-glow"></div>
+                        </article>
+                    </div>
+
+                    <!-- No Results Message -->
+                    <div class="no-results" id="noResults" style="display: none;">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="35" cy="35" r="30" stroke="currentColor" stroke-width="4"/>
+                            <line x1="57" y1="57" x2="75" y2="75" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="25" y1="35" x2="45" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                        <h3>No articles found</h3>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-box">
+                <h2 class="newsletter-title">Stay Updated</h2>
+                <p class="newsletter-text">
+                    Get the latest articles on AI engineering, machine learning, and production systems delivered to your inbox.
+                </p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="your.email@example.com" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn">
+                        Subscribe
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </form>
+                <p class="newsletter-privacy">No spam. Unsubscribe anytime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p class="footer-text">Designed & Built by Applied AI Engineer</p>
+                    <p class="footer-text small">© 2025 All rights reserved</p>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-links">
+                        <a href="../index.html#home">Home</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="../index.html#projects">Projects</a>
+                        <a href="../index.html#about">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>
