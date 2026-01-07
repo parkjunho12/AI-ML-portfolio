@@ -25,3 +25,5 @@ jobs:
             git pull origin main &&
             sudo systemctl reload nginx
           "
+
+          
