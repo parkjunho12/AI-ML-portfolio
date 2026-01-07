@@ -20,9 +20,8 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no root@junho.uk "
+          ssh -o StrictHostKeyChecking=no ubuntu@junho.uk "
             cd /root/www/junho.uk/html &&
             git pull origin main &&
             sudo systemctl reload nginx
           "
-          
