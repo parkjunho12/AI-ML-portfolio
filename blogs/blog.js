@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.lastUpdatedEl = document.getElementById('lastUpdated');
             
             // API endpoint
-            this.API_URL = 'http://localhost:3000/api';
+            this.API_URL = 'http://127.0.0.1:3000/api';
             
             // Check if this is first visit in this session
             this.hasTracked = sessionStorage.getItem('visit_tracked');
