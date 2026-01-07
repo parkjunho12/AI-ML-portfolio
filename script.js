@@ -381,3 +381,4 @@ document.head.appendChild(style);
 console.log('%c🚀 Welcome to Applied AI Engineer Blog!', 'font-size: 20px; color: #00d9ff; font-weight: bold;');
 console.log('%cBuilt with passion for AI and beautiful code', 'font-size: 14px; color: #a1a1aa;');
 console.log('%cTry the Konami code for a surprise! ↑ ↑ ↓ ↓ ← → ← → B A', 'font-size: 12px; color: #00ff88;');
+
