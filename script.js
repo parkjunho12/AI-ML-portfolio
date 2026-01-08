@@ -410,7 +410,6 @@ class VisitorCounter {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    this.updateDisplay(data.visitors, data.views, true);
                     console.log('✅ Visit tracked');
                 }
             }
@@ -429,7 +428,6 @@ class VisitorCounter {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    this.updateDisplay(data.visitors, data.views, true);
                     console.log('✅ View tracked');
                 }
             }
@@ -446,7 +444,7 @@ class VisitorCounter {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    this.updateDisplay(data.visitors, data.views, false);
+              
                 }
             }
         } catch (error) {
@@ -458,36 +456,6 @@ class VisitorCounter {
         // Fallback: show static numbers
         const visitors = 1284;
         const views = 4562;
-        this.updateDisplay(visitors, views, false);
-    }
-    
-    updateDisplay(visitors, views, animate) {
-        if (animate) {
-            this.animateCount(this.visitorsEl, visitors);
-            this.animateCount(this.viewsEl, views);
-        } else {
-            this.visitorsEl.textContent = this.formatNumber(visitors);
-            this.viewsEl.textContent = this.formatNumber(views);
-        }
-    }
-    
-    animateCount(element, newValue) {
-        const oldValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
-        const duration = 1000;
-        const steps = 30;
-        const increment = (newValue - oldValue) / steps;
-        
-        let current = 0;
-        const timer = setInterval(() => {
-            current++;
-            const value = Math.floor(oldValue + (increment * current));
-            element.textContent = this.formatNumber(value);
-            
-            if (current >= steps) {
-                clearInterval(timer);
-                element.textContent = this.formatNumber(newValue);
-            }
-        }, duration / steps);
     }
     
     updateTime() {
