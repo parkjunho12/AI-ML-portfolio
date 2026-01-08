@@ -368,6 +368,139 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+class VisitorCounter {
+    constructor() {
+        this.visitorsEl = document.getElementById('totalVisitors');
+        this.viewsEl = document.getElementById('totalViews');
+        this.lastUpdatedEl = document.getElementById('lastUpdated');
+        
+        // API endpoint
+        this.API_URL = '/api';
+        
+        // Check if this is first visit in this session
+        this.hasTracked = sessionStorage.getItem('visit_tracked');
+        
+        // Initialize
+        this.init();
+    }
+    
+    async init() {
+        // Get current stats
+        await this.loadStats();
+        
+        // Track visit only once per session
+        if (!this.hasTracked) {
+            await this.trackVisit();
+            sessionStorage.setItem('visit_tracked', 'true');
+        } else {
+            await this.trackView();
+        }
+        
+        // Update time display
+        setInterval(() => this.updateTime(), 30000);
+        this.updateTime();
+    }
+    
+    async trackVisit() {
+        try {
+            const response = await fetch(`${this.API_URL}/visit`, {
+                method: 'POST'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    this.updateDisplay(data.visitors, data.views, true);
+                    console.log('✅ Visit tracked');
+                }
+            }
+        } catch (error) {
+            console.log('⚠️ Using fallback mode');
+            this.useFallback();
+        }
+    }
+    
+    async trackView() {
+        try {
+            const response = await fetch(`${this.API_URL}/view`, {
+                method: 'POST'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    this.updateDisplay(data.visitors, data.views, true);
+                    console.log('✅ View tracked');
+                }
+            }
+        } catch (error) {
+            console.log('⚠️ Using fallback mode');
+            this.useFallback();
+        }
+    }
+
+    
+    async loadStats() {
+        try {
+            const response = await fetch(`${this.API_URL}/stats`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    this.updateDisplay(data.visitors, data.views, false);
+                }
+            }
+        } catch (error) {
+            this.useFallback();
+        }
+    }
+    
+    useFallback() {
+        // Fallback: show static numbers
+        const visitors = 1284;
+        const views = 4562;
+        this.updateDisplay(visitors, views, false);
+    }
+    
+    updateDisplay(visitors, views, animate) {
+        if (animate) {
+            this.animateCount(this.visitorsEl, visitors);
+            this.animateCount(this.viewsEl, views);
+        } else {
+            this.visitorsEl.textContent = this.formatNumber(visitors);
+            this.viewsEl.textContent = this.formatNumber(views);
+        }
+    }
+    
+    animateCount(element, newValue) {
+        const oldValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
+        const duration = 1000;
+        const steps = 30;
+        const increment = (newValue - oldValue) / steps;
+        
+        let current = 0;
+        const timer = setInterval(() => {
+            current++;
+            const value = Math.floor(oldValue + (increment * current));
+            element.textContent = this.formatNumber(value);
+            
+            if (current >= steps) {
+                clearInterval(timer);
+                element.textContent = this.formatNumber(newValue);
+            }
+        }, duration / steps);
+    }
+    
+    updateTime() {
+        this.lastUpdatedEl.textContent = 'Just now';
+    }
+    
+    formatNumber(num) {
+        return num.toLocaleString('en-US');
+    }
+}
+
+const visitorCounter = new VisitorCounter();
+
 // Rainbow animation for easter egg
 const style = document.createElement('style');
 style.textContent = `
